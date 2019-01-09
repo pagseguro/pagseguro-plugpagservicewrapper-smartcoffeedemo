@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">SmartCoffee</string>
+
+    <!-- MENU -->
+    <string name="menu_permissions">Permissões</string>
+    <string name="menu_auth">Autenticação</string>
+    <string name="menu_transactions">Transações</string>
+
+    <!-- PERMISSIONS -->
+    <string name="btn_permissions">Solicitar/Verificar permissões</string>
+    <string name="msg_all_permissions_granted">Todas permissões concedidas</string>
+
+    <!-- AUTH -->
+    <string name="btn_authentication_check">Verificar autenticação</string>
+    <string name="btn_authentication_request">Solicitar autenticação</string>
+    <string name="btn_authentication_invalidate">Invalidar autenticação</string>
+    <string name="auth_activated_successfully">Ativado com sucesso</string>
+    <string name="auth_invalidated_successfully">Invalidado com sucesso</string>
+    <string name="auth_isnt_authenticated">Terminal não ativo</string>
+    <string name="auth_is_authenticated">Terminal ativo</string>
+
+    <!-- TRANSACTIONS -->
+    <string name="btn_smartpos_credit">Crédito à vista</string>
+    <string name="btn_smartpos_credit_with_seller_installments">Crédito parcelado vendedor</string>
+    <string name="btn_smartpos_credit_with_buyer_installments">Crédito parcelado comprador</string>
+    <string name="btn_smartpos_debit">Débito</string>
+    <string name="btn_smartpos_voucher">Voucher</string>
+    <string name="btn_smartpos_void_payment">Estorno</string>
+    <string name="btn_smartpos_query">Consulta</string>
+    <string name="transactions_successful_payment">Pagamento realizado com sucesso</string>
+
+</resources>
