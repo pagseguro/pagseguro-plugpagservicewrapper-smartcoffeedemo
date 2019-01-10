@@ -49,7 +49,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> {
                     getView().showPaymentSuccess();
-                    getView().setCancelableDialog();
                 })
                 .subscribe(message -> getView().showMessage(message), throwable -> getView().showError(throwable.getMessage()));
     }

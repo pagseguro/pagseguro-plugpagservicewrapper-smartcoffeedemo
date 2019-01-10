@@ -90,9 +90,4 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     public void showError(String message) {
         UIFeedback.showDialog(getContext(), message);
     }
-
-    @Override
-    public void setCancelableDialog() {
-//        UIFeedback.setCancelable(true);
-    }
 }
