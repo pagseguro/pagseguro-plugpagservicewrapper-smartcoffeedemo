@@ -19,10 +19,9 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uol.pagseguro.com.br.smartcoffee.R;
+import uol.pagseguro.com.br.smartcoffee.utils.UIFeedback;
 
 public class PermissionsFragment extends Fragment{
-
-    //TODO estrutura esta igual ao demo antigo. Mudar?
 
     private static final int PERMISSIONS_REQUEST_CODE = 0x1234;
 
@@ -75,7 +74,7 @@ public class PermissionsFragment extends Fragment{
     }
 
     private void showMessage() {
-        Snackbar.make(getView().findViewById(R.id.btn_permissions), R.string.msg_all_permissions_granted, Snackbar.LENGTH_LONG).show();
+        UIFeedback.showDialog(getContext(), R.string.msg_all_permissions_granted);
     }
 
     private String[] getManifestPermissions() {
@@ -87,7 +86,7 @@ public class PermissionsFragment extends Fragment{
                     .getPackageInfo(this.getContext().getApplicationContext().getPackageName(), PackageManager.GET_PERMISSIONS);
             permissions = info.requestedPermissions;
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e("PlugPag", "Package name not found", e);
+            Log.e("SmartCoffee", "Package name not found", e);
         }
 
         if (permissions == null) {
