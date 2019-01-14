@@ -9,56 +9,44 @@
 
     <Button
         android:id="@+id/btn_smartpos_credit"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_smartpos_credit"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btn_smartpos_credit_with_seller_installments"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_smartpos_credit_with_seller_installments"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_credit"/>
 
     <Button
         android:id="@+id/btn_smartpos_credit_with_buyer_installments"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_smartpos_credit_with_buyer_installments"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_credit_with_seller_installments"/>
 
     <Button
         android:id="@+id/btn_smartpos_debit"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_smartpos_debit"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_credit_with_buyer_installments"/>
 
     <Button
         android:id="@+id/btn_smartpos_voucher"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_smartpos_voucher"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_debit"/>
 
     <Button
         android:id="@+id/btn_smartpos_void_payment"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_smartpos_void_payment"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_voucher"/>
 
 </android.support.constraint.ConstraintLayout>

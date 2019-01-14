@@ -9,10 +9,9 @@
 
     <Button
         android:id="@+id/btn_permissions"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:text="@string/btn_permissions"/>
 
 </android.support.constraint.ConstraintLayout>

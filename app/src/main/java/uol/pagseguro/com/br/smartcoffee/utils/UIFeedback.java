@@ -1,15 +1,17 @@
 package uol.pagseguro.com.br.smartcoffee.utils;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 
 public class UIFeedback {
 
-    static AlertDialog dialog;
+    static AlertDialog sDialog;
+    static ProgressDialog sProgressDialog;
 
     private static void initDialog(Context context) {
-        if (dialog == null) {
-            dialog = new AlertDialog.Builder(context).create();
+        if (sDialog == null) {
+            sDialog = new AlertDialog.Builder(context).create();
         }
     }
 
@@ -27,10 +29,26 @@ public class UIFeedback {
 
     public static void showDialog(Context context, String message, int resourceMessage, Boolean isCancelable) {
         initDialog(context);
-        dialog.setCancelable(isCancelable);
-        dialog.setMessage(message == null ? context.getString(resourceMessage) : message);
-        if (!dialog.isShowing()) {
-            dialog.show();
+        sDialog.setCancelable(isCancelable);
+        sDialog.setMessage(message == null ? context.getString(resourceMessage) : message);
+        if (!sDialog.isShowing()) {
+            sDialog.show();
         }
+    }
+
+    public static ProgressDialog getProgress(Context context) {
+        if (sProgressDialog == null) {
+            sProgressDialog = new ProgressDialog(context);
+            sProgressDialog.setMessage("Aguarde...");
+        }
+        return sProgressDialog;
+    }
+
+    public static void showProgress(Context context) {
+        getProgress(context).show();
+    }
+
+    public static void dismissProgress() {
+        sProgressDialog.dismiss();
     }
 }

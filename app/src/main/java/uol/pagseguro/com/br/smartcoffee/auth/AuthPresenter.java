@@ -6,8 +6,6 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
@@ -25,6 +23,8 @@ public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
         mSubscribe = mUseCase.isAuthenticated()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnComplete(() -> getView().showLoading(false))
                 .subscribe(isAuthenticated -> getView().showIsAuthenticated(isAuthenticated),
                         throwable -> getView().showError(throwable.getMessage()));
     }
@@ -33,6 +33,8 @@ public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
         mSubscribe = mUseCase.initializeAndActivatePinpad()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnComplete(() -> getView().showLoading(false))
                 .subscribe(object -> getView().showActivatedSuccessfully(),
                         throwable -> getView().showError(throwable.getMessage()));
     }
@@ -41,6 +43,8 @@ public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
         mSubscribe = mUseCase.invalidateAuthentication()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnComplete(() -> getView().showLoading(false))
                 .subscribe(() -> getView().showInvalidatedSuccessfully());
     }
 

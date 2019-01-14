@@ -1,5 +1,6 @@
 package uol.pagseguro.com.br.smartcoffee.auth;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
         mInjector.inject(this);
         View rootView = inflater.inflate(R.layout.fragment_auth, container, false);
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
 
@@ -78,5 +80,14 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
     @Override
     public void showInvalidatedSuccessfully() {
         UIFeedback.showDialog(getContext(), R.string.auth_invalidated_successfully);
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show) {
+            UIFeedback.showProgress(getContext());
+        } else {
+            UIFeedback.dismissProgress();
+        }
     }
 }

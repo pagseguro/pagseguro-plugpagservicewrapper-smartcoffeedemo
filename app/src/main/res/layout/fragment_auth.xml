@@ -9,29 +9,23 @@
 
     <Button
         android:id="@+id/btn_authentication_check"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_authentication_check"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
         android:id="@+id/btn_authentication_request"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_authentication_request"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_authentication_check"/>
 
     <Button
         android:id="@+id/btn_authentication_invalidate"
-        android:layout_width="0dp"
+        style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/btn_authentication_invalidate"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_authentication_request"/>
 
 </android.support.constraint.ConstraintLayout>

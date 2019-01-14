@@ -11,4 +11,6 @@ public interface AuthContract extends MvpView {
     void showActivatedSuccessfully();
 
     void showInvalidatedSuccessfully();
+
+    void showLoading(boolean show);
 }
