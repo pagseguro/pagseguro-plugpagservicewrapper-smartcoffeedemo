@@ -36,7 +36,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         doAction(mUseCase.doDebitPayment());
     }
 
-
     public void doVoucherPayment() {
         doAction(mUseCase.doVoucherPayment());
     }
