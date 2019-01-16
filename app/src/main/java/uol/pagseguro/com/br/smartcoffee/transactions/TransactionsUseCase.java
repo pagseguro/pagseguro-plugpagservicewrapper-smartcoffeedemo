@@ -1,18 +1,20 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventListener;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import uol.pagseguro.com.br.smartcoffee.ActionResult;
+import uol.pagseguro.com.br.smartcoffee.utils.FileHelper;
 
 public class TransactionsUseCase {
 
@@ -31,7 +33,7 @@ public class TransactionsUseCase {
         mPlugPag = plugPag;
     }
 
-    public Observable<String> doCreditPayment() {
+    public Observable<ActionResult> doCreditPayment() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_CREDITO,
                 getAmount(),
@@ -42,7 +44,7 @@ public class TransactionsUseCase {
         ));
     }
 
-    public Observable<String> doCreditPaymentWithSellerInstallments() {
+    public Observable<ActionResult> doCreditPaymentWithSellerInstallments() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_CREDITO,
                 getAmount(),
@@ -52,7 +54,7 @@ public class TransactionsUseCase {
                 true));
     }
 
-    public Observable<String> doCreditPaymentWithBuyerInstallments() {
+    public Observable<ActionResult> doCreditPaymentWithBuyerInstallments() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_CREDITO,
                 getAmount(),
@@ -63,7 +65,7 @@ public class TransactionsUseCase {
     }
 
 
-    public Observable<String> doDebitPayment() {
+    public Observable<ActionResult> doDebitPayment() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_DEBITO,
                 getAmount(),
@@ -73,7 +75,7 @@ public class TransactionsUseCase {
                 true));
     }
 
-    public Observable<String> doVoucherPayment() {
+    public Observable<ActionResult> doVoucherPayment() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_VOUCHER,
                 getAmount(),
@@ -83,28 +85,44 @@ public class TransactionsUseCase {
                 true));
     }
 
-    public Observable<String> doRefundPayment() {
-        return doPayment(new PlugPagPaymentData(
-                PlugPag.TYPE_CREDITO,
-                getAmount(),
-                PlugPag.INSTALLMENT_TYPE_A_VISTA,
-                1,
-                USER_REFERENCE,
-                true));
+    public Observable<ActionResult> doRefundPayment(ActionResult actionResult) {
+        return doRefund(new PlugPagVoidData(actionResult.getTransactionCode(), actionResult.getTransactionId(), true));
     }
 
-    private Observable<String> doPayment(final PlugPagPaymentData paymentData) {
+    private Observable<ActionResult> doRefund(final PlugPagVoidData plugPagVoidData) {
         return Observable.create(emitter -> {
+            ActionResult result = new ActionResult();
+            setListener(emitter, result);
+            PlugPagTransactionResult plugPagTransactionResult = mPlugPag.voidPayment(plugPagVoidData);
+            sendResponse(emitter, plugPagTransactionResult, result);
+        });
+    }
 
-            mPlugPag.setEventListener(plugPagEventData -> emitter.onNext(plugPagEventData.getCustomMessage()));
+    private Observable<ActionResult> doPayment(final PlugPagPaymentData paymentData) {
+        return Observable.create(emitter -> {
+            ActionResult result = new ActionResult();
+            setListener(emitter, result);
+            PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(paymentData);
+            sendResponse(emitter, plugPagTransactionResult, result);
+        });
+    }
 
-            PlugPagTransactionResult result = mPlugPag.doPayment(paymentData);
+    private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagTransactionResult plugPagTransactionResult,
+                              ActionResult result) {
+        if (plugPagTransactionResult.getResult() != 0) {
+            emitter.onError(new RuntimeException(result.getMessage()));
+        } else {
+            result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
+            result.setTransactionId(plugPagTransactionResult.getTransactionId());
+            emitter.onNext(result);
+        }
+        emitter.onComplete();
+    }
 
-            if (result.getResult() != 0) {
-                emitter.onError(new RuntimeException(result.getMessage()));
-            }
-
-            emitter.onComplete();
+    private void setListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
+        mPlugPag.setEventListener(plugPagEventData -> {
+            result.setMessage(plugPagEventData.getCustomMessage());
+            emitter.onNext(result);
         });
     }
 
@@ -114,5 +132,20 @@ public class TransactionsUseCase {
 
     private int getInstallments() {
         return new Random().nextInt(5) + 1;
+    }
+
+    public Observable<String> printCostumerReceipt() {
+        return Observable.create(emitter -> {
+
+//            setPlugPagListener(emitter);
+
+            PlugPagPrintResult result = mPlugPag.printCustumerReceipt();
+
+            if (result.getResult() != 0) {
+                emitter.onError(new RuntimeException(result.getMessage()));
+            }
+
+            emitter.onComplete();
+        });
     }
 }

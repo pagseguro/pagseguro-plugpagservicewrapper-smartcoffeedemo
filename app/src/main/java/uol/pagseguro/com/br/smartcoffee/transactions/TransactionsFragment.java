@@ -17,6 +17,7 @@ import uol.pagseguro.com.br.smartcoffee.R;
 import uol.pagseguro.com.br.smartcoffee.injection.UseCaseModule;
 import uol.pagseguro.com.br.smartcoffee.injection.DaggerTransactionsComponent;
 import uol.pagseguro.com.br.smartcoffee.injection.TransactionsComponent;
+import uol.pagseguro.com.br.smartcoffee.utils.FileHelper;
 import uol.pagseguro.com.br.smartcoffee.utils.UIFeedback;
 
 public class TransactionsFragment extends MvpFragment<TransactionsContract, TransactionsPresenter> implements TransactionsContract {
@@ -73,12 +74,23 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     @OnClick(R.id.btn_smartpos_void_payment)
     public void onRefundClicked() {
-        getPresenter().doRefundPayment();
+//        ActionResult actionResult = FileHelper.readFromFile(getContext());
+        getPresenter().doRefundPayment(FileHelper.readFromFile(getContext()));
+    }
+
+    @OnClick(R.id.btn_smartpos_void_print)
+    public void onPrintClicked() {
+        getPresenter().printReceipt();
     }
 
     @Override
-    public void showPaymentSuccess() {
-        UIFeedback.showDialog(getContext(), R.string.transactions_successful_payment);
+    public void showTransactionSuccess() {
+        UIFeedback.showDialog(getContext(), R.string.transactions_successful);
+    }
+
+    @Override
+    public void writeToFile(String transactionCode, String transactionId) {
+        FileHelper.writeToFile(transactionCode, transactionId, getContext());
     }
 
     @Override
@@ -89,5 +101,14 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @Override
     public void showError(String message) {
         UIFeedback.showDialog(getContext(), message);
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show) {
+            UIFeedback.showProgress(getContext());
+        } else {
+            UIFeedback.dismissProgress();
+        }
     }
 }
