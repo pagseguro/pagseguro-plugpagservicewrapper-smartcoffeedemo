@@ -3,6 +3,7 @@ package uol.pagseguro.com.br.smartcoffee.utils;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 
 public class UIFeedback {
 
@@ -15,26 +16,38 @@ public class UIFeedback {
         }
     }
 
-    public static void showDialog(Context context, String message, Boolean isCancelable) {
-        showDialog(context, message, 0, isCancelable);
-    }
-
     public static void showDialog(Context context, String message) {
-        showDialog(context, message, 0, true);
+        showDialog(context, message, 0, true, null);
     }
 
     public static void showDialog(Context context, int message) {
-        showDialog(context, null, message, true);
+        showDialog(context, null, message, true, null);
     }
 
-    public static void showDialog(Context context, String message, int resourceMessage, Boolean isCancelable) {
+    public static void showDialog(Context context, String message, DialogInterface.OnCancelListener cancelListener) {
+        showDialog(context, message, 0, true, cancelListener);
+    }
+
+    public static void showDialog(Context context, String message, int resourceMessage, Boolean isCancelable, DialogInterface.OnCancelListener cancelListener) {
         initDialog(context);
         sDialog.setCancelable(isCancelable);
         sDialog.setMessage(message == null ? context.getString(resourceMessage) : message);
+        sDialog.setOnCancelListener(cancelListener);
         if (!sDialog.isShowing()) {
             sDialog.show();
         }
     }
+
+//
+//    public static void showDialog(Context context, String message, Boolean isCancelable, DialogInterface.OnCancelListener cancelListener) {
+//        initDialog(context);
+//        sDialog.setCancelable(isCancelable);
+//        sDialog.setMessage(message);
+//        sDialog.setOnCancelListener(cancelListener);
+//        if (!sDialog.isShowing()) {
+//            sDialog.show();
+//        }
+//    }
 
     public static ProgressDialog getProgress(Context context) {
         if (sProgressDialog == null) {

@@ -2,19 +2,15 @@ package uol.pagseguro.com.br.smartcoffee.transactions;
 
 
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAbortResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import uol.pagseguro.com.br.smartcoffee.ActionResult;
-import uol.pagseguro.com.br.smartcoffee.utils.FileHelper;
 
 public class TransactionsUseCase {
 
@@ -110,7 +106,7 @@ public class TransactionsUseCase {
     private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagTransactionResult plugPagTransactionResult,
                               ActionResult result) {
         if (plugPagTransactionResult.getResult() != 0) {
-            emitter.onError(new RuntimeException(result.getMessage()));
+            emitter.onError(new RuntimeException(plugPagTransactionResult.getMessage()));
         } else {
             result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
             result.setTransactionId(plugPagTransactionResult.getTransactionId());
@@ -139,10 +135,26 @@ public class TransactionsUseCase {
 
 //            setPlugPagListener(emitter);
 
-            PlugPagPrintResult result = mPlugPag.printCustumerReceipt();
+//            PlugPagPrintResult result = mPlugPag.printCustumerReceipt();
 
-            if (result.getResult() != 0) {
-                emitter.onError(new RuntimeException(result.getMessage()));
+//            if (result.getResult() != 0) {
+//                emitter.onError(new RuntimeException(result.getMessage()));
+//
+//            }
+
+            emitter.onComplete();
+        });
+    }
+
+    public Observable<Object> abort() {
+        return Observable.create(emitter -> {
+            mPlugPag.abort();
+            PlugPagAbortResult result = mPlugPag.abort();
+
+            if (result.getResult() == 0) {
+                emitter.onNext(new Object());
+            } else {
+                emitter.onError(new Exception("Erro ao abortar"));
             }
 
             emitter.onComplete();

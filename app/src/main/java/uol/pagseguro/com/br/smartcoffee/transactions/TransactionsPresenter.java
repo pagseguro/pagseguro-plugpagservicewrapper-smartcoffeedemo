@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import uol.pagseguro.com.br.smartcoffee.ActionResult;
 
@@ -14,6 +16,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
 
     private TransactionsUseCase mUseCase;
     private Disposable mSubscribe;
+    private Boolean hasAborted = false;
 
     @Inject
     public TransactionsPresenter(TransactionsUseCase useCase) {
@@ -59,6 +62,24 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         if (result.getTransactionCode() != null && result.getTransactionId() != null) {
             getView().writeToFile(result.getTransactionCode(), result.getTransactionId());
         }
+    }
+
+    public void abort() {
+        mSubscribe = mUseCase.abort()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> hasAborted = true)
+                .subscribe(o -> getView().showAbortedSuccessfully(),
+                        throwable -> getView().showError(throwable.getMessage()));
+    }
+
+    public void abortTransaction() {
+        if (hasAborted) {
+            hasAborted = false;
+            return;
+        }
+
+        abort();
     }
 
     @Override
