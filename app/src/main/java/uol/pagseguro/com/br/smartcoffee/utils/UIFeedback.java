@@ -16,12 +16,16 @@ public class UIFeedback {
         }
     }
 
-    public static void showDialog(Context context, String message) {
-        showDialog(context, message, 0, true, null);
-    }
-
     public static void showDialog(Context context, int message) {
         showDialog(context, null, message, true, null);
+    }
+
+    public static void showDialog(Context context, int message, Boolean isCancelable) {
+        showDialog(context, null, message, isCancelable, null);
+    }
+
+    public static void showDialog(Context context, String message) {
+        showDialog(context, message, 0, true, null);
     }
 
     public static void showDialog(Context context, String message, DialogInterface.OnCancelListener cancelListener) {
@@ -37,17 +41,6 @@ public class UIFeedback {
             sDialog.show();
         }
     }
-
-//
-//    public static void showDialog(Context context, String message, Boolean isCancelable, DialogInterface.OnCancelListener cancelListener) {
-//        initDialog(context);
-//        sDialog.setCancelable(isCancelable);
-//        sDialog.setMessage(message);
-//        sDialog.setOnCancelListener(cancelListener);
-//        if (!sDialog.isShowing()) {
-//            sDialog.show();
-//        }
-//    }
 
     public static ProgressDialog getProgress(Context context) {
         if (sProgressDialog == null) {

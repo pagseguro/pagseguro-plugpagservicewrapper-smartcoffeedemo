@@ -75,7 +75,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     @OnClick(R.id.btn_smartpos_void_payment)
     public void onRefundClicked() {
-//        ActionResult actionResult = FileHelper.readFromFile(getContext());
         getPresenter().doRefundPayment(FileHelper.readFromFile(getContext()));
     }
 
@@ -87,11 +86,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @Override
     public void showTransactionSuccess() {
         UIFeedback.showDialog(getContext(), R.string.transactions_successful);
-    }
-
-    @OnClick(R.id.btn_smartpos_abort)
-    public void onAbortClicked() {
-        getPresenter().abort();
     }
 
     @Override
@@ -106,12 +100,12 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     @Override
     public void showError(String message) {
-        UIFeedback.showDialog(getContext(), message, cancelListener);
+        UIFeedback.showDialog(getContext(), message);
     }
 
     @Override
     public void showAbortedSuccessfully() {
-        UIFeedback.showDialog(getContext(), R.string.transactions_successful_abort);
+        UIFeedback.showDialog(getContext(), R.string.transactions_successful_abort, true);
     }
 
     @Override
