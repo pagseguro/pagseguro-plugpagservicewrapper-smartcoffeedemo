@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAbortResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventListener;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
@@ -13,6 +14,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposable;
 
 public class TransactionsUseCase {
 
@@ -114,5 +116,20 @@ public class TransactionsUseCase {
 
     private int getInstallments() {
         return new Random().nextInt(5) + 1;
+    }
+
+    public Observable<Object> abort() {
+        return Observable.create(emitter -> {
+
+            PlugPagAbortResult result = mPlugPag.abort();
+
+            if (result.getResult() == 0) {
+                emitter.onNext(new Object());
+            } else {
+                emitter.onError(new Exception("Erro ao abortar"));
+            }
+
+            emitter.onComplete();
+        });
     }
 }

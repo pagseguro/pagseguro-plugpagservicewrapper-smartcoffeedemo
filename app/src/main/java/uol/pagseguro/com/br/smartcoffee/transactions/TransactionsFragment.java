@@ -1,5 +1,6 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -76,6 +77,11 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         getPresenter().doRefundPayment();
     }
 
+    @OnClick(R.id.btn_smartpos_abort)
+    public void onAbortClicked() {
+        getPresenter().abort();
+    }
+
     @Override
     public void showPaymentSuccess() {
         UIFeedback.showDialog(getContext(), R.string.transactions_successful_payment);
@@ -83,11 +89,21 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     @Override
     public void showMessage(String message) {
-        UIFeedback.showDialog(getContext(), message, false);
+        UIFeedback.showDialog(getContext(), message, cancelListener);
     }
 
     @Override
     public void showError(String message) {
-        UIFeedback.showDialog(getContext(), message);
+        UIFeedback.showDialog(getContext(), message, cancelListener);
     }
+
+    @Override
+    public void showAbortedSuccessfully() {
+        UIFeedback.showDialog(getContext(), R.string.transactions_successful_abort);
+    }
+
+    DialogInterface.OnCancelListener cancelListener = dialogInterface -> {
+        dialogInterface.dismiss();
+        getPresenter().abortTransaction();
+    };
 }

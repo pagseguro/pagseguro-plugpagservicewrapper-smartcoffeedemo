@@ -26,7 +26,9 @@
     <string name="btn_smartpos_debit">Débito</string>
     <string name="btn_smartpos_voucher">Voucher</string>
     <string name="btn_smartpos_void_payment">Estorno</string>
+    <string name="btn_smartpos_void_abortar">Abortar</string>
     <string name="btn_smartpos_query">Consulta</string>
     <string name="transactions_successful_payment">Pagamento realizado com sucesso</string>
+    <string name="transactions_successful_abort">Abortado com sucesso</string>
 
 </resources>

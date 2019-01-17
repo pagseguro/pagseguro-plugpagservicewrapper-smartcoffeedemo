@@ -7,12 +7,15 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
 
     private TransactionsUseCase mUseCase;
     private Disposable mSubscribe;
+    private Boolean hasAborted = false;
 
     @Inject
     public TransactionsPresenter(TransactionsUseCase useCase) {
@@ -45,12 +48,30 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     private void doPayment(Observable<String> observable) {
-        mSubscribe = observable.subscribeOn(Schedulers.io())
+        mSubscribe = observable
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(() -> {
-                    getView().showPaymentSuccess();
-                })
-                .subscribe(message -> getView().showMessage(message), throwable -> getView().showError(throwable.getMessage()));
+                .doOnComplete(() -> getView().showPaymentSuccess())
+                .subscribe(message -> getView().showMessage(message),
+                        throwable -> getView().showError(throwable.getMessage()));
+    }
+
+    public void abort() {
+        mSubscribe = mUseCase.abort()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(disposable -> hasAborted = true)
+                .subscribe(o -> getView().showAbortedSuccessfully(),
+                        throwable -> getView().showError(throwable.getMessage()));
+    }
+
+    public void abortTransaction() {
+        if (hasAborted) {
+            hasAborted = false;
+            return;
+        }
+
+        abort();
     }
 
     @Override
@@ -60,4 +81,5 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         }
         super.detachView(retainInstance);
     }
+
 }

@@ -10,4 +10,5 @@ public interface TransactionsContract extends MvpView {
 
     void showMessage(String message);
 
+    void showAbortedSuccessfully();
 }
