@@ -10,6 +10,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import uol.pagseguro.com.br.smartcoffee.ActionResult;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
 
@@ -23,37 +24,44 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     public void creditPayment() {
-        doPayment(mUseCase.doCreditPayment());
+        doAction(mUseCase.doCreditPayment());
     }
 
     public void doCreditPaymentWithSellerInstallments() {
-        doPayment(mUseCase.doCreditPaymentWithSellerInstallments());
+        doAction(mUseCase.doCreditPaymentWithSellerInstallments());
     }
 
     public void doCreditPaymentWithBuyerInstallments() {
-        doPayment(mUseCase.doCreditPaymentWithBuyerInstallments());
+        doAction(mUseCase.doCreditPaymentWithBuyerInstallments());
     }
 
     public void doDebitPayment() {
-        doPayment(mUseCase.doDebitPayment());
+        doAction(mUseCase.doDebitPayment());
     }
-
 
     public void doVoucherPayment() {
-        doPayment(mUseCase.doVoucherPayment());
+        doAction(mUseCase.doVoucherPayment());
     }
 
-    public void doRefundPayment() {
-        doPayment(mUseCase.doRefundPayment());
+    public void doRefundPayment(ActionResult actionResult) {
+        doAction(mUseCase.doRefundPayment(actionResult));
     }
 
-    private void doPayment(Observable<String> observable) {
-        mSubscribe = observable
-                .subscribeOn(Schedulers.io())
+    private void doAction(Observable<ActionResult> action) {
+        mSubscribe = action.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(() -> getView().showPaymentSuccess())
-                .subscribe(message -> getView().showMessage(message),
+                .doOnComplete(() -> getView().showTransactionSuccess())
+                .subscribe((ActionResult result) -> {
+                            writeToFile(result);
+                            getView().showMessage(result.getMessage());
+                        },
                         throwable -> getView().showError(throwable.getMessage()));
+    }
+
+    private void writeToFile(ActionResult result) {
+        if (result.getTransactionCode() != null && result.getTransactionId() != null) {
+            getView().writeToFile(result.getTransactionCode(), result.getTransactionId());
+        }
     }
 
     public void abort() {
@@ -82,4 +90,12 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         super.detachView(retainInstance);
     }
 
+    public void printReceipt() {
+        mSubscribe = mUseCase.printCostumerReceipt()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnComplete(() -> getView().showLoading(false))
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .subscribe(message -> getView().showMessage(message), throwable -> getView().showError(throwable.getMessage()));
+    }
 }

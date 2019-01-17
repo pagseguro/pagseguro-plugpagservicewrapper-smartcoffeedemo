@@ -18,6 +18,7 @@ import uol.pagseguro.com.br.smartcoffee.R;
 import uol.pagseguro.com.br.smartcoffee.injection.UseCaseModule;
 import uol.pagseguro.com.br.smartcoffee.injection.DaggerTransactionsComponent;
 import uol.pagseguro.com.br.smartcoffee.injection.TransactionsComponent;
+import uol.pagseguro.com.br.smartcoffee.utils.FileHelper;
 import uol.pagseguro.com.br.smartcoffee.utils.UIFeedback;
 
 public class TransactionsFragment extends MvpFragment<TransactionsContract, TransactionsPresenter> implements TransactionsContract {
@@ -74,7 +75,18 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     @OnClick(R.id.btn_smartpos_void_payment)
     public void onRefundClicked() {
-        getPresenter().doRefundPayment();
+//        ActionResult actionResult = FileHelper.readFromFile(getContext());
+        getPresenter().doRefundPayment(FileHelper.readFromFile(getContext()));
+    }
+
+    @OnClick(R.id.btn_smartpos_void_print)
+    public void onPrintClicked() {
+        getPresenter().printReceipt();
+    }
+
+    @Override
+    public void showTransactionSuccess() {
+        UIFeedback.showDialog(getContext(), R.string.transactions_successful);
     }
 
     @OnClick(R.id.btn_smartpos_abort)
@@ -83,8 +95,8 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     }
 
     @Override
-    public void showPaymentSuccess() {
-        UIFeedback.showDialog(getContext(), R.string.transactions_successful_payment);
+    public void writeToFile(String transactionCode, String transactionId) {
+        FileHelper.writeToFile(transactionCode, transactionId, getContext());
     }
 
     @Override
@@ -100,6 +112,15 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @Override
     public void showAbortedSuccessfully() {
         UIFeedback.showDialog(getContext(), R.string.transactions_successful_abort);
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show) {
+            UIFeedback.showProgress(getContext());
+        } else {
+            UIFeedback.dismissProgress();
+        }
     }
 
     DialogInterface.OnCancelListener cancelListener = dialogInterface -> {
