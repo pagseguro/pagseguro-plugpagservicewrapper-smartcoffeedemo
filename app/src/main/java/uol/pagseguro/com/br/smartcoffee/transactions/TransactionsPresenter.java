@@ -55,12 +55,12 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                         },
                         throwable -> getView().showError(throwable.getMessage()));
     }
-
     private void writeToFile(ActionResult result) {
         if (result.getTransactionCode() != null && result.getTransactionId() != null) {
             getView().writeToFile(result.getTransactionCode(), result.getTransactionId());
         }
     }
+
 
     public void abortTransaction() {
         if (hasAborted) {
@@ -85,12 +85,22 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         super.detachView(retainInstance);
     }
 
-    public void printReceipt() {
-        mSubscribe = mUseCase.printCostumerReceipt()
+    public void printStablishmentReceipt() {
+        mSubscribe = mUseCase.printStablishmentReceipt()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .subscribe(message -> getView().showMessage(message), throwable -> getView().showError(throwable.getMessage()));
+                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
+    }
+
+    public void printCustomerReceipt() {
+        mSubscribe = mUseCase.printStablishmentReceipt()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnComplete(() -> getView().showLoading(false))
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnError(throwable -> getView().showError(throwable.getMessage()))
+                .subscribe();
     }
 }

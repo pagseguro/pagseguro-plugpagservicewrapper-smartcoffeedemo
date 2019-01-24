@@ -50,10 +50,17 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_voucher"/>
 
     <Button
-        android:id="@+id/btn_smartpos_void_print"
+        android:id="@+id/btn_smartpos_void_print_stablishment"
         style="@style/custom_button_style"
         android:layout_height="wrap_content"
-        android:text="@string/btn_smartpos_print"
+        android:text="@string/btn_smartpos_print_stablishment"
         app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_void_payment"/>
+
+    <Button
+        android:id="@+id/btn_smartpos_void_print_customer"
+        style="@style/custom_button_style"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_smartpos_print_customer"
+        app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_void_print_stablishment"/>
 
 </android.support.constraint.ConstraintLayout>

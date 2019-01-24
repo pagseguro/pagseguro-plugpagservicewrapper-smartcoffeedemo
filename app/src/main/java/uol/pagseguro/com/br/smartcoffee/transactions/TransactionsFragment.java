@@ -78,9 +78,14 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         getPresenter().doRefundPayment(FileHelper.readFromFile(getContext()));
     }
 
-    @OnClick(R.id.btn_smartpos_void_print)
-    public void onPrintClicked() {
-        getPresenter().printReceipt();
+    @OnClick(R.id.btn_smartpos_void_print_stablishment)
+    public void onPrintStablishmentClicked() {
+        getPresenter().printStablishmentReceipt();
+    }
+
+    @OnClick(R.id.btn_smartpos_void_print_customer)
+    public void onPrintCustomerClicked() {
+        getPresenter().printCustomerReceipt();
     }
 
     @Override

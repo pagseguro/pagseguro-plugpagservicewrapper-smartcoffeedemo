@@ -6,6 +6,7 @@ import java.util.Random;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAbortResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import io.reactivex.Observable;
@@ -82,6 +83,9 @@ public class TransactionsUseCase {
     }
 
     public Observable<ActionResult> doRefundPayment(ActionResult actionResult) {
+        if(actionResult.getTransactionCode() == null) {
+            return Observable.error(new Exception("Nenhuma transação encontrada"));
+        }
         return doRefund(new PlugPagVoidData(actionResult.getTransactionCode(), actionResult.getTransactionId(), true));
     }
 
@@ -130,17 +134,27 @@ public class TransactionsUseCase {
         return new Random().nextInt(5) + 1;
     }
 
-    public Observable<String> printCostumerReceipt() {
+    public Observable<String> printStablishmentReceipt() {
         return Observable.create(emitter -> {
 
-//            setPlugPagListener(emitter);
+            PlugPagPrintResult result = mPlugPag.reprintStablishmentReceipt();
 
-//            PlugPagPrintResult result = mPlugPag.printCustumerReceipt();
+            if (result.getResult() != 0) {
+                emitter.onError(new RuntimeException(result.getMessage()));
+            }
 
-//            if (result.getResult() != 0) {
-//                emitter.onError(new RuntimeException(result.getMessage()));
-//
-//            }
+            emitter.onComplete();
+        });
+    }
+
+    public Observable<String> printCustomerReceipt() {
+        return Observable.create(emitter -> {
+
+            PlugPagPrintResult result = mPlugPag.reprintCustomerReceipt();
+
+            if (result.getResult() != 0) {
+                emitter.onError(new RuntimeException(result.getMessage()));
+            }
 
             emitter.onComplete();
         });

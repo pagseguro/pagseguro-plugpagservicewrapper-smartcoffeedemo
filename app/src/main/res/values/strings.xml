@@ -28,7 +28,8 @@
     <string name="btn_smartpos_void_payment">Estorno</string>
     <string name="btn_smartpos_void_abortar">Abortar</string>
     <string name="btn_smartpos_query">Consulta</string>
-    <string name="btn_smartpos_print">Imprimir</string>
+    <string name="btn_smartpos_print_customer">Via do Cliente</string>
+    <string name="btn_smartpos_print_stablishment">Via do Establecimento</string>
     <string name="transactions_successful">Transação realizada com sucesso</string>
     <string name="transactions_successful_abort">Abortado com sucesso</string>
 
