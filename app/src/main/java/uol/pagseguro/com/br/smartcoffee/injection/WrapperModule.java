@@ -21,7 +21,6 @@ public class WrapperModule {
     @Provides
     PlugPag providesPlugPag() {
         PlugPag plugPag = new PlugPag(mContext,new PlugPagAppIdentification("TESTE", "1"));
-//        plugPag.initializeAndActivatePinpad(new PlugPagActivationData("403938"));
         return plugPag;
     }
 }
