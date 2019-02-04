@@ -1,18 +1,24 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
+import java.io.File;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uol.pagseguro.com.br.smartcoffee.BuildConfig;
 import uol.pagseguro.com.br.smartcoffee.MainActivity;
 import uol.pagseguro.com.br.smartcoffee.R;
 import uol.pagseguro.com.br.smartcoffee.injection.UseCaseModule;

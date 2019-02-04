@@ -1,5 +1,7 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
+import android.net.Uri;
+
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;

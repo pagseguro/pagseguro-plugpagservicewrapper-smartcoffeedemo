@@ -1,10 +1,13 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
 
+import android.net.Uri;
+
 import java.util.Random;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAbortResult;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
@@ -93,6 +96,7 @@ public class TransactionsUseCase {
         return Observable.create(emitter -> {
             ActionResult result = new ActionResult();
             setListener(emitter, result);
+            mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
             PlugPagTransactionResult plugPagTransactionResult = mPlugPag.voidPayment(plugPagVoidData);
             sendResponse(emitter, plugPagTransactionResult, result);
         });
@@ -100,6 +104,7 @@ public class TransactionsUseCase {
 
     private Observable<ActionResult> doPayment(final PlugPagPaymentData paymentData) {
         return Observable.create(emitter -> {
+            mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
             ActionResult result = new ActionResult();
             setListener(emitter, result);
             PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(paymentData);
@@ -173,5 +178,14 @@ public class TransactionsUseCase {
 
             emitter.onComplete();
         });
+    }
+
+    public PlugPagCustomPrinterLayout getCustomPrinterDialog() {
+        PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
+        customDialog.setTitle("Teste: Imprimir via do client?");
+        customDialog.setButtonBackgroundColor("#00ff33");
+        customDialog.setConfirmText("Yes");
+        customDialog.setCancelText("No");
+        return customDialog;
     }
 }
