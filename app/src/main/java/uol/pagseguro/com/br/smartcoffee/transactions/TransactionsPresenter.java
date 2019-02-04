@@ -1,7 +1,5 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
-import android.net.Uri;
-
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;
@@ -57,6 +55,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                         },
                         throwable -> getView().showError(throwable.getMessage()));
     }
+
     private void writeToFile(ActionResult result) {
         if (result.getTransactionCode() != null && result.getTransactionId() != null) {
             getView().writeToFile(result.getTransactionCode(), result.getTransactionId());
@@ -97,7 +96,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     public void printCustomerReceipt() {
-        mSubscribe = mUseCase.printStablishmentReceipt()
+        mSubscribe = mUseCase.printCustomerReceipt()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))

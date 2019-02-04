@@ -1,8 +1,6 @@
 package uol.pagseguro.com.br.smartcoffee.transactions;
 
 
-import android.net.Uri;
-
 import java.util.Random;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
@@ -86,7 +84,7 @@ public class TransactionsUseCase {
     }
 
     public Observable<ActionResult> doRefundPayment(ActionResult actionResult) {
-        if(actionResult.getTransactionCode() == null) {
+        if (actionResult.getTransactionCode() == null) {
             return Observable.error(new Exception("Nenhuma transação encontrada"));
         }
         return doRefund(new PlugPagVoidData(actionResult.getTransactionCode(), actionResult.getTransactionId(), true));
