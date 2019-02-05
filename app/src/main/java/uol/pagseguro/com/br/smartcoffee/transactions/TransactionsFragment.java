@@ -15,9 +15,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uol.pagseguro.com.br.smartcoffee.MainActivity;
 import uol.pagseguro.com.br.smartcoffee.R;
-import uol.pagseguro.com.br.smartcoffee.injection.UseCaseModule;
 import uol.pagseguro.com.br.smartcoffee.injection.DaggerTransactionsComponent;
 import uol.pagseguro.com.br.smartcoffee.injection.TransactionsComponent;
+import uol.pagseguro.com.br.smartcoffee.injection.UseCaseModule;
 import uol.pagseguro.com.br.smartcoffee.utils.FileHelper;
 import uol.pagseguro.com.br.smartcoffee.utils.UIFeedback;
 
