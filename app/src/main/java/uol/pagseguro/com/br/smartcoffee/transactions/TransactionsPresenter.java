@@ -53,7 +53,10 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                             writeToFile(result);
                             getView().showMessage(result.getMessage());
                         },
-                        throwable -> getView().showError(throwable.getMessage()));
+                        throwable -> {
+                            hasAborted = true;
+                            getView().showError(throwable.getMessage());
+                        });
     }
 
     private void writeToFile(ActionResult result) {
