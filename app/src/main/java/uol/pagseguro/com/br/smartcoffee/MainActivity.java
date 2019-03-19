@@ -16,6 +16,7 @@ import uol.pagseguro.com.br.smartcoffee.injection.DaggerMainComponent;
 import uol.pagseguro.com.br.smartcoffee.injection.MainComponent;
 import uol.pagseguro.com.br.smartcoffee.injection.ScreenFlowModule;
 import uol.pagseguro.com.br.smartcoffee.injection.WrapperModule;
+import uol.pagseguro.com.br.smartcoffee.nfc.NFCFragment;
 import uol.pagseguro.com.br.smartcoffee.permissions.PermissionsFragment;
 import uol.pagseguro.com.br.smartcoffee.transactions.TransactionsFragment;
 import uol.pagseguro.com.br.smartcoffee.utils.FragmentFlowManager;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_transactions:
                     fragment = TransactionsFragment.getInstance();
+                    break;
+                case R.id.menu_nfc:
+                    fragment = NFCFragment.getInstance();
                     break;
             }
 

@@ -27,6 +27,7 @@ android {
 }
 
 dependencies {
+//    implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
