@@ -99,7 +99,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     public void printCustomerReceipt() {
-        mSubscribe = mUseCase.printStablishmentReceipt()
+        mSubscribe = mUseCase.printCustomerReceipt()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
