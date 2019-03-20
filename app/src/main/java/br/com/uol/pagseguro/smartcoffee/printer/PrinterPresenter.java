@@ -23,6 +23,8 @@ public class PrinterPresenter extends MvpNullObjectBasePresenter<PrinterContract
         mSubscribe = mUseCase.printFile()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnComplete(() -> getView().showLoading(false))
                 .subscribe(o -> getView().showSucess(),
                         throwable -> getView().showError());
     }

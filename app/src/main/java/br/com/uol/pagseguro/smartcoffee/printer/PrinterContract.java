@@ -7,4 +7,6 @@ public interface PrinterContract extends MvpView{
     void showSucess();
 
     void showError();
+
+    void showLoading(boolean show);
 }

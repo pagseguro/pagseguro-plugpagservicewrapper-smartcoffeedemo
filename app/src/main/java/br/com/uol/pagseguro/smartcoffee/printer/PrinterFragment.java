@@ -14,6 +14,7 @@ import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPrinterComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PrinterComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
+import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -57,5 +58,14 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
     @Override
     public void showError() {
         Snackbar.make(getView(), R.string.printer_print_failure, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show) {
+            UIFeedback.showProgress(getContext());
+        } else {
+            UIFeedback.dismissProgress();
+        }
     }
 }
