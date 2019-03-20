@@ -5,6 +5,7 @@
     <string name="menu_permissions">Permissões</string>
     <string name="menu_auth">Autenticação</string>
     <string name="menu_transactions">Transações</string>
+    <string name="menu_printer">Impressão</string>
 
     <!-- PERMISSIONS -->
     <string name="btn_permissions">Solicitar/Verificar permissões</string>
@@ -32,5 +33,10 @@
     <string name="btn_smartpos_print_stablishment">Via do Establecimento</string>
     <string name="transactions_successful">Transação realizada com sucesso</string>
     <string name="transactions_successful_abort">Abortado com sucesso</string>
+
+    <!-- PRINTER -->
+    <string name="printer_print_file">Imprimir arquivo</string>
+    <string name="printer_print_success">Impressão realizada com sucesso</string>
+    <string name="printer_print_failure">Houve um erro na impressão</string>
 
 </resources>
