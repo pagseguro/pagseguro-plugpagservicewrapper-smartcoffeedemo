@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="uol.pagseguro.com.br.smartcoffee"
+<manifest package="br.com.uol.pagseguro.smartcoffee"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-    <permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS"/>
+    <permission android:name="br.com.br.com.permission.MANAGE_PAYMENTS"/>
 
     <application
         android:allowBackup="true"
