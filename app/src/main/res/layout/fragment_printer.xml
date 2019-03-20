@@ -5,7 +5,7 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
-        android:id="@+id/btn_nfc_read"
+        android:id="@+id/btn_print"
         style="@style/custom_button_style"
         android:layout_height="wrap_content"
         android:text="@string/printer_print_file"

@@ -45,7 +45,7 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
         return mInjector.presenter();
     }
 
-    @OnClick(R.id.btn_nfc_read)
+    @OnClick(R.id.btn_print)
     public void onPrintFileClicked() {
         getPresenter().printFile();
     }
