@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "uol.pagseguro.com.br.smartcoffee"
+        applicationId "br.com.uol.pagseguro.smartcoffee"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 3
