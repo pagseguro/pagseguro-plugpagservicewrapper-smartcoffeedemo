@@ -5,6 +5,9 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:id="@+id/coordinator"
+                                                 android:background="@android:color/white"
+                                                 android:clickable="true"
+                                                 android:focusable="true"
                                                  tools:context=".MainActivity">
 
     <android.support.constraint.ConstraintLayout
