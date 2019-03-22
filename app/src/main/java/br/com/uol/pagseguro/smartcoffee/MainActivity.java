@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_transactions:
                     fragment = TransactionsFragment.getInstance();
+                    break;
+                case R.id.menu_printer:
+                    fragment = PrinterFragment.getInstance();
                     break;
             }
 
