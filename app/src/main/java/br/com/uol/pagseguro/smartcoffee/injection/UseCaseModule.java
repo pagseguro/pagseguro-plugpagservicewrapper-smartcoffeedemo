@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthUseCase;
 import br.com.uol.pagseguro.smartcoffee.transactions.TransactionsUseCase;
+import br.com.uol.pagseguro.smartcoffee.nfc.NFCUseCase;
 
 @Module
 public class UseCaseModule {
@@ -18,6 +19,11 @@ public class UseCaseModule {
     @Provides
     TransactionsUseCase providesTransactionsUseCase(PlugPag plugPag) {
         return new TransactionsUseCase(plugPag);
+    }
+
+    @Provides
+    NFCUseCase providesNFCUseCase(PlugPag plugPag) {
+        return new NFCUseCase(plugPag);
     }
 
     @Provides

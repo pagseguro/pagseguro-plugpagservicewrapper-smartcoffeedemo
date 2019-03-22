@@ -9,17 +9,18 @@ import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.injection.DaggerMainComponent;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
-import br.com.uol.pagseguro.smartcoffee.injection.DaggerMainComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.MainComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.ScreenFlowModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
 import br.com.uol.pagseguro.smartcoffee.permissions.PermissionsFragment;
 import br.com.uol.pagseguro.smartcoffee.transactions.TransactionsFragment;
 import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
+import br.com.uol.pagseguro.smartcoffee.nfc.NFCFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_transactions:
                     fragment = TransactionsFragment.getInstance();
+                    break;
+                case R.id.menu_nfc:
+                    fragment = NFCFragment.getInstance();
                     break;
                 case R.id.menu_printer:
                     fragment = PrinterFragment.getInstance();
