@@ -6,6 +6,7 @@
     <string name="menu_auth">Autenticação</string>
     <string name="menu_transactions">Transações</string>
     <string name="menu_nfc">NFC</string>
+    <string name="menu_printer">Impressão</string>
 
     <!-- PERMISSIONS -->
     <string name="btn_permissions">Solicitar/Verificar permissões</string>
@@ -37,5 +38,10 @@
     <!-- NFC -->
     <string name="nfc_read_card">Ler cartão</string>
     <string name="nfc_write_card">Escrever no cartão</string>
+
+    <!-- PRINTER -->
+    <string name="printer_print_file">Imprimir arquivo</string>
+    <string name="printer_print_success">Impressão realizada com sucesso</string>
+    <string name="printer_print_failure">Houve um erro na impressão</string>
 
 </resources>

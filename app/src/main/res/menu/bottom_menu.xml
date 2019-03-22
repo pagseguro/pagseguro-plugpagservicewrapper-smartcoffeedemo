@@ -21,4 +21,9 @@
         android:icon="@mipmap/ic_launcher"
         android:title="@string/menu_nfc"/>
 
+    <item
+        android:id="@+id/menu_printer"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@string/menu_printer"/>
+
 </menu>

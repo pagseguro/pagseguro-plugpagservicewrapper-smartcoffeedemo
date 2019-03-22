@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerMainComponent;
+import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_nfc:
                     fragment = NFCFragment.getInstance();
+                    break;
+                case R.id.menu_printer:
+                    fragment = PrinterFragment.getInstance();
                     break;
             }
 
