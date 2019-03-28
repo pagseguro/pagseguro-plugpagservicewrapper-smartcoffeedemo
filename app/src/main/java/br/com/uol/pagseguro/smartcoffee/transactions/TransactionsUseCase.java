@@ -18,7 +18,7 @@ public class TransactionsUseCase {
 
     public static final String USER_REFERENCE = "APPDEMO";
     private final PlugPag mPlugPag;
-
+    private PlugPagPaymentData mPlugPagPaymentData = null;
     private final int TYPE_CREDITO = 1;
     private final int TYPE_DEBITO = 2;
     private final int TYPE_VOUCHER = 3;
@@ -101,6 +101,7 @@ public class TransactionsUseCase {
     }
 
     private Observable<ActionResult> doPayment(final PlugPagPaymentData paymentData) {
+        mPlugPagPaymentData = paymentData;
         return Observable.create(emitter -> {
             mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
             ActionResult result = new ActionResult();
@@ -124,9 +125,14 @@ public class TransactionsUseCase {
 
     private void setListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
         mPlugPag.setEventListener(plugPagEventData -> {
+            result.setEventCode(plugPagEventData.getEventCode());
             result.setMessage(plugPagEventData.getCustomMessage());
             emitter.onNext(result);
         });
+    }
+
+    public PlugPagPaymentData getEventPaymentData(){
+        return mPlugPagPaymentData;
     }
 
     private int getAmount() {

@@ -15,6 +15,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     private TransactionsUseCase mUseCase;
     private Disposable mSubscribe;
     private Boolean hasAborted = false;
+    private int countPassword = 0;
 
     @Inject
     public TransactionsPresenter(TransactionsUseCase useCase) {
@@ -51,12 +52,35 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnComplete(() -> getView().showTransactionSuccess())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
-                            getView().showMessage(result.getMessage());
+
+                            if (result.getEventCode() == 16 || result.getEventCode() == 17) {
+                                getView().showMessage(checkMessagePassword(result.getEventCode()));
+                            } else {
+                                getView().showMessage(result.getMessage());
+                            }
+
                         },
                         throwable -> {
                             hasAborted = true;
                             getView().showError(throwable.getMessage());
                         });
+    }
+
+    private String checkMessagePassword(int eventCode) {
+        StringBuilder strPassword = new StringBuilder();
+
+        int value = mUseCase.getEventPaymentData() != null ? mUseCase.getEventPaymentData().getAmount() : 0;
+
+        if (eventCode == 16)
+            countPassword++;
+        if (eventCode == 17)
+            countPassword = 0;
+
+        for (int count = countPassword; count > 0;count--){
+            strPassword.append("*");
+        }
+
+        return String.format("VALOR: %.2f\nSENHA: %s",(value / 100.0), strPassword.toString());
     }
 
     private void writeToFile(ActionResult result) {
