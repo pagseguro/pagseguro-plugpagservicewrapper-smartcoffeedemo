@@ -4,6 +4,7 @@ import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -15,6 +16,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     private TransactionsUseCase mUseCase;
     private Disposable mSubscribe;
     private Boolean hasAborted = false;
+    private int countPassword = 0;
 
     @Inject
     public TransactionsPresenter(TransactionsUseCase useCase) {
@@ -51,12 +53,36 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnComplete(() -> getView().showTransactionSuccess())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
-                            getView().showMessage(result.getMessage());
+
+                            if (result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD ||
+                                    result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
+                                getView().showMessage(checkMessagePassword(result.getEventCode()));
+                            } else {
+                                getView().showMessage(result.getMessage());
+                            }
+
                         },
                         throwable -> {
                             hasAborted = true;
                             getView().showError(throwable.getMessage());
                         });
+    }
+
+    private String checkMessagePassword(int eventCode) {
+        StringBuilder strPassword = new StringBuilder();
+
+        int value = mUseCase.getEventPaymentData() != null ? mUseCase.getEventPaymentData().getAmount() : 0;
+
+        if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD)
+            countPassword++;
+        if (eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD)
+            countPassword = 0;
+
+        for (int count = countPassword; count > 0;count--){
+            strPassword.append("*");
+        }
+
+        return String.format("VALOR: %.2f\nSENHA: %s",(value / 100.0), strPassword.toString());
     }
 
     private void writeToFile(ActionResult result) {

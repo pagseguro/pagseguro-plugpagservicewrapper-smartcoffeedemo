@@ -8,6 +8,8 @@ public class ActionResult {
 
     String message;
 
+    int eventCode;
+
     public String getTransactionCode() {
         return transactionCode;
     }
@@ -30,5 +32,13 @@ public class ActionResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public int getEventCode() {
+        return eventCode;
+    }
+
+    public void setEventCode(int eventCode) {
+        this.eventCode = eventCode;
     }
 }
