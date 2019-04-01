@@ -4,6 +4,7 @@ import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -53,7 +54,8 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
 
-                            if (result.getEventCode() == 16 || result.getEventCode() == 17) {
+                            if (result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD ||
+                                    result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
                                 getView().showMessage(checkMessagePassword(result.getEventCode()));
                             } else {
                                 getView().showMessage(result.getMessage());
@@ -71,9 +73,9 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
 
         int value = mUseCase.getEventPaymentData() != null ? mUseCase.getEventPaymentData().getAmount() : 0;
 
-        if (eventCode == 16)
+        if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD)
             countPassword++;
-        if (eventCode == 17)
+        if (eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD)
             countPassword = 0;
 
         for (int count = countPassword; count > 0;count--){
