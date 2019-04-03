@@ -4,7 +4,9 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public interface PrinterContract extends MvpView{
 
-    void showError(String message);
+    void showSucess();
+
+    void showError();
 
     void showLoading(boolean show);
 }

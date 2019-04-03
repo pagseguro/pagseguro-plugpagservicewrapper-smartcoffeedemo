@@ -5,6 +5,7 @@ import android.os.Environment;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrinterData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -28,19 +29,16 @@ public class PrinterUseCase {
                     4,
                     10 * 12));
 
-            if (result.getResult() != 0)
+            if (result.getResult() != 0) {
                 actionResult.setResult(result.getResult());
-
+            }
             emitter.onComplete();
         });
     }
 
     private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
         mPlugPag.setPrinterListener(printResult -> {
-            result.setMessage(printResult.getMessage());
-            result.setErrorCode(printResult.getErrorCode());
-            result.setResult(printResult.getResult());
-            emitter.onNext(result);
+            emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getResult(), printResult.getMessage())));
         });
     }
 }

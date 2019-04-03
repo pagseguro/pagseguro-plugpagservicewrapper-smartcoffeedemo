@@ -9,7 +9,6 @@ import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
@@ -74,12 +73,15 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
 
         int value = mUseCase.getEventPaymentData() != null ? mUseCase.getEventPaymentData().getAmount() : 0;
 
-        if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD)
+        if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
             countPassword++;
-        if (eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD)
-            countPassword = 0;
+        }
 
-        for (int count = countPassword; count > 0;count--){
+        if (eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
+            countPassword = 0;
+        }
+
+        for (int count = countPassword; count > 0;count--) {
             strPassword.append("*");
         }
 
@@ -122,12 +124,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .subscribe(new Consumer<ActionResult>() {
-                               @Override
-                               public void accept(ActionResult actionResult) {
-                                   getView().showError(String.format("Error %s %s", actionResult.getResult(), actionResult.getMessage()));
-                               }
-                           });
+                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
     }
 
     public void printCustomerReceipt() {
@@ -137,12 +134,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                .subscribe(new Consumer<ActionResult>() {
-                    @Override
-                    public void accept(ActionResult actionResult) {
-
-                        getView().showError(String.format("Error %s %s", actionResult.getResult(), actionResult.getMessage()));
-                    }
-                });
+                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
     }
 }

@@ -62,7 +62,6 @@ public class TransactionsUseCase {
                 true));
     }
 
-
     public Observable<ActionResult> doDebitPayment() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_DEBITO,
@@ -128,9 +127,9 @@ public class TransactionsUseCase {
     private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagPrintResult printResult,
                               ActionResult result) {
 
-        if (printResult.getResult() != 0)
+        if (printResult.getResult() != 0) {
             result.setResult(printResult.getResult());
-
+        }
         emitter.onComplete();
     }
 
@@ -144,9 +143,9 @@ public class TransactionsUseCase {
 
     private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
         mPlugPag.setPrinterListener(printResult -> {
-            result.setMessage(printResult.getMessage());
-            result.setErrorCode(printResult.getErrorCode());
             result.setResult(printResult.getResult());
+            result.setMessage(String.format("Error %s %s", printResult.getResult(), printResult.getMessage()));
+            result.setErrorCode(printResult.getErrorCode());
             emitter.onNext(result);
         });
     }
@@ -165,7 +164,6 @@ public class TransactionsUseCase {
 
     public Observable<ActionResult> printStablishmentReceipt() {
         return Observable.create(emitter -> {
-
             ActionResult actionResult = new ActionResult();
             setPrintListener(emitter, actionResult);
             PlugPagPrintResult result = mPlugPag.reprintStablishmentReceipt();
@@ -175,7 +173,6 @@ public class TransactionsUseCase {
 
     public Observable<ActionResult> printCustomerReceipt() {
         return Observable.create(emitter -> {
-
             ActionResult actionResult = new ActionResult();
             setPrintListener(emitter, actionResult);
             PlugPagPrintResult result = mPlugPag.reprintCustomerReceipt();
