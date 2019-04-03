@@ -4,8 +4,10 @@ import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class PrinterPresenter extends MvpNullObjectBasePresenter<PrinterContract> {
@@ -25,8 +27,13 @@ public class PrinterPresenter extends MvpNullObjectBasePresenter<PrinterContract
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnComplete(() -> getView().showLoading(false))
-                .subscribe(o -> getView().showSucess(),
-                        throwable -> getView().showError());
+                .subscribe(new Consumer<ActionResult>() {
+                               @Override
+                               public void accept(ActionResult actionResult) {
+
+                                   getView().showError(String.format("Error %s %s", actionResult.getResult(), actionResult.getMessage()));
+                               }
+                           });
     }
 
     @Override

@@ -2,7 +2,6 @@ package br.com.uol.pagseguro.smartcoffee.printer;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,13 +50,8 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
     }
 
     @Override
-    public void showSucess() {
-        Snackbar.make(getView(), R.string.printer_print_success, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void showError() {
-        Snackbar.make(getView(), R.string.printer_print_failure, Snackbar.LENGTH_LONG).show();
+    public void showError(String message) {
+        UIFeedback.showDialog(getContext(), message);
     }
 
     @Override

@@ -5,11 +5,12 @@ import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
+import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import br.com.uol.pagseguro.smartcoffee.ActionResult;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
 
@@ -121,7 +122,12 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
+                .subscribe(new Consumer<ActionResult>() {
+                               @Override
+                               public void accept(ActionResult actionResult) {
+                                   getView().showError(String.format("Error %s %s", actionResult.getResult(), actionResult.getMessage()));
+                               }
+                           });
     }
 
     public void printCustomerReceipt() {
@@ -131,6 +137,12 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                .subscribe();
+                .subscribe(new Consumer<ActionResult>() {
+                    @Override
+                    public void accept(ActionResult actionResult) {
+
+                        getView().showError(String.format("Error %s %s", actionResult.getResult(), actionResult.getMessage()));
+                    }
+                });
     }
 }
