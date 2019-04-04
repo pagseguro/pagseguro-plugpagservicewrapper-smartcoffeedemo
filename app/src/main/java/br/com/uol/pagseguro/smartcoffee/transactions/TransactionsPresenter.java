@@ -5,11 +5,11 @@ import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
+import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import br.com.uol.pagseguro.smartcoffee.ActionResult;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
 
@@ -73,12 +73,15 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
 
         int value = mUseCase.getEventPaymentData() != null ? mUseCase.getEventPaymentData().getAmount() : 0;
 
-        if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD)
+        if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
             countPassword++;
-        if (eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD)
-            countPassword = 0;
+        }
 
-        for (int count = countPassword; count > 0;count--){
+        if (eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
+            countPassword = 0;
+        }
+
+        for (int count = countPassword; count > 0;count--) {
             strPassword.append("*");
         }
 
@@ -131,6 +134,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                .subscribe();
+                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
     }
 }

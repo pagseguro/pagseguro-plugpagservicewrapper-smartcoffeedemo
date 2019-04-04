@@ -10,9 +10,9 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
+import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-import br.com.uol.pagseguro.smartcoffee.ActionResult;
 
 public class TransactionsUseCase {
 
@@ -62,7 +62,6 @@ public class TransactionsUseCase {
                 true));
     }
 
-
     public Observable<ActionResult> doDebitPayment() {
         return doPayment(new PlugPagPaymentData(
                 TYPE_DEBITO,
@@ -94,6 +93,7 @@ public class TransactionsUseCase {
         return Observable.create(emitter -> {
             ActionResult result = new ActionResult();
             setListener(emitter, result);
+            setPrintListener(emitter, result);
             mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
             PlugPagTransactionResult plugPagTransactionResult = mPlugPag.voidPayment(plugPagVoidData);
             sendResponse(emitter, plugPagTransactionResult, result);
@@ -106,6 +106,7 @@ public class TransactionsUseCase {
             mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
             ActionResult result = new ActionResult();
             setListener(emitter, result);
+            setPrintListener(emitter, result);
             PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(paymentData);
             sendResponse(emitter, plugPagTransactionResult, result);
         });
@@ -123,10 +124,28 @@ public class TransactionsUseCase {
         emitter.onComplete();
     }
 
+    private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagPrintResult printResult,
+                              ActionResult result) {
+
+        if (printResult.getResult() != 0) {
+            result.setResult(printResult.getResult());
+        }
+        emitter.onComplete();
+    }
+
     private void setListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
         mPlugPag.setEventListener(plugPagEventData -> {
             result.setEventCode(plugPagEventData.getEventCode());
             result.setMessage(plugPagEventData.getCustomMessage());
+            emitter.onNext(result);
+        });
+    }
+
+    private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
+        mPlugPag.setPrinterListener(printResult -> {
+            result.setResult(printResult.getResult());
+            result.setMessage(String.format("Error %s %s", printResult.getResult(), printResult.getMessage()));
+            result.setErrorCode(printResult.getErrorCode());
             emitter.onNext(result);
         });
     }
@@ -143,29 +162,21 @@ public class TransactionsUseCase {
         return new Random().nextInt(5) + 1;
     }
 
-    public Observable<String> printStablishmentReceipt() {
+    public Observable<ActionResult> printStablishmentReceipt() {
         return Observable.create(emitter -> {
-
+            ActionResult actionResult = new ActionResult();
+            setPrintListener(emitter, actionResult);
             PlugPagPrintResult result = mPlugPag.reprintStablishmentReceipt();
-
-            if (result.getResult() != 0) {
-                emitter.onError(new RuntimeException(result.getMessage()));
-            }
-
-            emitter.onComplete();
+            sendResponse(emitter, result, actionResult);
         });
     }
 
-    public Observable<String> printCustomerReceipt() {
+    public Observable<ActionResult> printCustomerReceipt() {
         return Observable.create(emitter -> {
-
+            ActionResult actionResult = new ActionResult();
+            setPrintListener(emitter, actionResult);
             PlugPagPrintResult result = mPlugPag.reprintCustomerReceipt();
-
-            if (result.getResult() != 0) {
-                emitter.onError(new RuntimeException(result.getMessage()));
-            }
-
-            emitter.onComplete();
+            sendResponse(emitter, result, actionResult);
         });
     }
 

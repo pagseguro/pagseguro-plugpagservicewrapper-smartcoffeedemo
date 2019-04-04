@@ -10,6 +10,10 @@ public class ActionResult {
 
     int eventCode;
 
+    String errorCode;
+
+    int result=0;
+
     public String getTransactionCode() {
         return transactionCode;
     }
@@ -40,5 +44,21 @@ public class ActionResult {
 
     public void setEventCode(int eventCode) {
         this.eventCode = eventCode;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
     }
 }
