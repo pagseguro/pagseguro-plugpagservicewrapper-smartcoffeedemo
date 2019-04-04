@@ -56,8 +56,8 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
     }
 
     @Override
-    public void showError() {
-        Snackbar.make(getView(), R.string.printer_print_failure, Snackbar.LENGTH_LONG).show();
+    public void showError(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

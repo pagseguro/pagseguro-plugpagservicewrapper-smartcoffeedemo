@@ -26,7 +26,7 @@ public class PrinterPresenter extends MvpNullObjectBasePresenter<PrinterContract
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnComplete(() -> getView().showLoading(false))
                 .subscribe(o -> getView().showSucess(),
-                        throwable -> getView().showError());
+                        throwable -> getView().showError(throwable.getMessage()));
     }
 
     @Override
