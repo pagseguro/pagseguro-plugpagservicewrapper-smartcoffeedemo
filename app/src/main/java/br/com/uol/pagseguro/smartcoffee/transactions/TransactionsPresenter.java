@@ -57,6 +57,8 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
                                 getView().showMessage(checkMessagePassword(result.getEventCode()));
+                            } else if (result.getErrorCode() != null) {
+                                getView().showPrintError(result.getMessage());
                             } else {
                                 getView().showMessage(result.getMessage());
                             }
@@ -124,7 +126,8 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
+                .subscribe(message -> getView().showTransactionSuccess(message.getMessage()),
+                        throwable -> getView().showError(throwable.getMessage()));
     }
 
     public void printCustomerReceipt() {
@@ -134,6 +137,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                .subscribe(message -> getView().showTransactionSuccess(), throwable -> getView().showError(throwable.getMessage()));
+                .subscribe(message -> getView().showTransactionSuccess(message.getMessage()),
+                        throwable -> getView().showError(throwable.getMessage()));
     }
 }

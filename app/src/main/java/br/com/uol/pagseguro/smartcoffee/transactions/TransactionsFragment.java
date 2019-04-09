@@ -3,6 +3,7 @@ package br.com.uol.pagseguro.smartcoffee.transactions;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,11 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     }
 
     @Override
+    public void showTransactionSuccess(String message) {
+        UIFeedback.showDialog(getContext(), message);
+    }
+
+    @Override
     public void writeToFile(String transactionCode, String transactionId) {
         FileHelper.writeToFile(transactionCode, transactionId, getContext());
     }
@@ -111,6 +117,11 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @Override
     public void showAbortedSuccessfully() {
         UIFeedback.showDialog(getContext(), R.string.transactions_successful_abort, true);
+    }
+
+    @Override
+    public void showPrintError(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
