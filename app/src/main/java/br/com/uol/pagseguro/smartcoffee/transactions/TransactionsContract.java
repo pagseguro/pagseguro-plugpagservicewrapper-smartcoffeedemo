@@ -6,6 +6,8 @@ public interface TransactionsContract extends MvpView {
 
     void showTransactionSuccess();
 
+    void showTransactionSuccess(String message);
+
     void showError(String message);
 
     void showMessage(String message);
@@ -15,4 +17,6 @@ public interface TransactionsContract extends MvpView {
     void writeToFile(String transactionCode, String transactionId);
 
     void showAbortedSuccessfully();
+
+    void showPrintError(String message);
 }
