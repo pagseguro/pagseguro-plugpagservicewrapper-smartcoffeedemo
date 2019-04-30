@@ -1,6 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.transactions;
 
 
+import java.util.Locale;
 import java.util.Random;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
@@ -8,6 +9,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagAbortResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrinterListener;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
@@ -142,11 +144,22 @@ public class TransactionsUseCase {
     }
 
     private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
-        mPlugPag.setPrinterListener(printResult -> {
-            result.setResult(printResult.getResult());
-            result.setMessage(String.format("Error %s %s", printResult.getResult(), printResult.getMessage()));
-            result.setErrorCode(printResult.getErrorCode());
-            emitter.onNext(result);
+        mPlugPag.setPrinterListener(new PlugPagPrinterListener() {
+            @Override
+            public void onError(PlugPagPrintResult printResult) {
+                result.setResult(printResult.getResult());
+                result.setMessage(String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage()));
+                result.setErrorCode(printResult.getErrorCode());
+                emitter.onNext(result);
+            }
+
+            @Override
+            public void onSuccess(PlugPagPrintResult printResult) {
+                result.setResult(printResult.getResult());
+                result.setMessage(String.format(Locale.getDefault(),"Print OK: Steps [%d]", printResult.getSteps()));
+                result.setErrorCode(printResult.getErrorCode());
+                emitter.onNext(result);
+            }
         });
     }
 

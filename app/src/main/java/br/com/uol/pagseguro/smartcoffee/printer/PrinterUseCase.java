@@ -2,9 +2,12 @@ package br.com.uol.pagseguro.smartcoffee.printer;
 
 import android.os.Environment;
 
+import java.util.Locale;
+
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrinterData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrinterListener;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
@@ -37,8 +40,20 @@ public class PrinterUseCase {
     }
 
     private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
-        mPlugPag.setPrinterListener(printResult -> {
-            emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getResult(), printResult.getMessage())));
+        mPlugPag.setPrinterListener(new PlugPagPrinterListener() {
+            @Override
+            public void onError(PlugPagPrintResult printResult) {
+                emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage())));
+            }
+
+            @Override
+            public void onSuccess(PlugPagPrintResult printResult) {
+                emitter.onError(new PlugPagException(String.format(Locale.getDefault(), "Print OK: steps [%d]", printResult.getSteps())));
+            }
         });
+
+//        mPlugPag.setPrinterListener(printResult -> {
+//            emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getResult(), printResult.getMessage())));
+//        });
     }
 }
