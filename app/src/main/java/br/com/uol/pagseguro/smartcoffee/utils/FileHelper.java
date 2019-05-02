@@ -32,8 +32,9 @@ public class FileHelper {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
             String line = bufferedReader.readLine();
             ActionResult actionResult = new ActionResult();
-            actionResult.setTransactionCode(line.split(":")[0]);
-            actionResult.setTransactionId(line.split(":")[1]);
+            String[] split = line.split(":");
+            actionResult.setTransactionCode(split[0]);
+            actionResult.setTransactionId(split.length > 1 ? split[1] : "");
             return actionResult;
         } catch (IOException e) {
             e.printStackTrace();
