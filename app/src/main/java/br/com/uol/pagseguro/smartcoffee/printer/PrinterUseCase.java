@@ -51,9 +51,5 @@ public class PrinterUseCase {
                 emitter.onError(new PlugPagException(String.format(Locale.getDefault(), "Print OK: steps [%d]", printResult.getSteps())));
             }
         });
-
-//        mPlugPag.setPrinterListener(printResult -> {
-//            emitter.onError(new PlugPagException(String.format("Error %s %s", printResult.getResult(), printResult.getMessage())));
-//        });
     }
 }
