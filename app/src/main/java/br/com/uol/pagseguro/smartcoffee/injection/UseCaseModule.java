@@ -1,6 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.injection;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
+import br.com.uol.pagseguro.smartcoffee.demo.DemoInternoUseCase;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterUseCase;
 import dagger.Module;
 import dagger.Provides;
@@ -29,5 +30,10 @@ public class UseCaseModule {
     @Provides
     PrinterUseCase providesPrinterUseCase(PlugPag plugPag) {
         return new PrinterUseCase(plugPag);
+    }
+
+    @Provides
+    DemoInternoUseCase providesDemoInternoUseCase(PlugPag plugPag) {
+        return new DemoInternoUseCase(plugPag);
     }
 }

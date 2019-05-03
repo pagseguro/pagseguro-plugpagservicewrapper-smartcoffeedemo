@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/btn_demo"
+        style="@style/custom_button_style"
+        android:layout_height="wrap_content"
+        android:text="Demo Interno"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintBottom_toTopOf="@id/btn_all_features"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_all_features"
+        style="@style/custom_button_style"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_24"
+        android:text="Todas Funcionalidades"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_demo"/>
+
+</android.support.constraint.ConstraintLayout>
