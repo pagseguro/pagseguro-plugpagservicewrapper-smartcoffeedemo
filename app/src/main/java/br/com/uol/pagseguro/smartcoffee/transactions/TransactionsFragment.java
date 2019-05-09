@@ -12,6 +12,7 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerTransactionsComponent;
@@ -22,7 +23,7 @@ import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TransactionsFragment extends MvpFragment<TransactionsContract, TransactionsPresenter> implements TransactionsContract {
+public class TransactionsFragment extends MvpFragment<TransactionsContract, TransactionsPresenter> implements TransactionsContract, HomeFragment {
 
     @Inject
     TransactionsComponent mInjector;

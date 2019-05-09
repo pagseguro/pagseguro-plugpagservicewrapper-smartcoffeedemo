@@ -44,4 +44,19 @@
     <string name="printer_print_success">Impressão realizada com sucesso</string>
     <string name="printer_print_failure">Houve um erro na impressão</string>
 
+    <!-- DEMO INTERNO -->
+    <plurals name="coffe_amount">
+        <item quantity="one">%1$d Café</item>
+        <item quantity="other">%1$d Cafés</item>
+    </plurals>
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
+    <string name="button_pay">PAGAR</string>
+    <string name="total_amount">R$ %1$.2f</string>
+    <string name="credit">Crédito</string>
+    <string name="debit">Débito</string>
+    <string name="voucher">Voucher</string>
+    <string name="refund">Estornar última transação</string>
+    <string name="close">Fechar</string>
+
 </resources>

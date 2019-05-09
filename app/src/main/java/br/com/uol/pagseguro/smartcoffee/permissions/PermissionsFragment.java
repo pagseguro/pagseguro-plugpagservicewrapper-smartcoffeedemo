@@ -14,12 +14,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 
-public class PermissionsFragment extends Fragment{
+public class PermissionsFragment extends Fragment implements HomeFragment {
 
     private static final int PERMISSIONS_REQUEST_CODE = 0x1234;
 

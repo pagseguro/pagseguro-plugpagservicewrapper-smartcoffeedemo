@@ -76,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
         initView();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment_content) instanceof HomeFragment) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void initView() {
         mFlowManager.showFragment(PermissionsFragment.getInstance(), this);
         mBottomNavigationView.setOnNavigationItemSelectedListener(bottonMenuListener);

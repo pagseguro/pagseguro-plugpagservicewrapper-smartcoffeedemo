@@ -3,5 +3,10 @@
     <color name="colorPrimary">#00CA74</color>
     <color name="colorPrimaryDark">#058951</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="plugpag_colorPrimary">#1EC390</color>
+    <color name="plugpag_colorPrimaryDark">#1EC390</color>
+    <color name="colorPrimaryDarkDisabled">#551EC390</color>
 
 </resources>

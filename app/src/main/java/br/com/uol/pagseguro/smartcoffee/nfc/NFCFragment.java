@@ -12,6 +12,7 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import java.io.UnsupportedEncodingException;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNFCResult;
+import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerNFCComponent;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
 import br.com.uol.pagseguro.smartcoffee.injection.NFCComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 
-public class NFCFragment extends MvpFragment<NFCContract, NFCPresenter> implements NFCContract {
+public class NFCFragment extends MvpFragment<NFCContract, NFCPresenter> implements NFCContract, HomeFragment {
 
     NFCComponent mInjector;
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
+import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPrinterComponent;
@@ -18,7 +19,7 @@ import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresenter> implements PrinterContract {
+public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresenter> implements PrinterContract, HomeFragment {
 
     PrinterComponent mInjector;
 
