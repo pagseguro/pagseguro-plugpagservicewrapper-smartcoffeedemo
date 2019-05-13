@@ -126,9 +126,16 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         if (!mCanClick) {
             return;
         }
-        mCanClick = false;
+
         shouldShowDialog = true;
-        getPresenter().doRefund(getTransactionInfos());
+
+        ActionResult actionResult = FileHelper.readFromFile(this);
+        if (!actionResult.getMessage().isEmpty()) {
+            showError(actionResult.getMessage());
+        } else {
+            mCanClick = false;
+            getPresenter().doRefund(actionResult);
+        }
     }
 
     @Override
@@ -194,7 +201,9 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         }
     };
 
-    public ActionResult getTransactionInfos() {
-        return FileHelper.readFromFile(DemoInternoActivity.this);
+    @Override
+    public void onDestroy() {
+        UIFeedback.dismiss();
+        super.onDestroy();
     }
 }

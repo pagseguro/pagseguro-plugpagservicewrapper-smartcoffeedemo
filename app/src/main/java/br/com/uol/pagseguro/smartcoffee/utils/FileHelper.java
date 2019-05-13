@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
+import br.com.uol.pagseguro.smartcoffee.R;
 
 public class FileHelper {
 
@@ -36,9 +37,10 @@ public class FileHelper {
             actionResult.setTransactionCode(split[0]);
             actionResult.setTransactionId(split.length > 1 ? split[1] : "");
             return actionResult;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ActionResult();
+        } catch (Exception e) {
+            ActionResult result = new ActionResult();
+            result.setMessage(context.getString(R.string.no_transaction_to_refund));
+            return result;
         }
     }
 
