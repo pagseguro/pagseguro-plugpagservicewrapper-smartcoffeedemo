@@ -128,14 +128,8 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         }
 
         shouldShowDialog = true;
-
-        ActionResult actionResult = FileHelper.readFromFile(this);
-        if (!actionResult.getMessage().isEmpty()) {
-            showError(actionResult.getMessage());
-        } else {
-            mCanClick = false;
-            getPresenter().doRefund(actionResult);
-        }
+        mCanClick = false;
+        getPresenter().doRefund(FileHelper.readFromFile(this));
     }
 
     @Override
