@@ -121,6 +121,12 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         getPresenter().doVoucherPayment(getValue());
     }
 
+    @OnClick(R.id.btn_lasttransaction)
+    public void lastTransaction() {
+        shouldShowDialog = true;
+        getPresenter().getLastTransaction();
+    }
+
     @OnClick(R.id.btnRefund)
     public void onRefundClicked() {
         if (!mCanClick) {

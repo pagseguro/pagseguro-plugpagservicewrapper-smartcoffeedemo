@@ -1,5 +1,8 @@
 package br.com.uol.pagseguro.smartcoffee.demo;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
@@ -125,6 +128,16 @@ public class DemoInternoUseCase {
             PlugPagTransactionResult result = mPlugPag.voidPayment(new PlugPagVoidData(transaction.getTransactionCode(),
                     transaction.getTransactionId(),
                     true));
+
+            sendResponse(emitter, result, actionResult);
+        });
+    }
+
+    public Observable<ActionResult> getLastTransaction() {
+        return Observable.create(emitter -> {
+            ActionResult actionResult = new ActionResult();
+
+            PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
 
             sendResponse(emitter, result, actionResult);
         });
