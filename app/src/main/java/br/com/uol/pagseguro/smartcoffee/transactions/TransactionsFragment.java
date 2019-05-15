@@ -96,6 +96,12 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         getPresenter().printCustomerReceipt();
     }
 
+    @OnClick(R.id.btn_smartpos_get_last_transaction)
+    public void onGetLastApprovedTransaction() {
+        getPresenter().getLastTransaction();
+    }
+
+
     @Override
     public void showTransactionSuccess() {
         UIFeedback.showDialog(getContext(), R.string.transactions_successful);
@@ -145,9 +151,13 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         getPresenter().abortTransaction();
     };
 
+    public void showLastTransaction(String transactionCode) {
+        UIFeedback.showDialog(getContext(), transactionCode);
+    }
+
     @Override
     public void onDestroy() {
-        UIFeedback.dismiss();
+        UIFeedback.releaseVariables();
         super.onDestroy();
     }
 }

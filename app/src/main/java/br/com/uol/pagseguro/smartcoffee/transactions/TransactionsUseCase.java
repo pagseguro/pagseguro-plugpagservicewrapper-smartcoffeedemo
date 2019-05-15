@@ -208,6 +208,16 @@ public class TransactionsUseCase {
         });
     }
 
+    public Observable<ActionResult> getLastTransaction() {
+        return Observable.create(emitter -> {
+            ActionResult actionResult = new ActionResult();
+
+            PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
+
+            sendResponse(emitter, result, actionResult);
+        });
+    }
+
     public PlugPagCustomPrinterLayout getCustomPrinterDialog() {
         PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
         customDialog.setTitle("Teste: Imprimir via do client?");

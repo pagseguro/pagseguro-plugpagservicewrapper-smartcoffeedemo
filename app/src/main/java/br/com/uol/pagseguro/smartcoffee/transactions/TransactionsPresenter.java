@@ -9,6 +9,7 @@ import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
@@ -87,11 +88,11 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
             countPassword = 0;
         }
 
-        for (int count = countPassword; count > 0;count--) {
+        for (int count = countPassword; count > 0; count--) {
             strPassword.append("*");
         }
 
-        return String.format("VALOR: %.2f\nSENHA: %s",(value / 100.0), strPassword.toString());
+        return String.format("VALOR: %.2f\nSENHA: %s", (value / 100.0), strPassword.toString());
     }
 
     private void writeToFile(ActionResult result) {
@@ -142,6 +143,15 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doOnError(throwable -> getView().showError(throwable.getMessage()))
                 .subscribe(message -> getView().showTransactionSuccess(message.getMessage()),
+                        throwable -> getView().showError(throwable.getMessage()));
+    }
+
+
+    public void getLastTransaction() {
+        mSubscribe = mUseCase.getLastTransaction()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(actionResult -> getView().showLastTransaction(actionResult.getTransactionCode()),
                         throwable -> getView().showError(throwable.getMessage()));
     }
 }

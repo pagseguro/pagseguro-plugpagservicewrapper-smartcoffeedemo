@@ -59,5 +59,6 @@
     <string name="voucher">Voucher</string>
     <string name="refund">Estornar última transação</string>
     <string name="close">Fechar</string>
+    <string name="btn_smartpos_last_transaction">Buscar última transação</string>
 
 </resources>

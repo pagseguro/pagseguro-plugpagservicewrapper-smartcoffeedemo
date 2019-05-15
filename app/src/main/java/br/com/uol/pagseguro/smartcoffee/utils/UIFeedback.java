@@ -55,21 +55,20 @@ public class UIFeedback {
     }
 
     public static void dismissProgress() {
-        if (sProgressDialog != null) {
+        if (sProgressDialog.isShowing()) {
             sProgressDialog.dismiss();
-            sProgressDialog = null;
         }
     }
 
     public static void dismissDialog() {
-        if (sDialog != null) {
+        if (sDialog.isShowing()) {
             sDialog.dismiss();
-            sDialog = null;
         }
     }
 
-    public static void dismiss() {
-        dismissProgress();
-        dismissDialog();
+    public static void releaseVariables() {
+        sDialog = null;
+        sProgressDialog = null;
     }
+
 }
