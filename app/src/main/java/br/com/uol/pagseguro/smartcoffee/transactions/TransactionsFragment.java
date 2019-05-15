@@ -12,6 +12,7 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
@@ -77,7 +78,12 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     @OnClick(R.id.btn_smartpos_void_payment)
     public void onRefundClicked() {
-        getPresenter().doRefundPayment(FileHelper.readFromFile(getContext()));
+        ActionResult actionResult = FileHelper.readFromFile(getContext());
+        if(!actionResult.getMessage().isEmpty())  {
+            showError(actionResult.getMessage());
+        } else {
+            getPresenter().doRefundPayment(actionResult);
+        }
     }
 
     @OnClick(R.id.btn_smartpos_void_print_stablishment)
@@ -145,8 +151,13 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         getPresenter().abortTransaction();
     };
 
-    @Override
     public void showLastTransaction(String transactionCode) {
         UIFeedback.showDialog(getContext(), transactionCode);
+    }
+
+    @Override
+    public void onDestroy() {
+        UIFeedback.releaseVariables();
+        super.onDestroy();
     }
 }

@@ -132,9 +132,10 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         if (!mCanClick) {
             return;
         }
-        mCanClick = false;
+
         shouldShowDialog = true;
-        getPresenter().doRefund(getTransactionInfos());
+        mCanClick = false;
+        getPresenter().doRefund(FileHelper.readFromFile(this));
     }
 
     @Override
@@ -200,7 +201,9 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         }
     };
 
-    public ActionResult getTransactionInfos() {
-        return FileHelper.readFromFile(DemoInternoActivity.this);
+    @Override
+    public void onDestroy() {
+        UIFeedback.releaseVariables();
+        super.onDestroy();
     }
 }

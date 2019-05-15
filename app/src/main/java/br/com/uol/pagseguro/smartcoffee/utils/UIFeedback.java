@@ -55,6 +55,20 @@ public class UIFeedback {
     }
 
     public static void dismissProgress() {
-        sProgressDialog.dismiss();
+        if (sProgressDialog.isShowing()) {
+            sProgressDialog.dismiss();
+        }
     }
+
+    public static void dismissDialog() {
+        if (sDialog.isShowing()) {
+            sDialog.dismiss();
+        }
+    }
+
+    public static void releaseVariables() {
+        sDialog = null;
+        sProgressDialog = null;
+    }
+
 }

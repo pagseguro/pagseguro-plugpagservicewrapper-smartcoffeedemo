@@ -45,7 +45,11 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     public void doRefundPayment(ActionResult actionResult) {
-        doAction(mUseCase.doRefundPayment(actionResult));
+        if(!actionResult.getMessage().isEmpty())  {
+            getView().showError(actionResult.getMessage());
+        } else {
+            doAction(mUseCase.doRefundPayment(actionResult));
+        }
     }
 
     private void doAction(Observable<ActionResult> action) {

@@ -34,6 +34,7 @@
     <string name="btn_smartpos_print_stablishment">Via do Establecimento</string>
     <string name="transactions_successful">Transação realizada com sucesso</string>
     <string name="transactions_successful_abort">Abortado com sucesso</string>
+    <string name="no_transaction_to_refund">Não há transação a ser estornada.</string>
 
     <!-- NFC -->
     <string name="nfc_read_card">Ler cartão</string>

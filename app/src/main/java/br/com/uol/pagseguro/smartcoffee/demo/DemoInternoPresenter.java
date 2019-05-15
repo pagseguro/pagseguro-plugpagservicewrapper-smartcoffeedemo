@@ -39,8 +39,13 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
         doAction(mUseCase.doVoucherPayment(value), value);
     }
 
-    public void doRefund(ActionResult transaction) {
-        doAction(mUseCase.doRefund(transaction), 0);
+    public void doRefund(ActionResult actionResult) {
+        if (!actionResult.getMessage().isEmpty()) {
+            getView().showError(actionResult.getMessage());
+            getView().disposeDialog();
+        } else {
+            doAction(mUseCase.doRefund(actionResult), 0);
+        }
     }
 
     private void doAction(Observable<ActionResult> action, int value) {
