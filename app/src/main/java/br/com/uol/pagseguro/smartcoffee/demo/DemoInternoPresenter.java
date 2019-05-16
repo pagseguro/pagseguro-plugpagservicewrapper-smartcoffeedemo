@@ -8,10 +8,8 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,6 +59,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> getView().showTransactionSuccess())
+                .doOnDispose(() -> getView().disposeDialog())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
 
@@ -133,6 +132,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
                     getView().showLoading(false);
                     getView().disposeDialog();
                 })
+                .doOnDispose(() -> getView().disposeDialog())
                 .subscribe(actionResult -> getView().showMessage(checkMessage(actionResult.getMessage())),
                         throwable -> {
                             getView().showLoading(false);
