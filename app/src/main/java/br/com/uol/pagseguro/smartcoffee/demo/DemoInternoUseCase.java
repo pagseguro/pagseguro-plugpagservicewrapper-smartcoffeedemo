@@ -9,6 +9,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -74,7 +75,7 @@ public class DemoInternoUseCase {
     private void sendResponse(ObservableEmitter<ActionResult> emitter, PlugPagTransactionResult plugPagTransactionResult,
                               ActionResult result) {
         if (plugPagTransactionResult.getResult() != 0) {
-            emitter.onError(new RuntimeException(plugPagTransactionResult.getMessage()));
+            emitter.onError(new PlugPagException(plugPagTransactionResult.getMessage(), plugPagTransactionResult.getErrorCode()));
         } else {
             result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
             result.setTransactionId(plugPagTransactionResult.getTransactionId());
