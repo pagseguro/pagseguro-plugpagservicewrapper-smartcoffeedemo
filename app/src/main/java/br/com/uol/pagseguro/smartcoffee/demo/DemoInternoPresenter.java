@@ -38,7 +38,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
     }
 
     public void doRefund(ActionResult actionResult) {
-        if (!actionResult.getMessage().isEmpty()) {
+        if (actionResult.getMessage() != null) {
             getView().showError(actionResult.getMessage());
             getView().disposeDialog();
         } else {
