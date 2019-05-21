@@ -133,7 +133,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
                     getView().disposeDialog();
                 })
                 .doOnDispose(() -> getView().disposeDialog())
-                .subscribe(actionResult -> getView().showMessage(checkMessage(actionResult.getMessage())),
+                .subscribe(actionResult -> getView().showAuthProgress(actionResult.getMessage()),
                         throwable -> {
                             getView().showLoading(false);
                             getView().showError(throwable.getMessage());
@@ -141,7 +141,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
     }
 
     public void getLastTransaction() {
-        mUseCase.getLastTransaction()
+       mSubscribe = mUseCase.getLastTransaction()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(actionResult -> getView().showMessage(actionResult.getTransactionCode()),

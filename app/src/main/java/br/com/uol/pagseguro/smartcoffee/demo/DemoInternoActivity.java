@@ -156,6 +156,11 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     }
 
     @Override
+    public void showAuthProgress(String message) {
+        UIFeedback.showDialog(this, message);
+    }
+
+    @Override
     public void showMessage(String message) {
         if (shouldShowDialog && !dialog.isShowing()) {
             dialog.show();
