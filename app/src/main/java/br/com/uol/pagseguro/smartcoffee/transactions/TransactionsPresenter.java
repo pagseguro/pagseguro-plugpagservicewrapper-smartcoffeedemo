@@ -45,7 +45,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     public void doRefundPayment(ActionResult actionResult) {
-        if(!actionResult.getMessage().isEmpty())  {
+        if(actionResult.getMessage() != null)  {
             getView().showError(actionResult.getMessage());
         } else {
             doAction(mUseCase.doRefundPayment(actionResult));

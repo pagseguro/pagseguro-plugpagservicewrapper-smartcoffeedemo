@@ -79,11 +79,7 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @OnClick(R.id.btn_smartpos_void_payment)
     public void onRefundClicked() {
         ActionResult actionResult = FileHelper.readFromFile(getContext());
-        if(!actionResult.getMessage().isEmpty())  {
-            showError(actionResult.getMessage());
-        } else {
-            getPresenter().doRefundPayment(actionResult);
-        }
+        getPresenter().doRefundPayment(actionResult);
     }
 
     @OnClick(R.id.btn_smartpos_void_print_stablishment)
