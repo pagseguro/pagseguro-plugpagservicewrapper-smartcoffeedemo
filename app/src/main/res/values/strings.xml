@@ -39,6 +39,7 @@
     <!-- NFC -->
     <string name="nfc_read_card">Ler cartão</string>
     <string name="nfc_write_card">Escrever no cartão</string>
+    <string name="nfc_abort">Abortar</string>
 
     <!-- PRINTER -->
     <string name="printer_print_file">Imprimir arquivo</string>
