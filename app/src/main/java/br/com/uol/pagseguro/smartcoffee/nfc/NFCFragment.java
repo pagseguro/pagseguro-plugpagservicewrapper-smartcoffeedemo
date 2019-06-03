@@ -58,6 +58,11 @@ public class NFCFragment extends MvpFragment<NFCContract, NFCPresenter> implemen
         getPresenter().writeNFCCard();
     }
 
+    @OnClick(R.id.btn_nfc_abort)
+    public void onAbortClicked() {
+        getPresenter().abort();
+    }
+
     @Override
     public void showSuccess(PlugPagNFCResult result) {
         try {

@@ -4,6 +4,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNFCResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNearFieldCardData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public class NFCUseCase {
@@ -54,5 +55,9 @@ public class NFCUseCase {
 
             emitter.onComplete();
         });
+    }
+
+    public Completable abort() {
+        return Completable.create(emitter -> mPlugPag.abortNFC());
     }
 }

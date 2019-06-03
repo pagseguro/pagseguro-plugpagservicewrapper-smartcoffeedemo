@@ -21,4 +21,11 @@
         android:text="@string/nfc_write_card"
         app:layout_constraintTop_toBottomOf="@+id/btn_nfc_read"/>
 
+    <Button
+        android:id="@+id/btn_nfc_abort"
+        style="@style/custom_button_style"
+        android:layout_height="wrap_content"
+        android:text="@string/nfc_abort"
+        app:layout_constraintTop_toBottomOf="@+id/btn_nfc_write"/>
+
 </android.support.constraint.ConstraintLayout>

@@ -42,4 +42,11 @@ public class NFCPresenter extends MvpNullObjectBasePresenter<NFCContract> {
             mSubscribe.dispose();
         }
     }
+
+    public void abort() {
+        mSubscribe = mUseCase.abort()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
 }
