@@ -34,10 +34,15 @@ public class AuthUseCase {
         });
     }
 
-    public Completable invalidateAuthentication() {
-        return Completable.defer(() -> {
-            mPlugPag.invalidateAuthentication();
-            return Completable.complete();
+    public Observable<Object> deactivate() {
+        return Observable.create(emitter -> {
+            PlugPagInitializationResult result = mPlugPag.deactivate(new PlugPagActivationData("403938"));
+            if(result.getResult() == PlugPag.RET_OK) {
+                emitter.onNext(new Object());
+            } else {
+                emitter.onError(new RuntimeException(result.getErrorMessage()));
+            }
+            emitter.onComplete();
         });
     }
 }

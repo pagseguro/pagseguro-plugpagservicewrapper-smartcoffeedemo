@@ -15,9 +15,9 @@
     <!-- AUTH -->
     <string name="btn_authentication_check">Verificar autenticação</string>
     <string name="btn_authentication_request">Solicitar autenticação</string>
-    <string name="btn_authentication_invalidate">Invalidar autenticação</string>
+    <string name="btn_authentication_deactivate">Solicitar desativação</string>
     <string name="auth_activated_successfully">Ativado com sucesso</string>
-    <string name="auth_invalidated_successfully">Invalidado com sucesso</string>
+    <string name="auth_deactivated_successfully">Desativado com sucesso</string>
     <string name="auth_isnt_authenticated">Terminal não ativo</string>
     <string name="auth_is_authenticated">Terminal ativo</string>
 

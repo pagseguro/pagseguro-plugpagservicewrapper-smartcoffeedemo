@@ -52,8 +52,8 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
     }
 
     @OnClick(R.id.btn_authentication_invalidate)
-    public void onInvalidateAuthClicked() {
-        getPresenter().invalidateAuth();
+    public void deactivate() {
+        getPresenter().deactivate();
     }
 
     @Override
@@ -78,8 +78,8 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
     }
 
     @Override
-    public void showInvalidatedSuccessfully() {
-        UIFeedback.showDialog(getContext(), R.string.auth_invalidated_successfully);
+    public void showDeactivatedSuccessfully() {
+        UIFeedback.showDialog(getContext(), R.string.auth_deactivated_successfully);
     }
 
     @Override

@@ -34,18 +34,19 @@ public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> getView().showLoading(false))
+                .doOnTerminate(() -> getView().showLoading(false))
                 .subscribe(object -> getView().showActivatedSuccessfully(),
                         throwable -> getView().showError(throwable.getMessage()));
     }
 
-    public void invalidateAuth() {
-        mSubscribe = mUseCase.invalidateAuthentication()
+    public void deactivate() {
+        mSubscribe = mUseCase.deactivate()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> getView().showLoading(false))
-                .subscribe(() -> getView().showInvalidatedSuccessfully());
+                .doOnTerminate(() -> getView().showLoading(false))
+                .subscribe(object -> getView().showDeactivatedSuccessfully(),
+                        throwable -> getView().showError(throwable.getMessage()));
     }
 
     @Override
