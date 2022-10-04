@@ -14,21 +14,15 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
+import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.*;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.*;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
 public class TransactionsUseCase {
 
-    public static final String USER_REFERENCE = "APPDEMO";
     private final PlugPag mPlugPag;
     private PlugPagPaymentData mPlugPagPaymentData = null;
-    private final int TYPE_CREDITO = 1;
-    private final int TYPE_DEBITO = 2;
-    private final int TYPE_VOUCHER = 3;
-
-    private final int INSTALLMENT_TYPE_A_VISTA = 1;
-    private final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
-    private final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
 
     public TransactionsUseCase(PlugPag plugPag) {
         mPlugPag = plugPag;
@@ -223,8 +217,7 @@ public class TransactionsUseCase {
         PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
         customDialog.setTitle("Teste: Imprimir via do client?");
         customDialog.setButtonBackgroundColor("#00ff33");
-        customDialog.setConfirmText("Yes");
-        customDialog.setCancelText("No");
+        customDialog.setMaxTimeShowPopup(60);
         return customDialog;
     }
 }

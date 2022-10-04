@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="br.com.uol.pagseguro.smartcoffee"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.uol.pagseguro.smartcoffee">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <permission android:name="br.com.br.com.permission.MANAGE_PAYMENTS"/>
+    <permission android:name="br.com.br.com.permission.MANAGE_PAYMENTS" />
 
     <application
         android:allowBackup="true"
@@ -15,19 +15,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".ApplicationSelectorActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".demo.DemoInternoActivity">
             <intent-filter>
-                <action android:name="br.com.uol.pagseguro.PAYMENT"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="br.com.uol.pagseguro.PAYMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".payments.credit.CreditPaymentActivity" />
+        <activity android:name=".payments.installments.SelectInstallmentActivity" />
+        <activity android:name=".payments.qrcode.QrcodeActivity" />
+        <activity android:name="br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity" />
+        <activity android:name="br.com.uol.pagseguro.smartcoffee.payments.preauto.detail.PreAutoDetailActivity" />
+
     </application>
 
 </manifest>

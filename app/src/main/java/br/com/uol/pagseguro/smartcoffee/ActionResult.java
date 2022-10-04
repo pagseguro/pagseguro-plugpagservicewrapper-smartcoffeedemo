@@ -1,18 +1,37 @@
 package br.com.uol.pagseguro.smartcoffee;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
+
 public class ActionResult {
 
-    String transactionCode;
+    private String transactionCode;
+    private String transactionId;
+    private String message;
+    private String errorCode;
 
-    String transactionId;
+    private int eventCode;
+    private int result=0;
 
-    String message;
+    private PlugPagTransactionResult transactionResult;
 
-    int eventCode;
+    public void ActionResult(
+            PlugPagTransactionResult transactionResult
+    ) {
+        this.transactionCode = transactionResult.getTransactionCode();
+        this.transactionId = transactionResult.getTransactionId();
+        this.transactionResult = transactionResult;
+    }
 
-    String errorCode;
+    public void ActionResult(
+            String transactionCode,
+            String transactionId,
+            PlugPagTransactionResult transactionResult
+    ) {
+        this.transactionCode = transactionCode;
+        this.transactionId = transactionId;
+        this.transactionResult = transactionResult;
+    }
 
-    int result=0;
 
     public String getTransactionCode() {
         return transactionCode;
@@ -60,5 +79,13 @@ public class ActionResult {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public PlugPagTransactionResult getTransactionResult() {
+        return transactionResult;
+    }
+
+    public void setTransactionResult(PlugPagTransactionResult transactionResult) {
+        this.transactionResult = transactionResult;
     }
 }

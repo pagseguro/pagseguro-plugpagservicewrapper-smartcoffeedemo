@@ -1,20 +1,29 @@
 package br.com.uol.pagseguro.smartcoffee.demo;
 
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CREDIT_VALUE;
+
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.widget.TextView;
-
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
-
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.inject.Inject;
-
-import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerDemoInternoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DemoInternoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
+import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
+import br.com.uol.pagseguro.smartcoffee.payments.qrcode.QrcodeActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.BindView;
@@ -23,20 +32,13 @@ import butterknife.OnClick;
 
 public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoInternoPresenter> implements DemoInternoContract {
 
-    private static final double COFFEE_VALUE = 1.50;
-
-    private int coffeeAmount = 1;
-
     CustomDialog dialog;
 
     @Inject
     DemoInternoComponent mInjector;
 
-    @BindView(R.id.txtCoffeeAmount)
-    TextView mCoffeeAmountTextview;
-
     @BindView(R.id.txtTotalValue)
-    TextView mTotalValue;
+    EditText mTotalValue;
     private boolean shouldShowDialog;
 
     private boolean mCanClick = true;
@@ -51,10 +53,40 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coffee_selection);
         ButterKnife.bind(this);
+        initPropertiesAndListeners();
+    }
+
+    private void initPropertiesAndListeners() {
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(cancelListener);
+        mTotalValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //DoNothing
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String typed = onlyDigits(charSequence.toString());
+                if (!TextUtils.isEmpty(typed)) {
+                    mTotalValue.removeTextChangedListener(this);
+                    double converted = Double.parseDouble(typed) / 100;
+                    String convertedString = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(converted);
+                    mTotalValue.setText(convertedString);
+                    mTotalValue.setSelection(convertedString.length());
+                    mTotalValue.addTextChangedListener(this);
+                } else {
+                    mTotalValue.setText("0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //DoNothing
+            }
+        });
     }
+
 
     @NonNull
     @Override
@@ -62,43 +94,22 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         return mInjector.presenter();
     }
 
-    @OnClick(R.id.btnMinus)
-    public void onMinusClicked() {
-        if (coffeeAmount <= 1) {
-            return;
-        }
-
-        coffeeAmount--;
-        mCoffeeAmountTextview.setText(getResources().getQuantityString(R.plurals.coffe_amount, coffeeAmount, coffeeAmount));
-        setValue(mTotalValue, false);
-    }
-
-    @OnClick(R.id.btnPlus)
-    public void onPlusClicked() {
-        coffeeAmount++;
-        mCoffeeAmountTextview.setText(getResources().getQuantityString(R.plurals.coffe_amount, coffeeAmount, coffeeAmount));
-        setValue(mTotalValue, true);
-    }
-
-    private void setValue(TextView textView, Boolean shouldAdd) {
-        String currentValue = textView.getText().toString();
-        String formatedCurrentValue = currentValue.replace(",", ".").replace("R$ ", "");
-        double newValue = Double.valueOf(formatedCurrentValue) + (shouldAdd ? COFFEE_VALUE : -COFFEE_VALUE);
-        mTotalValue.setText(getString(R.string.total_amount, newValue));
+    private static String onlyDigits(String textValue) {
+        return textValue.replaceAll("[^\\d]", "");
     }
 
     private int getValue() {
-        return Integer.valueOf(mTotalValue.getText().toString().replace("R$ ", "").replace(",", ""));
+        return Integer.parseInt(mTotalValue.getText().toString().replaceAll("[^0-9]*", ""));
     }
 
-    @OnClick(R.id.btnCredit)
-    public void onCreditClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().creditPayment(getValue());
+    @OnClick(R.id.txtTotalValue)
+    public void onAmmountClicked() {
+        openKeyboard();
+    }
+
+    private void openKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mTotalValue, InputMethodManager.SHOW_FORCED);
     }
 
     @OnClick(R.id.btnDebit)
@@ -111,6 +122,23 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         getPresenter().doDebitPayment(getValue());
     }
 
+    @OnClick(R.id.btnDebitCarne)
+    public void onDebitCarneClicked() {
+        if (!mCanClick) {
+            return;
+        }
+        mCanClick = false;
+        shouldShowDialog = true;
+        getPresenter().doDebitCarnePayment(getValue());
+    }
+
+    @OnClick(R.id.btnCredit)
+    public void onCreditClicked() {
+        Intent intent = new Intent(this, CreditPaymentActivity.class);
+        intent.putExtra(CREDIT_VALUE, getValue());
+        startActivity(intent);
+    }
+
     @OnClick(R.id.btnVoucher)
     public void onVoucherClicked() {
         if (!mCanClick) {
@@ -121,7 +149,30 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         getPresenter().doVoucherPayment(getValue());
     }
 
-    @OnClick(R.id.btn_lasttransaction)
+    @OnClick(R.id.btnQRCode)
+    public void onQRCodeClicked() {
+        Intent intent = new Intent(this, QrcodeActivity.class);
+        intent.putExtra(QrcodeActivity.TAG, getValue());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btnPix)
+    public void onPixClicked() {
+        if (!mCanClick) {
+            return;
+        }
+        mCanClick = false;
+        shouldShowDialog = true;
+        getPresenter().pixPayment(getValue());
+    }
+
+    @OnClick(R.id.btn_pre_auto)
+    public void onClickPreAuto() {
+        Intent intent = new PreAutoActivity().getStartIntent(getApplicationContext(), getValue());
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btnLastTransaction)
     public void lastTransaction() {
         shouldShowDialog = true;
         getPresenter().getLastTransaction();
@@ -161,6 +212,11 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     }
 
     @Override
+    public void setPaymentValue(String value) {
+        mTotalValue.setText(value);
+    }
+
+    @Override
     public void showMessage(String message) {
         if (shouldShowDialog && !dialog.isShowing()) {
             dialog.show();
@@ -190,13 +246,8 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     @Override
     public void showActivationDialog() {
         ActivationDialog dialog = new ActivationDialog();
-        dialog.setOnDismissListener(new DismissListener() {
-            @Override
-            public void onDismiss(String activationCode) {
-                getPresenter().activate(activationCode);
-            }
-        });
-        dialog.show(getSupportFragmentManager(), "dialog");
+        dialog.setOnDismissListener(activationCode -> getPresenter().activate(activationCode));
+        dialog.show(getSupportFragmentManager(), CreditPaymentActivity.ACTIVATION_DIALOG);
     }
 
     DialogInterface.OnCancelListener cancelListener = dialogInterface -> {

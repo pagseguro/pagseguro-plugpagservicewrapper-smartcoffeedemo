@@ -22,13 +22,23 @@
     <string name="auth_is_authenticated">Terminal ativo</string>
 
     <!-- TRANSACTIONS -->
-    <string name="btn_smartpos_credit">Crédito à vista</string>
-    <string name="btn_smartpos_credit_with_seller_installments">Crédito parcelado vendedor</string>
-    <string name="btn_smartpos_credit_with_buyer_installments">Crédito parcelado comprador</string>
-    <string name="btn_smartpos_debit">Débito</string>
-    <string name="btn_smartpos_voucher">Voucher</string>
-    <string name="btn_smartpos_void_payment">Estorno</string>
-    <string name="btn_smartpos_void_abortar">Abortar</string>
+    <string name="text_credit">Crédito</string>
+    <string name="text_credit_in_cash">Crédito à vista</string>
+    <string name="text_credit_seller_installments">Crédito parcelado vendedor</string>
+    <string name="text_credit_buyer_installments">Crédito parcelado comprador</string>
+    <string name="text_credit_carne">Crédito Carnê</string>
+    <string name="text_debit">Débito</string>
+    <string name="text_debit_carne">Débito Carnê</string>
+    <string name="text_qrcode">QRCODE</string>
+    <string name="text_qrcode_cash_debit">QR Code à vista - Débito</string>
+    <string name="text_qrcode_cash_credit">QR Code à vista - Crédito</string>
+    <string name="text_qrcode_seller_installments">QR Code Parcelado Vendedor</string>
+    <string name="text_qrcode_buyer_installments">QR Code Parcelado Comprador</string>
+    <string name="btn_smartpos_refund_qr_code">Estornar QrCode</string>
+    <string name="text_voucher">Voucher</string>
+    <string name="text_pix">Pix</string>
+    <string name="text_refund">Estorno</string>
+    <string name="text_abortar">Abortar</string>
     <string name="btn_smartpos_query">Consulta</string>
     <string name="btn_smartpos_print_customer">Via do Cliente</string>
     <string name="btn_smartpos_print_stablishment">Via do Establecimento</string>
@@ -39,7 +49,8 @@
     <!-- NFC -->
     <string name="nfc_read_card">Ler cartão</string>
     <string name="nfc_write_card">Escrever no cartão</string>
-    <string name="nfc_abort">Abortar</string>
+    <string name="write_nfc">Escrita NFC</string>
+    <string name="read_nfc">Leitura NFC</string>
 
     <!-- PRINTER -->
     <string name="printer_print_file">Imprimir arquivo</string>
@@ -47,19 +58,77 @@
     <string name="printer_print_failure">Houve um erro na impressão</string>
 
     <!-- DEMO INTERNO -->
-    <plurals name="coffe_amount">
-        <item quantity="one">%1$d Café</item>
-        <item quantity="other">%1$d Cafés</item>
-    </plurals>
-    <string name="button_plus">+</string>
-    <string name="button_minus">-</string>
     <string name="button_pay">PAGAR</string>
     <string name="total_amount">R$ %1$.2f</string>
-    <string name="credit">Crédito</string>
-    <string name="debit">Débito</string>
-    <string name="voucher">Voucher</string>
     <string name="refund">Estornar última transação</string>
     <string name="close">Fechar</string>
+    <string name="ok">OK</string>
     <string name="btn_smartpos_last_transaction">Buscar última transação</string>
+    <string name="btn_smartpos_get_card_data">Buscar dados do cartão</string>
+    <string name="btn_smartpos_reboot">Reboot</string>
+    <string name="btn_smartpos_start_onboarding">Abrir onboarding</string>
+    <string name="reprint_customer_receipt">Reimprimir via cliente</string>
+    <string name="reprint_stablishment_receipt">Reimprimir via estabelecimento</string>
+    <string name="main_demo">Demo Interno</string>
+    <string name="main_all_functionalities">Todas Funcionalidades</string>
+    <string name="main_demo_simplified">Demo Simplificado</string>
+    <string name="text_error_select_installment">Erro na opção selecionada</string>
+    <string name="text_invalid_operation">Operação inválida</string>
+    <string name="text_not_selected_installment">Não foi selecionado nenhuma quantidade de parcelas</string>
+    <string name="text_select_installment">Selecione a parcela</string>
+    <string name="txt_installments_invalid_message">O valor da parcela deve ser ao menos R$5,00</string>
+    <string name="default_value">R$ 0,00</string>
+    <string name="default_zero_value">0,00</string>
+    <string name="text_senha">SENHA</string>
+    <string name="text_incorreta">INCORRETA</string>
+
+    <!-- PRÉ-AUTORIZAÇÃO -->
+    <string name="btn_smartpos_effectuate_pre_auto">Efetivar pré autorização</string>
+    <string name="btn_smartpos_pre_auto">Pré autorização</string>
+    <string name="btn_pre_auto_dig_data">Consultar PreAuto Digitada</string>
+    <string name="btn_pre_auto_dig_create_in_cash">Criar Pre Digitada à Vista</string>
+    <string name="btn_pre_auto_dig_cancel">Cancelar PreAuto Digitada</string>
+    <string name="btn_pre_auto_dig_effectuate">Efetivar PreAuto Digitada</string>
+    <string name="credit_card">0000 0000 0000 0000</string>
+    <string name="exp_date">MMAA</string>
+    <string name="cvv">CVV</string>
+    <string name="date">DDMMAAAA</string>
+    <string name="cv">CV</string>
+    <string name="text_a_vista">À VISTA</string>
+    <string name="text_a_prazo">À PRAZO</string>
+    <string name="txt_preauto_cv">CV</string>
+    <string name="txt_preauto_amount">Amount</string>
+    <string name="txt_preauto_card_brand">Card brand</string>
+    <string name="txt_preauto_holder">Holder</string>
+    <string name="txt_preauto_date">Date</string>
+    <string name="txt_preauto_detail_title">Informações de Pré autorização</string>
+    <string name="text_value_pre_auto">Valor pré autorização</string>
+    <string name="value_pre_auto_created">Confirmar valor desejado:</string>
+    <string name="btn_smartpos_preauto">Pre Autorização</string>
+    <string name="btn_smartpos_preauto_digitado">Pre Digitado</string>
+    <string name="btn_pre_auto_create">Criar à vista</string>
+    <string name="btn_pre_auto_create_installments">Criar à prazo</string>
+    <string name="pre_auto_dig_create_installments">Criar Pre digitado à prazo </string>
+    <string name="btn_pre_auto_effectuate">Efetivar</string>
+    <string name="btn_pre_auto_effectuate_keying">Efetivar pre auto digitada</string>
+    <string name="btn_pre_auto_cancelar">Cancelar</string>
+    <string name="pre_auto_dig_cancelar">Cancelar Pre digitado</string>
+    <string name="btn_pre_auto_report">Relatório</string>
+    <string name="text_btn_consulta_preauto_dig">Consultar Pre Auto Digitado</string>
+    <string name="text_btn_consulta_preauto">Consultar</string>
+    <string name="txt_preauto_auto">Auto</string>
+    <string name="txt_preauto_holder_name">Holder name</string>
+    <string name="txt_preauto_nsu">NSU</string>
+    <string name="txt_preauto_payment_type">Payment type</string>
+    <string name="txt_preauto_transaction_type">Type transaction</string>
+    <string name="txt_preauto_transaction_id">Transaction Id</string>
+    <string name="txt_preauto_transaction_code">Transaction Code</string>
+    <string name="txt_preauto_terminal_serial">Terminal serial</string>
+    <string name="txt_installments">Installments</string>
+    <string name="preauto_cancel_successful">Pré autorização foi cancelado com sucesso</string>
+    <string name="txt_not_value">Sem valor</string>
+    <string name="txt_error_code">Código de erro desconhecido</string>
+    <string name="txt_msg_default_error">Houve um erro inesperado..</string>
+    <string name="txt_confirm">Confirmar</string>
 
 </resources>

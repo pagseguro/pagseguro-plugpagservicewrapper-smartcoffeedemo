@@ -4,7 +4,9 @@ import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -29,8 +31,16 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
         doAction(mUseCase.doCreditPayment(value), value);
     }
 
+    public void pixPayment(int value) {
+        doAction(mUseCase.doPixPayment(value), value);
+    }
+
     public void doDebitPayment(int value) {
-        doAction(mUseCase.doDebitPayment(value), value);
+        doAction(mUseCase.doDebitPayment(value, false), value);
+    }
+
+    public void doDebitCarnePayment(int value) {
+        doAction(mUseCase.doDebitPayment(value, true), value);
     }
 
     public void doVoucherPayment(int value) {
@@ -58,10 +68,15 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
                 .flatMap((Function<Boolean, ObservableSource<ActionResult>>) aBoolean -> action)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(() -> getView().showTransactionSuccess())
-                .doOnDispose(() -> getView().disposeDialog())
+                .doOnComplete(
+                        () -> getView().showTransactionSuccess()
+                )
+                .doOnDispose(
+                        () -> getView().disposeDialog()
+                )
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
+                            updateValue(result.getTransactionResult());
 
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
@@ -90,11 +105,11 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
             strPassword.append("*");
         }
 
-        return String.format("VALOR: %.2f\nSENHA: %s", (value / 100.0), strPassword.toString());
+        return String.format("VALOR: %.2f\nSENHA: %s", (value / 100.0), strPassword);
     }
 
     private String checkMessage(String message) {
-        if (message != null && !message.isEmpty() && message.contains("SENHA")) {
+        if (message != null && message.contains("SENHA")) {
             String[] strings = message.split("SENHA");
             return strings[0].trim();
         }
@@ -105,6 +120,14 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
     private void writeToFile(ActionResult result) {
         if (result.getTransactionCode() != null && result.getTransactionId() != null) {
             getView().writeToFile(result.getTransactionCode(), result.getTransactionId());
+        }
+    }
+
+    private void updateValue(PlugPagTransactionResult result) {
+        if (result != null && result.getResult() == PlugPag.RET_OK &&
+                result.getPartialPayRemainingAmount() != null &&
+                !result.getPartialPayRemainingAmount().isEmpty()) {
+            getView().setPaymentValue(result.getPartialPayRemainingAmount());
         }
     }
 
@@ -141,7 +164,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
     }
 
     public void getLastTransaction() {
-       mSubscribe = mUseCase.getLastTransaction()
+        mSubscribe = mUseCase.getLastTransaction()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(actionResult -> getView().showMessage(actionResult.getTransactionCode()),

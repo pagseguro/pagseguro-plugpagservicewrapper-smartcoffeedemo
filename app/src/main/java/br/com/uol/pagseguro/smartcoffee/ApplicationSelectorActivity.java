@@ -4,18 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import javax.inject.Inject;
-
 import br.com.uol.pagseguro.smartcoffee.demo.DemoInternoActivity;
-import br.com.uol.pagseguro.smartcoffee.injection.ApplicationSelectorComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ApplicationSelectorActivity extends Activity {
-
-    ApplicationSelectorComponent mInjector;
 
     @Inject
     FragmentFlowManager mFragmentFlowManager;
@@ -31,16 +26,9 @@ public class ApplicationSelectorActivity extends Activity {
         ButterKnife.bind(this);
     }
 
-
     @OnClick(R.id.btn_demo)
     public void onDemoClicked() {
         startActivity(DemoInternoActivity.class);
-    }
-
-    private void startActivity(Class<?> activity) {
-        Intent intent = new Intent(this, activity);
-        startActivity(intent);
-        finish();
     }
 
     @OnClick(R.id.btn_all_features)
@@ -48,8 +36,8 @@ public class ApplicationSelectorActivity extends Activity {
         startActivity(MainActivity.class);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void startActivity(Class<?> activity) {
+        Intent intent = new Intent(this, activity);
+        startActivity(intent);
     }
 }

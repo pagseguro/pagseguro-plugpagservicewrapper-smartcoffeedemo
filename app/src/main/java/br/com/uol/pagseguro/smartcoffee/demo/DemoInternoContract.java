@@ -21,4 +21,7 @@ interface DemoInternoContract extends MvpView{
     void showActivationDialog();
 
     void showAuthProgress(String message);
+
+    void setPaymentValue(String value);
+
 }
