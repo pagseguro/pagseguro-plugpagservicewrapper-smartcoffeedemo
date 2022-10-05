@@ -2,18 +2,21 @@ package br.com.uol.pagseguro.smartcoffee.utils;
 
 public class SmartCoffeeConstants {
 
+    //App Reference Constants
     public static final String USER_REFERENCE = "SmartCoffeDemo";
 
-    public static final int RET_OK = 1;
-    public static final int RET_WAITING_REMOVE_CARD = 2;
+    //Payments Constants
     public static final int TYPE_CREDITO = 1;
     public static final int TYPE_DEBITO = 2;
     public static final int TYPE_VOUCHER = 3;
     public static final int TYPE_QRCODE_DEBITO = 4;
-    public static final int TYPE_QRCODE_CREDITO =7;
     public static final int TYPE_PIX = 5;
-    public static final String CREDIT_VALUE = "valueCredit";
+    public static final int TYPE_QRCODE_CREDITO =7;
     public static final int VALUE_MINIMAL_INSTALLMENT = 500;
+    public static final int INSTALLMENT_TYPE_A_VISTA = 1;
+    public static final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
+    public static final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
+    public static final String CREDIT_VALUE = "valueCredit";
 
     //PlugPagStyle Constants
     public static final int HEAD_TEXT_COLOR = 0xffffffff;

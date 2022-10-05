@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.EditText
 import br.com.uol.pagseguro.smartcoffee.R
-import br.com.uol.pagseguro.smartcoffee.demo.CustomDialog
+import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.PreAutoOperation
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.PreAutoOperation.PREAUTO_KEYED
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.PreAutoOperation.PREAUTO_KEYED_CREATE
@@ -16,6 +16,7 @@ import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_N
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TOTAL_VALUE
 import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants.PREAUTO_DATA
 import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants.PREAUTO_OPERATION
+import br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_A_VISTA
 import kotlinx.android.synthetic.main.activity_pre_auto_keying.btn_cancel
 import kotlinx.android.synthetic.main.activity_pre_auto_keying.btn_ok
 import kotlinx.android.synthetic.main.activity_pre_auto_keying.tv_amount
@@ -147,7 +148,7 @@ class PreAutoKeyingActivity : AppCompatActivity() {
             txt_transaction_code.visibility = View.GONE
             txt_transaction_date.isFocusable = false
             txt_transaction_code.isFocusable = false
-            if (transactionType == InstallmentConstants.INSTALLMENT_TYPE_A_VISTA) {
+            if (transactionType == INSTALLMENT_TYPE_A_VISTA) {
                 tv_installments.text = getString(R.string.text_a_vista)
             } else {
                 val installmentText = " " + installment.toString() + "X"

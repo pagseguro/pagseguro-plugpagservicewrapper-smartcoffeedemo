@@ -1,5 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.payments.installments;
 
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +11,6 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
-import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
 import io.reactivex.Observable;
 
 public class SelectInstallmentUseCase {
@@ -35,7 +36,7 @@ public class SelectInstallmentUseCase {
         return Observable.create(emitter -> {
             List<String> result;
 
-            if (transactionType.equals(InstallmentConstants.INSTALLMENT_TYPE_PARC_VENDEDOR)) {
+            if (transactionType.equals(INSTALLMENT_TYPE_PARC_VENDEDOR)) {
                 result = calculateInstallmentsSeller(saleValue, isPreAutoKeyed);
             } else {
                 result = calculateInstallmentsBuyer(saleValue);

@@ -11,13 +11,13 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.injection.AuthComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerAuthComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> implements AuthContract, HomeFragment {
 

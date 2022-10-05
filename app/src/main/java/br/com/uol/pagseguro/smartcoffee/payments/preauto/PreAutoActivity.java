@@ -8,12 +8,12 @@ import static br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.
 import static br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.PreAutoOperation.PREAUTO_KEYED_CREATE;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_1X;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_NUMBER;
-import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_TYPE_A_VISTA;
-import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TOTAL_VALUE;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TRANSACTION_TYPE;
 import static br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants.PREAUTO_DATA;
 import static br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants.PREAUTO_OPERATION;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_A_VISTA;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,8 +30,8 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoQueryData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.demo.ActivationDialog;
-import br.com.uol.pagseguro.smartcoffee.demo.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;

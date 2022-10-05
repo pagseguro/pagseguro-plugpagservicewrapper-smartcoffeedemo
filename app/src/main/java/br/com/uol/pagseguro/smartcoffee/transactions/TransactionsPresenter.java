@@ -2,53 +2,55 @@ package br.com.uol.pagseguro.smartcoffee.transactions;
 
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
+import java.util.Random;
+
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TransactionsPresenter extends MvpNullObjectBasePresenter<TransactionsContract> {
 
-    private TransactionsUseCase mUseCase;
+    private final PaymentsUseCase mUseCase;
     private Disposable mSubscribe;
     private Boolean hasAborted = false;
     private int countPassword = 0;
 
     @Inject
-    public TransactionsPresenter(TransactionsUseCase useCase) {
+    public TransactionsPresenter(PaymentsUseCase useCase) {
         mUseCase = useCase;
     }
 
     public void creditPayment() {
-        doAction(mUseCase.doCreditPayment());
+        doAction(mUseCase.doCreditPayment(getAmount(), false));
     }
 
     public void doCreditPaymentWithSellerInstallments() {
-        doAction(mUseCase.doCreditPaymentWithSellerInstallments());
+        doAction(mUseCase.doCreditPaymentSellerInstallments(getAmount(),getInstallments()));
     }
 
     public void doCreditPaymentWithBuyerInstallments() {
-        doAction(mUseCase.doCreditPaymentWithBuyerInstallments());
+        doAction(mUseCase.doCreditPaymentBuyerInstallments(getAmount(), getInstallments()));
     }
 
     public void doDebitPayment() {
-        doAction(mUseCase.doDebitPayment());
+        doAction(mUseCase.doDebitPayment(getAmount(), false));
     }
 
     public void doVoucherPayment() {
-        doAction(mUseCase.doVoucherPayment());
+        doAction(mUseCase.doVoucherPayment(getAmount()));
     }
 
     public void doRefundPayment(ActionResult actionResult) {
         if(actionResult.getMessage() != null)  {
             getView().showError(actionResult.getMessage());
         } else {
-            doAction(mUseCase.doRefundPayment(actionResult));
+            doAction(mUseCase.doRefund(actionResult));
         }
     }
 
@@ -78,7 +80,10 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     private String checkMessagePassword(int eventCode) {
         StringBuilder strPassword = new StringBuilder();
 
-        int value = mUseCase.getEventPaymentData() != null ? mUseCase.getEventPaymentData().getAmount() : 0;
+        int value = 0;
+        if (mUseCase.getEventPaymentData() != null) {
+            value = mUseCase.getEventPaymentData().getAmount();
+        }
 
         if (eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
             countPassword++;
@@ -111,10 +116,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         mSubscribe = mUseCase.abort()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> hasAborted = true)
-                .doOnDispose(() -> hasAborted = true)
-                .subscribe(o -> getView().showAbortedSuccessfully(),
-                        throwable -> getView().showError(throwable.getMessage()));
+                .subscribe();
     }
 
     @Override
@@ -146,7 +148,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                         throwable -> getView().showError(throwable.getMessage()));
     }
 
-
     public void getLastTransaction() {
         mSubscribe = mUseCase.getLastTransaction()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -154,4 +155,13 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .subscribe(actionResult -> getView().showLastTransaction(actionResult.getTransactionCode()),
                         throwable -> getView().showError(throwable.getMessage()));
     }
+
+    private int getAmount() {
+        return new Random().nextInt(10000) + 100;
+    }
+
+    private int getInstallments() {
+        return new Random().nextInt(5) + 1;
+    }
+
 }

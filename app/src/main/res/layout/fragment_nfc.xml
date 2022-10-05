@@ -9,23 +9,26 @@
 
     <Button
         android:id="@+id/btn_nfc_read"
-        style="@style/custom_button_style"
-        android:layout_height="wrap_content"
+        style="@style/ButtonStyle"
         android:text="@string/nfc_read_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_nfc_write"
-        style="@style/custom_button_style"
-        android:layout_height="wrap_content"
+        style="@style/ButtonStyle"
         android:text="@string/nfc_write_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_nfc_read" />
 
     <Button
         android:id="@+id/btn_nfc_abort"
-        style="@style/custom_button_style"
-        android:layout_height="wrap_content"
+        style="@style/ButtonStyle"
         android:text="@string/text_abortar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_nfc_write" />
 
 </android.support.constraint.ConstraintLayout>

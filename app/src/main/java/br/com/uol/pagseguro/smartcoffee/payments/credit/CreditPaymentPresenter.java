@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,13 +19,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class CreditPaymentPresenter extends MvpNullObjectBasePresenter<CreditPaymentContract> {
 
-    private CreditPaymentUseCase mUseCase;
+    private PaymentsUseCase mUseCase;
     private Disposable mSubscribe;
     private int countPassword = 0;
     private static final String ASTERISCO = "*";
 
     @Inject
-    public CreditPaymentPresenter(CreditPaymentUseCase useCase) {
+    public CreditPaymentPresenter(PaymentsUseCase useCase) {
         this.mUseCase = useCase;
     }
 

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,12 +18,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> {
 
-    private QrcodeUseCase mUseCase;
+    private PaymentsUseCase mUseCase;
     private Disposable mSubscribe;
     private int countPassword = 0;
 
     @Inject
-    public QrcodePresenter(QrcodeUseCase useCase){
+    public QrcodePresenter(PaymentsUseCase useCase){
         this.mUseCase = useCase;
     }
 

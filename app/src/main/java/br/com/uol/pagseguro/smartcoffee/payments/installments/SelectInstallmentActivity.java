@@ -1,6 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.payments.installments;
 
 import static br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants.PREAUTO_OPERATION;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,7 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.demo.ActivationDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerSelectInstallmentComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.SelectInstallmentComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -133,7 +134,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
             if (getIntent().hasExtra(InstallmentConstants.TRANSACTION_TYPE)) {
                 mParcType = extras.getInt(InstallmentConstants.TRANSACTION_TYPE);
             } else {
-                mParcType = InstallmentConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
+                mParcType = INSTALLMENT_TYPE_PARC_VENDEDOR;
             }
         }
     }

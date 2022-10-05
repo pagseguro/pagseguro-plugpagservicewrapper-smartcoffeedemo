@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import javax.inject.Inject;
-import br.com.uol.pagseguro.smartcoffee.demo.DemoInternoActivity;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.DemoInternoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.demo;
+package br.com.uol.pagseguro.smartcoffee.demoInterno;
 
 import android.app.Dialog;
 import android.content.Context;

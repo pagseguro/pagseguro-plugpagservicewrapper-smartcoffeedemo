@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.injection;
+package br.com.uol.pagseguro.smartcoffee.demoInterno;
 
 
 import android.os.Bundle;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.demo.DismissListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

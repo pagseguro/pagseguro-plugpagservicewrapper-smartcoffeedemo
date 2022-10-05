@@ -1,16 +1,13 @@
 package br.com.uol.pagseguro.smartcoffee.injection;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
-import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentUseCase;
-import br.com.uol.pagseguro.smartcoffee.demo.DemoInternoUseCase;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
 import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentUseCase;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoUseCase;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterUseCase;
-import br.com.uol.pagseguro.smartcoffee.payments.qrcode.QrcodeUseCase;
 import dagger.Module;
 import dagger.Provides;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthUseCase;
-import br.com.uol.pagseguro.smartcoffee.transactions.TransactionsUseCase;
 import br.com.uol.pagseguro.smartcoffee.nfc.NFCUseCase;
 
 @Module
@@ -22,8 +19,8 @@ public class UseCaseModule {
     }
 
     @Provides
-    TransactionsUseCase providesTransactionsUseCase(PlugPag plugPag) {
-        return new TransactionsUseCase(plugPag);
+    PaymentsUseCase providesPaymentsUseCase(PlugPag plugPag) {
+        return new PaymentsUseCase(plugPag);
     }
 
     @Provides
@@ -37,23 +34,8 @@ public class UseCaseModule {
     }
 
     @Provides
-    DemoInternoUseCase providesDemoInternoUseCase(PlugPag plugPag) {
-        return new DemoInternoUseCase(plugPag);
-    }
-
-    @Provides
     SelectInstallmentUseCase providesSelectInstallmentUseCase(PlugPag plugPag) {
         return new SelectInstallmentUseCase(plugPag);
-    }
-
-    @Provides
-    CreditPaymentUseCase providesCreditPaymentUseCase(PlugPag plugPag){
-        return new CreditPaymentUseCase(plugPag);
-    }
-
-    @Provides
-    QrcodeUseCase providesQrcodeUseCase(PlugPag plugPag){
-        return new QrcodeUseCase(plugPag);
     }
 
     @Provides

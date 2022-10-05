@@ -1,12 +1,9 @@
 package br.com.uol.pagseguro.smartcoffee.payments.credit;
 
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_NUMBER;
-import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_TYPE_PARC_COMPRADOR;
-import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TOTAL_VALUE;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TRANSACTION_TYPE;
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CREDIT_VALUE;
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.VALUE_MINIMAL_INSTALLMENT;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.*;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -19,8 +16,8 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.demo.ActivationDialog;
-import br.com.uol.pagseguro.smartcoffee.demo.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.CreditComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerCreditComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;

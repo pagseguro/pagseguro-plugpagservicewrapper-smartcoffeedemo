@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.demo;
+package br.com.uol.pagseguro.smartcoffee.demoInterno;
 
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CREDIT_VALUE;
 

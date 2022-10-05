@@ -16,14 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ApplicationSelectorActivity">
+        <activity android:name=".ApplicationSelectorActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".demo.DemoInternoActivity">
+        <activity android:name=".demoInterno.DemoInternoActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="br.com.uol.pagseguro.PAYMENT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -36,6 +38,9 @@
         <activity android:name=".payments.qrcode.QrcodeActivity" />
         <activity android:name="br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity" />
         <activity android:name="br.com.uol.pagseguro.smartcoffee.payments.preauto.detail.PreAutoDetailActivity" />
+        <activity
+            android:name=".payments.preauto.PreAutoKeyingActivity"
+            android:exported="true" />
 
     </application>
 

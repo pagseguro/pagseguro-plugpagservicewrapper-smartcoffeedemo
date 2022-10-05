@@ -1,5 +1,9 @@
 package br.com.uol.pagseguro.smartcoffee.payments.qrcode;
 
+import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TRANSACTION_TYPE;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_COMPRADOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
+
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +16,8 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
-import br.com.uol.pagseguro.smartcoffee.demo.ActivationDialog;
-import br.com.uol.pagseguro.smartcoffee.demo.CustomDialog;
-import br.com.uol.pagseguro.smartcoffee.demo.DismissListener;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerQrcodeComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.QrcodeComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -72,17 +75,17 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
                         InstallmentConstants.INSTALLMENT_NUMBER
                 );
                 final int transactionType = data.getIntExtra(
-                        InstallmentConstants.TRANSACTION_TYPE,
+                        TRANSACTION_TYPE,
                         0
                 );
 
                 switch (transactionType) {
-                    case InstallmentConstants.INSTALLMENT_TYPE_PARC_COMPRADOR:
+                    case INSTALLMENT_TYPE_PARC_COMPRADOR:
                         getPresenter().qrCodePaymentBuyerInstallments(
                                 amount, Integer.parseInt(installmentNumber)
                         );
                         break;
-                    case InstallmentConstants.INSTALLMENT_TYPE_PARC_VENDEDOR:
+                    case INSTALLMENT_TYPE_PARC_VENDEDOR:
                         getPresenter().qrCodePaymentSellerInstallments(
                                 amount, Integer.parseInt(installmentNumber)
                         );
@@ -131,7 +134,7 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
             Intent intent = SelectInstallmentActivity.getStartIntent(
                     getApplicationContext(),
                     value,
-                    InstallmentConstants.INSTALLMENT_TYPE_PARC_COMPRADOR
+                    INSTALLMENT_TYPE_PARC_COMPRADOR
             );
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
         }
@@ -150,7 +153,7 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
             Intent intent = SelectInstallmentActivity.getStartIntent(
                     getApplicationContext(),
                     value,
-                    InstallmentConstants.INSTALLMENT_TYPE_PARC_VENDEDOR
+                    INSTALLMENT_TYPE_PARC_VENDEDOR
             );
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
         }

@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.demo.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;

@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/menu_permissions"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_permission"
         android:title="@string/menu_permissions" />
 
     <item
         android:id="@+id/menu_auth"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_autentication"
         android:title="@string/menu_auth"/>
 
     <item
         android:id="@+id/menu_transactions"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_payment"
         android:title="@string/menu_transactions"/>
 
     <item
         android:id="@+id/menu_nfc"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_nfc"
         android:title="@string/menu_nfc"/>
 
     <item
         android:id="@+id/menu_printer"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_printer"
         android:title="@string/menu_printer"/>
 
 </menu>

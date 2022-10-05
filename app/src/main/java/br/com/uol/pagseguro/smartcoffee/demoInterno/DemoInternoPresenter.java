@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.demo;
+package br.com.uol.pagseguro.smartcoffee.demoInterno;
 
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
@@ -17,18 +17,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInternoContract> {
 
-    private DemoInternoUseCase mUseCase;
+    private PaymentsUseCase mUseCase;
     private Disposable mSubscribe;
     private Boolean hasAborted = false;
     private int countPassword = 0;
 
     @Inject
-    public DemoInternoPresenter(DemoInternoUseCase useCase) {
+    public DemoInternoPresenter(PaymentsUseCase useCase) {
         mUseCase = useCase;
-    }
-
-    public void creditPayment(int value) {
-        doAction(mUseCase.doCreditPayment(value), value);
     }
 
     public void pixPayment(int value) {
