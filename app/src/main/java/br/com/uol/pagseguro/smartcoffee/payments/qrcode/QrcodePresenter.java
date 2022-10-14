@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
+import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;

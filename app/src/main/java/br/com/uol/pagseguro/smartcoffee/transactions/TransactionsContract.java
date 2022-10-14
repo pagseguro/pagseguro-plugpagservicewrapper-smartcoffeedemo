@@ -16,9 +16,9 @@ public interface TransactionsContract extends MvpView {
 
     void writeToFile(String transactionCode, String transactionId);
 
-    void showAbortedSuccessfully();
-
     void showPrintError(String message);
+
+    void showRebootSuccessfully();
 
     void showLastTransaction(String transactionCode);
 }

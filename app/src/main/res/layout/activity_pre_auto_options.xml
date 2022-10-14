@@ -17,7 +17,7 @@
         <Button
             android:id="@+id/btn_create"
             style="@style/ButtonStyle"
-            android:text="@string/btn_pre_auto_create"
+            android:text="@string/txt_pre_auto_create"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

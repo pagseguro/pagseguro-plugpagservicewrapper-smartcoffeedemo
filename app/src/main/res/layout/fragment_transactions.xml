@@ -13,12 +13,30 @@
         android:paddingBottom="@dimen/padding_16">
 
         <Button
+            android:id="@+id/btn_smartpos_preauto"
+            style="@style/ButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_preauto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
             android:id="@+id/btn_smartpos_credit"
             style="@style/ButtonStyle"
             android:text="@string/text_credit_in_cash"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_preauto" />
+
+        <Button
+            android:id="@+id/btn_smartpos_credit_carne"
+            style="@style/ButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/text_credit_carne"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_credit" />
 
         <Button
             android:id="@+id/btn_smartpos_credit_with_seller_installments"
@@ -26,7 +44,7 @@
             android:text="@string/text_credit_seller_installments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_credit" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_credit_carne" />
 
         <Button
             android:id="@+id/btn_smartpos_credit_with_buyer_installments"
@@ -34,7 +52,7 @@
             android:text="@string/text_credit_buyer_installments"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_credit_with_seller_installments" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_credit_with_seller_installments" />
 
         <Button
             android:id="@+id/btn_smartpos_debit"
@@ -42,7 +60,16 @@
             android:text="@string/text_debit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_credit_with_buyer_installments" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_credit_with_buyer_installments" />
+
+        <Button
+            android:id="@+id/btn_smartpos_debit_carne"
+            style="@style/ButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/text_debit_carne"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_debit" />
 
         <Button
             android:id="@+id/btn_smartpos_voucher"
@@ -50,7 +77,7 @@
             android:text="@string/text_voucher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_debit" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_debit_carne" />
 
         <Button
             android:id="@+id/btn_smartpos_void_payment"
@@ -58,7 +85,7 @@
             android:text="@string/text_refund"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_voucher" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_voucher" />
 
         <Button
             android:id="@+id/btn_smartpos_void_print_stablishment"
@@ -66,7 +93,7 @@
             android:text="@string/btn_smartpos_print_stablishment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_void_payment" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_void_payment" />
 
         <Button
             android:id="@+id/btn_smartpos_void_print_customer"
@@ -74,8 +101,7 @@
             android:text="@string/btn_smartpos_print_customer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_void_print_stablishment" />
-
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_void_print_stablishment" />
 
         <Button
             android:id="@+id/btn_smartpos_get_last_transaction"
@@ -83,7 +109,34 @@
             android:text="@string/btn_smartpos_last_transaction"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_smartpos_void_print_customer" />
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_void_print_customer" />
+
+        <Button
+            android:id="@+id/btn_smartpos_get_card_data"
+            style="@style/ButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_smartpos_get_card_data"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_get_last_transaction" />
+
+        <Button
+            android:id="@+id/btn_smartpos_reboot"
+            style="@style/ButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_smartpos_reboot"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_get_card_data" />
+
+        <Button
+            android:id="@+id/btn_smartpos_start_onboarding"
+            style="@style/ButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_smartpos_start_onboarding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_smartpos_reboot" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -1,9 +1,10 @@
 package br.com.uol.pagseguro.smartcoffee.injection;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
+import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentUseCase;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoUseCase;
+import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityUseCase;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterUseCase;
 import dagger.Module;
 import dagger.Provides;
@@ -41,5 +42,10 @@ public class UseCaseModule {
     @Provides
     PreAutoUseCase providesPreAutoUseCase(PlugPag plugPag) {
         return new PreAutoUseCase(plugPag);
+    }
+
+    @Provides
+    SoftwareCapabilityUseCase providesSoftwareCapabilityUseCase(PlugPag plugPag) {
+        return new SoftwareCapabilityUseCase(plugPag);
     }
 }

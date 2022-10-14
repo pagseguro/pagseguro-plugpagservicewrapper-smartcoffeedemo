@@ -10,6 +10,7 @@
 
     <!-- PERMISSIONS -->
     <string name="btn_permissions">Solicitar/Verificar permissões</string>
+    <string name="btn_swcapabilities">Verificar software capabilities</string>
     <string name="msg_all_permissions_granted">Todas permissões concedidas</string>
 
     <!-- AUTH -->
@@ -65,8 +66,8 @@
     <string name="ok">OK</string>
     <string name="btn_smartpos_last_transaction">Buscar última transação</string>
     <string name="btn_smartpos_get_card_data">Buscar dados do cartão</string>
-    <string name="btn_smartpos_reboot">Reboot</string>
-    <string name="btn_smartpos_start_onboarding">Abrir onboarding</string>
+    <string name="btn_smartpos_reboot">Reiniciar Terminal</string>
+    <string name="btn_smartpos_start_onboarding">Abrir Boas Vindas</string>
     <string name="reprint_customer_receipt">Reimprimir via cliente</string>
     <string name="reprint_stablishment_receipt">Reimprimir via estabelecimento</string>
     <string name="main_demo">Demo Interno</string>
@@ -77,6 +78,7 @@
     <string name="text_not_selected_installment">Não foi selecionado nenhuma quantidade de parcelas</string>
     <string name="text_select_installment">Selecione a parcela</string>
     <string name="txt_installments_invalid_message">O valor da parcela deve ser ao menos R$5,00</string>
+    <string name="transactions_successful_reboot">Dispositivo será rebootado</string>
     <string name="default_value">R$ 0,00</string>
     <string name="default_zero_value">0,00</string>
     <string name="text_senha">SENHA</string>
@@ -104,9 +106,9 @@
     <string name="txt_preauto_detail_title">Informações de Pré autorização</string>
     <string name="text_value_pre_auto">Valor pré autorização</string>
     <string name="value_pre_auto_created">Confirmar valor desejado:</string>
-    <string name="btn_smartpos_preauto">Pre Autorização</string>
-    <string name="btn_smartpos_preauto_digitado">Pre Digitado</string>
-    <string name="btn_pre_auto_create">Criar à vista</string>
+    <string name="txt_preauto">Pré Autorização</string>
+    <string name="txt_preauto_digitado">Pré Autorização Digitada</string>
+    <string name="txt_pre_auto_create">Criar à vista</string>
     <string name="btn_pre_auto_create_installments">Criar à prazo</string>
     <string name="pre_auto_dig_create_installments">Criar Pre digitado à prazo </string>
     <string name="btn_pre_auto_effectuate">Efetivar</string>

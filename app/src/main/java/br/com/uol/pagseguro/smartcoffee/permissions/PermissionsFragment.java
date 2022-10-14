@@ -4,25 +4,36 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hannesdorfmann.mosby.mvp.MvpFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
+import br.com.uol.pagseguro.smartcoffee.MainActivity;
+import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.injection.DaggerSoftwareCapabilityComponent;
+import br.com.uol.pagseguro.smartcoffee.injection.SoftwareCapabilityComponent;
+import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityContract;
+import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityPresenter;
+import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 
-public class PermissionsFragment extends Fragment implements HomeFragment {
+public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract, SoftwareCapabilityPresenter> implements SoftwareCapabilityContract, HomeFragment {
 
     private static final int PERMISSIONS_REQUEST_CODE = 0x1234;
+
+    @Inject
+    SoftwareCapabilityComponent mInjector;
 
     public static PermissionsFragment getInstance() {
         return new PermissionsFragment();
@@ -31,6 +42,9 @@ public class PermissionsFragment extends Fragment implements HomeFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mInjector = DaggerSoftwareCapabilityComponent.builder()
+                .mainComponent(((MainActivity) getContext()).getMainComponent())
+                .build();
         View rootView = inflater.inflate(R.layout.fragment_permissions, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
@@ -41,9 +55,14 @@ public class PermissionsFragment extends Fragment implements HomeFragment {
         requestPermissions();
     }
 
+    @OnClick(R.id.btn_softwareCapabilities)
+    public void onRequestSoftwareCapabilities() {
+        softwareCapabilities();
+    }
+
     private String[] filterMissingPermissions(String[] permissions) {
-        String[] missingPermissions = null;
-        List<String> list = null;
+        String[] missingPermissions;
+        List<String> list;
 
         list = new ArrayList<>();
 
@@ -61,15 +80,19 @@ public class PermissionsFragment extends Fragment implements HomeFragment {
     }
 
     private void requestPermissions() {
-        String[] missingPermissions = null;
+        String[] missingPermissions;
 
         missingPermissions = this.filterMissingPermissions(this.getManifestPermissions());
 
-        if (missingPermissions != null && missingPermissions.length > 0) {
+        if (missingPermissions.length > 0) {
             requestPermissions(missingPermissions, PERMISSIONS_REQUEST_CODE);
         } else {
             showMessage();
         }
+    }
+
+    private void softwareCapabilities() {
+        getPresenter().loadCapabilities();
     }
 
     private void showMessage() {
@@ -78,7 +101,7 @@ public class PermissionsFragment extends Fragment implements HomeFragment {
 
     private String[] getManifestPermissions() {
         String[] permissions = null;
-        PackageInfo info = null;
+        PackageInfo info;
 
         try {
             info = getContext().getPackageManager()
@@ -93,5 +116,25 @@ public class PermissionsFragment extends Fragment implements HomeFragment {
         }
 
         return permissions;
+    }
+
+    @Override
+    public SoftwareCapabilityPresenter createPresenter() {
+        return mInjector.presenter();
+    }
+
+    @Override
+    public void showError(String message) {
+        UIFeedback.showDialog(getContext(), message);
+    }
+
+    @Override
+    public void showLoading() {
+        UIFeedback.showDialog(getContext(), "Loading...");
+    }
+
+    @Override
+    public void showSuccess(String message) {
+        UIFeedback.showDialog(getContext(), message);
     }
 }

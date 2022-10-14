@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.PaymentsUseCase;
+import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -40,6 +40,14 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
 
     public void doDebitPayment() {
         doAction(mUseCase.doDebitPayment(getAmount(), false));
+    }
+
+    public void doDebitCarnePayment() {
+        doAction(mUseCase.doDebitPayment(getAmount(), true));
+    }
+
+    public void doCreditCarnePayment() {
+        doAction(mUseCase.doCreditPayment(getAmount(), true));
     }
 
     public void doVoucherPayment() {
@@ -97,7 +105,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
             strPassword.append("*");
         }
 
-        return String.format("VALOR: %.2f\nSENHA: %s", (value / 100.0), strPassword.toString());
+        return String.format("VALOR: %.2f\nSENHA: %s", (value / 100.0), strPassword);
     }
 
     private void writeToFile(ActionResult result) {
@@ -156,12 +164,42 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                         throwable -> getView().showError(throwable.getMessage()));
     }
 
-    private int getAmount() {
+    public int getAmount() {
         return new Random().nextInt(10000) + 100;
     }
 
     private int getInstallments() {
         return new Random().nextInt(5) + 1;
+    }
+
+    public void getCardData() {
+        mSubscribe = mUseCase.getCardData()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> getView().showMessage("Insira ou passe o cartão"))
+                .subscribe(actionResult -> getView().showMessage(actionResult.getMessage()),
+                        throwable -> getView().showError(throwable.getMessage()));
+    }
+
+    public void doReboot() {
+        mSubscribe = mUseCase.reboot()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnComplete(() -> getView().showLoading(false))
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnError(throwable -> getView().showError(throwable.getMessage()))
+                .subscribe(() -> getView().showRebootSuccessfully(),
+                        throwable -> getView().showError(throwable.getMessage())
+                );
+    }
+
+    public void doStartOnboarding() {
+        mSubscribe = mUseCase.startOnboarding()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnComplete(() -> getView().showLoading(false))
+                .subscribe();
     }
 
 }

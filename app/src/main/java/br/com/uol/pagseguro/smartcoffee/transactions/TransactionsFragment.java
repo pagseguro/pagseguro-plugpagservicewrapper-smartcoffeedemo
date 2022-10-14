@@ -1,6 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.transactions;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerTransactionsComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.TransactionsComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
+import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
@@ -49,6 +51,12 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @Override
     public TransactionsPresenter createPresenter() {
         return mInjector.presenter();
+    }
+
+    @OnClick(R.id.btn_smartpos_preauto)
+    public void onPreAutoClicked() {
+        Intent intent = new PreAutoActivity().getStartIntent(getContext(), getPresenter().getAmount());
+        startActivity(intent);
     }
 
     @OnClick(R.id.btn_smartpos_credit)
@@ -97,6 +105,30 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         getPresenter().getLastTransaction();
     }
 
+    @OnClick(R.id.btn_smartpos_reboot)
+    public void onRebootClicked() {
+        getPresenter().doReboot();
+    }
+
+    @OnClick(R.id.btn_smartpos_start_onboarding)
+    public void onStartOnboardingClicked() {
+        getPresenter().doStartOnboarding();
+    }
+
+    @OnClick(R.id.btn_smartpos_debit_carne)
+    public void onDebitCarneClicked() {
+        getPresenter().doDebitCarnePayment();
+    }
+
+    @OnClick(R.id.btn_smartpos_credit_carne)
+    public void onCreditCarneClicked() {
+        getPresenter().doCreditCarnePayment();
+    }
+
+    @OnClick(R.id.btn_smartpos_get_card_data)
+    public void onGetCardData() {
+        getPresenter().getCardData();
+    }
 
     @Override
     public void showTransactionSuccess() {
@@ -124,11 +156,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     }
 
     @Override
-    public void showAbortedSuccessfully() {
-        UIFeedback.showDialog(getContext(), R.string.transactions_successful_abort, true);
-    }
-
-    @Override
     public void showPrintError(String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
@@ -149,6 +176,11 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     public void showLastTransaction(String transactionCode) {
         UIFeedback.showDialog(getContext(), transactionCode);
+    }
+
+    @Override
+    public void showRebootSuccessfully() {
+        UIFeedback.showDialog(getContext(), R.string.transactions_successful_reboot, true);
     }
 
     @Override

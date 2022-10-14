@@ -1,7 +1,8 @@
-package br.com.uol.pagseguro.smartcoffee.demoInterno;
+package br.com.uol.pagseguro.smartcoffee.payments;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData;
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCardInfoResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
@@ -161,9 +162,9 @@ public class PaymentsUseCase {
         mPlugPagPaymentData = paymentData;
         return Observable.create(emitter -> {
             ActionResult result = new ActionResult();
+            setListener(emitter, result);
             setStyle();
             mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
-            setListener(emitter, result);
             PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(paymentData);
             sendResponse(emitter, plugPagTransactionResult, result);
         });
@@ -209,6 +210,26 @@ public class PaymentsUseCase {
         if (printResult.getResult() != 0) {
             result.setResult(printResult.getResult());
         }
+        emitter.onComplete();
+    }
+
+    private void sendResponse(
+            ObservableEmitter<ActionResult> emitter,
+            PlugPagCardInfoResult cardResult,
+            ActionResult result
+    ) {
+        if (cardResult.getResult() != null && !"0".equals(cardResult.getResult()) ||
+                cardResult.getMessage() != null && !cardResult.getMessage().isEmpty()) {
+            result.setMessage(cardResult.getMessage());
+        } else {
+            result.setMessage(
+                    "Bin: " + cardResult.getCardHolder() + "\n" +
+                            "Holder: " + cardResult.getHolder() + "\n" +
+                            "CardHolder: " + cardResult.getCardHolder()
+            );
+        }
+
+        emitter.onNext(result);
         emitter.onComplete();
     }
 
@@ -262,10 +283,30 @@ public class PaymentsUseCase {
         });
     }
 
-
-
     public PlugPagPaymentData getEventPaymentData() {
         return mPlugPagPaymentData;
+    }
+
+    public Completable reboot() {
+        return Completable.create(emitter -> {
+            mPlugPag.reboot();
+            emitter.onComplete();
+        });
+    }
+
+    public Completable startOnboarding() {
+        return Completable.create(emitter -> {
+            mPlugPag.startOnboarding();
+            emitter.onComplete();
+        });
+    }
+
+    public Observable<ActionResult> getCardData() {
+        return Observable.create(emitter -> {
+            ActionResult action = new ActionResult();
+            PlugPagCardInfoResult result = mPlugPag.getCardData();
+            sendResponse(emitter, result, action);
+        });
     }
 
     //Printer

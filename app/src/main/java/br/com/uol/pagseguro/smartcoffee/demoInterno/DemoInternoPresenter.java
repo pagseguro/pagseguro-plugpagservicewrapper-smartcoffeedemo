@@ -8,6 +8,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
+import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,9 +18,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInternoContract> {
 
-    private PaymentsUseCase mUseCase;
+    private final PaymentsUseCase mUseCase;
     private Disposable mSubscribe;
-    private Boolean hasAborted = false;
     private int countPassword = 0;
 
     @Inject
