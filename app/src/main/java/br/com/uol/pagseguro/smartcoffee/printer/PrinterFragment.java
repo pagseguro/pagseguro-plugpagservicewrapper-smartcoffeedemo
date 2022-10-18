@@ -62,6 +62,11 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
     }
 
     @Override
+    public void showFileNotFound() {
+        UIFeedback.showDialog(getContext(), "Crie o arquivo teste.jpg na pasta download para imprimir");
+    }
+
+    @Override
     public void showLoading(boolean show) {
         if (show) {
             UIFeedback.showProgress(getContext());

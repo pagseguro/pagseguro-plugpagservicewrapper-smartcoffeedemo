@@ -2,6 +2,8 @@ package br.com.uol.pagseguro.smartcoffee.printer;
 
 import android.os.Environment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Locale;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
@@ -23,17 +25,27 @@ public class PrinterUseCase {
 
     public Observable<ActionResult> printFile() {
         return Observable.create((ObservableEmitter<ActionResult> emitter) -> {
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/teste.jpg";
+            File file = new File(path);
 
             ActionResult actionResult = new ActionResult();
-            setPrintListener(emitter, actionResult);
 
-            PlugPagPrintResult result = mPlugPag.printFromFile(new PlugPagPrinterData(
-                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/goku.jpg",
-                    4,
-                    10 * 12));
 
-            if (result.getResult() != 0) {
+            if (file.exists()) {
+                PlugPagPrintResult result = mPlugPag.printFromFile(
+                        new PlugPagPrinterData(
+                                path,
+                                4,
+                                0));
+
                 actionResult.setResult(result.getResult());
+                actionResult.setMessage(result.getMessage());
+                actionResult.setErrorCode(result.getErrorCode());
+                setPrintListener(emitter, actionResult);
+
+                emitter.onNext(actionResult);
+            } else {
+                emitter.onError(new FileNotFoundException());
             }
             emitter.onComplete();
         });

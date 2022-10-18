@@ -1,6 +1,11 @@
 package br.com.uol.pagseguro.smartcoffee.printer;
 
+import android.util.Log;
+
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+
+import java.io.FileNotFoundException;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -24,9 +29,21 @@ public class PrinterPresenter extends MvpNullObjectBasePresenter<PrinterContract
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> getView().showLoading(false))
-                .subscribe(o -> getView().showSucess(),
-                        throwable -> getView().showError(throwable.getMessage()));
+                .doFinally(() -> getView().showLoading(false))
+                .subscribe(result -> {
+                            if (result.getResult() == 0) {
+                                getView().showSucess();
+                            } else {
+                                getView().showError(result.getMessage());
+                            }
+                        },
+                        throwable -> {
+                            if (throwable instanceof FileNotFoundException) {
+                                getView().showFileNotFound();
+                            } else {
+                                getView().showError(throwable.getMessage());
+                            }
+                        });
     }
 
     @Override

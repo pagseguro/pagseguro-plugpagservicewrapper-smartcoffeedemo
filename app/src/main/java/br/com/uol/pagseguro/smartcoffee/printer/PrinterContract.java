@@ -9,4 +9,6 @@ public interface PrinterContract extends MvpView{
     void showError(String message);
 
     void showLoading(boolean show);
+
+    void showFileNotFound();
 }
