@@ -18,6 +18,10 @@ public class SmartCoffeeConstants {
     public static final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
     public static final String CREDIT_VALUE = "valueCredit";
 
+    //NFC Constants
+    public static final int RET_OK = 1;
+    public static final int RET_WAITING_REMOVE_CARD = 2;
+
     //PlugPagStyle Constants
     public static final int HEAD_TEXT_COLOR = 0xffffffff;
     public static final int HEAD_BACKGROUND_COLOR = 0xff1ec390;

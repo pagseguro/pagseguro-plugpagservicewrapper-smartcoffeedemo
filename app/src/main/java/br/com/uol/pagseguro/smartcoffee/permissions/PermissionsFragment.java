@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPermissionsBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerSoftwareCapabilityComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.SoftwareCapabilityComponent;
 import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityContract;
@@ -38,6 +39,7 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
     public static PermissionsFragment getInstance() {
         return new PermissionsFragment();
     }
+    private FragmentPermissionsBinding binding;
 
     @Nullable
     @Override
@@ -45,19 +47,23 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
         mInjector = DaggerSoftwareCapabilityComponent.builder()
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
-        View rootView = inflater.inflate(R.layout.fragment_permissions, container, false);
+
+        binding = FragmentPermissionsBinding.inflate(getLayoutInflater());
+        View rootView = binding.getRoot();
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
 
-    @OnClick(R.id.btn_permissions)
-    public void onRequestPermissionsClicked() {
-        requestPermissions();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        clickButtons();
     }
 
-    @OnClick(R.id.btn_softwareCapabilities)
-    public void onRequestSoftwareCapabilities() {
-        softwareCapabilities();
+    private void clickButtons() {
+        binding.btnPermissions.setOnClickListener(click -> requestPermissions());
+        binding.btnSoftwareCapabilities.setOnClickListener(click -> softwareCapabilities());
     }
 
     private String[] filterMissingPermissions(String[] permissions) {
@@ -130,7 +136,7 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
 
     @Override
     public void showLoading() {
-        UIFeedback.showDialog(getContext(), "Loading...");
+        UIFeedback.showDialog(getContext(), R.string.txt_loading);
     }
 
     @Override

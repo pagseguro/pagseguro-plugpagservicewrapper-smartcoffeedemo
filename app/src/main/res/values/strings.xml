@@ -52,11 +52,13 @@
     <string name="nfc_write_card">Escrever no cartão</string>
     <string name="write_nfc">Escrita NFC</string>
     <string name="read_nfc">Leitura NFC</string>
+    <string name="txt_beep_error">Não foi possível realizar o beep</string>
 
     <!-- PRINTER -->
     <string name="printer_print_file">Imprimir arquivo</string>
     <string name="printer_print_success">Impressão realizada com sucesso</string>
     <string name="printer_print_failure">Houve um erro na impressão</string>
+    <string name="txt_print_test">Crie o arquivo teste.jpg na pasta download para imprimir</string>
 
     <!-- DEMO INTERNO -->
     <string name="button_pay">PAGAR</string>
@@ -83,6 +85,7 @@
     <string name="default_zero_value">0,00</string>
     <string name="text_senha">SENHA</string>
     <string name="text_incorreta">INCORRETA</string>
+    <string name="txt_loading">Carregando...</string>
 
     <!-- PRÉ-AUTORIZAÇÃO -->
     <string name="btn_smartpos_effectuate_pre_auto">Efetivar pré autorização</string>

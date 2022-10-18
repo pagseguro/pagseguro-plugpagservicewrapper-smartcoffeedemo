@@ -17,6 +17,7 @@ import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentTransactionsBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerTransactionsComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.TransactionsComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -35,6 +36,8 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         return new TransactionsFragment();
     }
 
+    private FragmentTransactionsBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,92 +45,75 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
                 .useCaseModule(new UseCaseModule())
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
+
+        binding = FragmentTransactionsBinding.inflate(getLayoutInflater());
         mInjector.inject(this);
-        View rootView = inflater.inflate(R.layout.fragment_transactions, container, false);
+        View rootView = binding.getRoot();
         ButterKnife.bind(this, rootView);
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        clickButtons();
+    }
+
+    private void clickButtons() {
+        binding.btnSmartposPreauto.setOnClickListener(click -> {
+            new PreAutoActivity();
+            Intent intent = PreAutoActivity.getStartIntent(getContext(), getPresenter().getAmount());
+            startActivity(intent);
+        });
+        binding.btnSmartposCredit.setOnClickListener(click ->
+                getPresenter().creditPayment()
+        );
+        binding.btnSmartposCreditWithSellerInstallments.setOnClickListener(click ->
+                getPresenter().doCreditPaymentWithSellerInstallments()
+        );
+        binding.btnSmartposCreditWithBuyerInstallments.setOnClickListener(click ->
+                getPresenter().doCreditPaymentWithBuyerInstallments()
+        );
+        binding.btnSmartposDebit.setOnClickListener(click ->
+                getPresenter().doDebitPayment()
+        );
+        binding.btnSmartposVoucher.setOnClickListener(click ->
+                getPresenter().doVoucherPayment()
+        );
+        binding.btnSmartposVoidPayment.setOnClickListener(click -> {
+            ActionResult actionResult = FileHelper.readFromFile(getContext());
+            getPresenter().doRefundPayment(actionResult);
+        });
+        binding.btnSmartposVoidPrintStablishment.setOnClickListener(click ->
+                getPresenter().printStablishmentReceipt()
+        );
+        binding.btnSmartposVoidPrintCustomer.setOnClickListener(click ->
+                getPresenter().printCustomerReceipt()
+        );
+        binding.btnSmartposGetLastTransaction.setOnClickListener(click ->
+                getPresenter().getLastTransaction()
+        );
+        binding.btnSmartposReboot.setOnClickListener(click ->
+                getPresenter().doReboot()
+        );
+        binding.btnSmartposStartOnboarding.setOnClickListener(click ->
+                getPresenter().doStartOnboarding()
+        );
+        binding.btnSmartposDebitCarne.setOnClickListener(click ->
+                getPresenter().doDebitCarnePayment()
+        );
+        binding.btnSmartposCreditCarne.setOnClickListener(click ->
+                getPresenter().doCreditCarnePayment()
+        );
+        binding.btnSmartposGetCardData.setOnClickListener(click ->
+                getPresenter().getCardData()
+        );
     }
 
     @Override
     public TransactionsPresenter createPresenter() {
         return mInjector.presenter();
-    }
-
-    @OnClick(R.id.btn_smartpos_preauto)
-    public void onPreAutoClicked() {
-        Intent intent = new PreAutoActivity().getStartIntent(getContext(), getPresenter().getAmount());
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btn_smartpos_credit)
-    public void onCreditClicked() {
-        getPresenter().creditPayment();
-    }
-
-    @OnClick(R.id.btn_smartpos_credit_with_seller_installments)
-    public void onCreditWithSellerInstallmentsClicked() {
-        getPresenter().doCreditPaymentWithSellerInstallments();
-    }
-
-    @OnClick(R.id.btn_smartpos_credit_with_buyer_installments)
-    public void onCreditWithBuyerInstallmentsClicked() {
-        getPresenter().doCreditPaymentWithBuyerInstallments();
-    }
-
-    @OnClick(R.id.btn_smartpos_debit)
-    public void onDebitClicked() {
-        getPresenter().doDebitPayment();
-    }
-
-    @OnClick(R.id.btn_smartpos_voucher)
-    public void onVoucherClicked() {
-        getPresenter().doVoucherPayment();
-    }
-
-    @OnClick(R.id.btn_smartpos_void_payment)
-    public void onRefundClicked() {
-        ActionResult actionResult = FileHelper.readFromFile(getContext());
-        getPresenter().doRefundPayment(actionResult);
-    }
-
-    @OnClick(R.id.btn_smartpos_void_print_stablishment)
-    public void onPrintStablishmentClicked() {
-        getPresenter().printStablishmentReceipt();
-    }
-
-    @OnClick(R.id.btn_smartpos_void_print_customer)
-    public void onPrintCustomerClicked() {
-        getPresenter().printCustomerReceipt();
-    }
-
-    @OnClick(R.id.btn_smartpos_get_last_transaction)
-    public void onGetLastApprovedTransaction() {
-        getPresenter().getLastTransaction();
-    }
-
-    @OnClick(R.id.btn_smartpos_reboot)
-    public void onRebootClicked() {
-        getPresenter().doReboot();
-    }
-
-    @OnClick(R.id.btn_smartpos_start_onboarding)
-    public void onStartOnboardingClicked() {
-        getPresenter().doStartOnboarding();
-    }
-
-    @OnClick(R.id.btn_smartpos_debit_carne)
-    public void onDebitCarneClicked() {
-        getPresenter().doDebitCarnePayment();
-    }
-
-    @OnClick(R.id.btn_smartpos_credit_carne)
-    public void onCreditCarneClicked() {
-        getPresenter().doCreditCarnePayment();
-    }
-
-    @OnClick(R.id.btn_smartpos_get_card_data)
-    public void onGetCardData() {
-        getPresenter().getCardData();
     }
 
     @Override

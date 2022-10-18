@@ -13,11 +13,11 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentAuthBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.AuthComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerAuthComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> implements AuthContract, HomeFragment {
 
@@ -27,6 +27,7 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
     public static AuthFragment getInstance() {
         return new AuthFragment();
     }
+    private FragmentAuthBinding binding;
 
     @Nullable
     @Override
@@ -35,25 +36,24 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
         mInjector.inject(this);
-        View rootView = inflater.inflate(R.layout.fragment_auth, container, false);
+
+        binding = FragmentAuthBinding.inflate(getLayoutInflater());
+        View rootView = binding.getRoot();
         ButterKnife.bind(this, rootView);
 
         return rootView;
     }
 
-    @OnClick(R.id.btn_authentication_check)
-    public void onCheckAuthClicked() {
-        getPresenter().checkIsAuthenticated();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        clickButtons();
     }
 
-    @OnClick(R.id.btn_authentication_request)
-    public void onRequestAuthClicked() {
-        getPresenter().requestAuth();
-    }
-
-    @OnClick(R.id.btn_authentication_invalidate)
-    public void deactivate() {
-        getPresenter().deactivate();
+    private void clickButtons() {
+        binding.btnAuthenticationCheck.setOnClickListener(click -> getPresenter().checkIsAuthenticated());
+        binding.btnAuthenticationRequest.setOnClickListener(click -> getPresenter().requestAuth());
+        binding.btnAuthenticationInvalidate.setOnClickListener(click -> getPresenter().deactivate());
     }
 
     @Override

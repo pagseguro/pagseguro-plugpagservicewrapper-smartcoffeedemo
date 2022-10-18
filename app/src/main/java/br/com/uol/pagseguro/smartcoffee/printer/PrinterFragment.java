@@ -12,6 +12,8 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPermissionsBinding;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPrinterBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPrinterComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PrinterComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -26,6 +28,7 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
     public static PrinterFragment getInstance() {
         return new PrinterFragment();
     }
+    private FragmentPrinterBinding binding;
 
     @Nullable
     @Override
@@ -35,20 +38,28 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .useCaseModule(new UseCaseModule())
                 .build();
+
+        binding = FragmentPrinterBinding.inflate(getLayoutInflater());
         mInjector.inject(this);
-        View rootview = inflater.inflate(R.layout.fragment_printer, container, false);
+        View rootview = binding.getRoot();
         ButterKnife.bind(this, rootview);
+
         return rootview;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        clickButtons();
+    }
+
+    private void clickButtons() {
+        binding.btnPrint.setOnClickListener(click -> getPresenter().printFile());
     }
 
     @Override
     public PrinterPresenter createPresenter() {
         return mInjector.presenter();
-    }
-
-    @OnClick(R.id.btn_print)
-    public void onPrintFileClicked() {
-        getPresenter().printFile();
     }
 
     @Override
@@ -63,7 +74,7 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
 
     @Override
     public void showFileNotFound() {
-        UIFeedback.showDialog(getContext(), "Crie o arquivo teste.jpg na pasta download para imprimir");
+        UIFeedback.showDialog(getContext(), R.string.txt_print_test);
     }
 
     @Override
