@@ -39,7 +39,6 @@
     <string name="text_voucher">Voucher</string>
     <string name="text_pix">Pix</string>
     <string name="text_refund">Estorno</string>
-    <string name="text_abortar">Abortar</string>
     <string name="btn_smartpos_query">Consulta</string>
     <string name="btn_smartpos_print_customer">Via do Cliente</string>
     <string name="btn_smartpos_print_stablishment">Via do Establecimento</string>
@@ -48,11 +47,29 @@
     <string name="no_transaction_to_refund">Não há transação a ser estornada.</string>
 
     <!-- NFC -->
+    <string name="txt_nfc">NFC</string>
     <string name="nfc_read_card">Ler cartão</string>
     <string name="nfc_write_card">Escrever no cartão</string>
+    <string name="nfc_write_directly">Escrita NFC Bloco B</string>
+    <string name="nfc_auth_card_directly">Autenticação NFC Direta</string>
+    <string name="nfc_auth_bloco_b">Autenticação NFC Bloco B</string>
     <string name="write_nfc">Escrita NFC</string>
     <string name="read_nfc">Leitura NFC</string>
+    <string name="apdu_read_card">Leitura APDU</string>
+    <string name="nfc_detect_card_directly">Detectar Cartão</string>
+    <string name="nfc_detect_remove_card_directly">Detectar Remoção Cartão</string>
+    <string name="txt_abort_nfc">Abortar Operação NFC</string>
+
+    <!-- BEEP E LEDS -->
+    <string name="txt_beep_leds">Beep e Leds</string>
+    <string name="txt_beep_success">Beep realizado com sucesso</string>
     <string name="txt_beep_error">Não foi possível realizar o beep</string>
+    <string name="txt_play_beep">Reproduzir Beep</string>
+    <string name="nfc_led_blue">Ligar Led Azul</string>
+    <string name="nfc_led_green">Ligar Led Verde</string>
+    <string name="nfc_led_red">Ligar Led Vermelho</string>
+    <string name="nfc_led_yellow">Ligar Led Amarelo</string>
+    <string name="nfc_led_off">Desligar Led</string>
 
     <!-- PRINTER -->
     <string name="printer_print_file">Imprimir arquivo</string>

@@ -21,6 +21,25 @@ public class SmartCoffeeConstants {
     //NFC Constants
     public static final int RET_OK = 1;
     public static final int RET_WAITING_REMOVE_CARD = 2;
+    public static final String NFC_START_FAIL = "Ocorreu um erro ao iniciar o serviço nfc: ";
+    public static final String APDU_COMMAND_FAIL = "Ocorreu um erro no comando APDU: ";
+    public static final String WAITING_REMOVE_CARD = "Aguardando a remoção do cartão...";
+    public static final String REMOVED_CARD = "Cartão removido com sucesso";
+    public static final String CARD_NOT_REMOVED = "Cartão removido com sucesso";
+    public static final String AUTH_CARD_SUCCESS = "Cartão autenticado com sucesso";
+    public static final String AUTH_BLOCK_B_CARD_SUCCESS = "Autenticado com sucesso com o cartão bloco B";
+    public static final String CARD_DETECTED_SUCCESS = "Cartão detectado com sucesso - cid: ";
+    public static final String VALUE_RESULT = "Valor do result: ";
+    public static final String NO_NEAR_FIELD_FOUND = "No Near Field Card found";
+    public static final String CARD_NOT_FOUND = "Cartão não identificado ";
+    public static final String TEST_16_BYTES = "teste_com16bytes";
+
+    //LED and Beep Constants
+    public static final String LED_ON_SUCCESS = "Led ligado com sucesso";
+    public static final String LED_OFF_SUCCESS = "Led desligado com sucesso";
+    public static final String LED_FAIL = "Não foi possível setar o led";
+    public static final String BEEP_SUCCESS = "Beep realizado com sucesso";
+    public static final String BEEP_FAIL = "Não foi possível realizar o beep";
 
     //PlugPagStyle Constants
     public static final int HEAD_TEXT_COLOR = 0xffffffff;
