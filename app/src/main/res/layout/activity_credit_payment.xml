@@ -36,14 +36,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_credit_buyer" />
 
-        <Button
-            android:id="@+id/btn_credit_carne"
-            style="@style/ButtonStyle"
-            android:text="@string/text_credit_carne"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_credit_seller" />
-
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

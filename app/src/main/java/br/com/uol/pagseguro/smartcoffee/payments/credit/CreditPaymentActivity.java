@@ -126,14 +126,6 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         binding.btnCreditSeller.setOnClickListener(click ->
                 startInstallmentActivity(INSTALLMENT_TYPE_PARC_VENDEDOR)
         );
-        binding.btnCreditCarne.setOnClickListener(click -> {
-            if (!mCanClick) {
-                return;
-            }
-            mCanClick = false;
-            shouldShowDialog = true;
-            getPresenter().creditCarnePayment(value);
-        });
     }
 
     private void getCreditValue(Bundle extras) {

@@ -33,10 +33,6 @@ public class CreditPaymentPresenter extends MvpNullObjectBasePresenter<CreditPay
         doAction(mUseCase.doCreditPayment(value, false), value);
     }
 
-    public void creditCarnePayment(int value) {
-        doAction(mUseCase.doCreditPayment(value, true), value);
-    }
-
     public void creditPaymentBuyerInstallments(int value, int installments) {
         doAction(mUseCase.doCreditPaymentBuyerInstallments(value, installments), value);
     }

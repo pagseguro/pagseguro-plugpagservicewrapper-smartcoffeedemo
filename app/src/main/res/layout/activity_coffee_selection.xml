@@ -47,12 +47,20 @@
             app:layout_constraintTop_toBottomOf="@id/btnDebitCarne" />
 
         <Button
+            android:id="@+id/btn_credit_carne"
+            style="@style/ButtonStyle"
+            android:text="@string/text_credit_carne"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCredit" />
+
+        <Button
             android:id="@+id/btnVoucher"
             style="@style/ButtonStyle"
             android:text="@string/text_voucher"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnCredit" />
+            app:layout_constraintTop_toBottomOf="@id/btn_credit_carne" />
 
         <Button
             android:id="@+id/btnQRCode"

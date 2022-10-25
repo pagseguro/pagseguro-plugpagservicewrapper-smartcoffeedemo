@@ -117,6 +117,14 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
             intent.putExtra(CREDIT_VALUE, getValue());
             startActivity(intent);
         });
+        binding.btnCreditCarne.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().creditCarnePayment(getValue());
+        });
         binding.btnVoucher.setOnClickListener(click -> {
             if (!mCanClick) {
                 return;

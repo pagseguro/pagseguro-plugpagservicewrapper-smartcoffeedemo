@@ -39,6 +39,10 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
         doAction(mUseCase.doDebitPayment(value, true), value);
     }
 
+    public void creditCarnePayment(int value) {
+        doAction(mUseCase.doCreditPayment(value, true), value);
+    }
+
     public void doVoucherPayment(int value) {
         doAction(mUseCase.doVoucherPayment(value), value);
     }
