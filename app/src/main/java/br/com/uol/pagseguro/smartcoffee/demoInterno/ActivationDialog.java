@@ -3,7 +3,6 @@ package br.com.uol.pagseguro.smartcoffee.demoInterno;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,28 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import br.com.uol.pagseguro.smartcoffee.R;
-import butterknife.BindView;
+import br.com.uol.pagseguro.smartcoffee.databinding.DialogInputBinding;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ActivationDialog extends DialogFragment {
 
-    @BindView(R.id.edittext_input)
-    TextInputEditText mTextInputEditText;
-
-    @OnClick(R.id.button_confirm)
-    public void onConfirmClicked() {
-        mOnDismissListener.onDismiss(mTextInputEditText.getText() != null ? mTextInputEditText.getText().toString() : "");
-        dismiss();
-    }
-
     private DismissListener mOnDismissListener;
+    private DialogInputBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.dialog_input, container, false);
+        binding = DialogInputBinding.inflate(getLayoutInflater());
+        View rootview = binding.getRoot();
         ButterKnife.bind(this, rootview);
         return rootview;
     }
@@ -40,6 +30,19 @@ public class ActivationDialog extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        clickButtons();
+    }
+
+    private void clickButtons() {
+        binding.buttonConfirm.setOnClickListener(
+                click -> {
+                    mOnDismissListener.onDismiss(
+                            binding.textinputlayout.getEditText().getText() != null ?
+                                    binding.textinputlayout.getEditText().getText().toString() : ""
+                    );
+                    dismiss();
+                }
+        );
     }
 
     public void setOnDismissListener(DismissListener onDismissListener) {

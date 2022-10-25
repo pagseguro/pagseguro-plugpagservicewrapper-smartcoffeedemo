@@ -1,5 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.transactions;
 
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.PAYMENT_CARD_MESSAGE;
+
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import java.util.Random;
@@ -176,7 +178,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         mSubscribe = mUseCase.getCardData()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnSubscribe(disposable -> getView().showMessage("Insira ou passe o cartão"))
+                .doOnSubscribe(disposable -> getView().showMessage(PAYMENT_CARD_MESSAGE))
                 .subscribe(actionResult -> getView().showMessage(actionResult.getMessage()),
                         throwable -> getView().showError(throwable.getMessage()));
     }

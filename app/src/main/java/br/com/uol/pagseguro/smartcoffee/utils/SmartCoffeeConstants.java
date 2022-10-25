@@ -17,6 +17,7 @@ public class SmartCoffeeConstants {
     public static final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
     public static final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;
     public static final String CREDIT_VALUE = "valueCredit";
+    public static final String PAYMENT_CARD_MESSAGE = "Aproxime, insira ou passe o cartão";
 
     //NFC Constants
     public static final int RET_OK = 1;

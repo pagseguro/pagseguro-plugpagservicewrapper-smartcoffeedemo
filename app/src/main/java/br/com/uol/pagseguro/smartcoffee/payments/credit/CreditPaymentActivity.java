@@ -3,7 +3,10 @@ package br.com.uol.pagseguro.smartcoffee.payments.credit;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_NUMBER;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TOTAL_VALUE;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TRANSACTION_TYPE;
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.*;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CREDIT_VALUE;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_COMPRADOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.VALUE_MINIMAL_INSTALLMENT;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -16,6 +19,7 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityCreditPaymentBinding;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.CreditComponent;
@@ -26,13 +30,13 @@ import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentA
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, CreditPaymentPresenter>
         implements CreditPaymentContract {
 
     private int value;
     CustomDialog dialog;
+    private ActivityCreditPaymentBinding binding;
 
     private static final int LAUNCH_INSTALLMENTS_ACTIVITY = 1;
     public static final String ACTIVATION_DIALOG = "dialog";
@@ -46,8 +50,13 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         daggerInitializer();
-        super.onCreate(savedInstanceState);
+        binding = ActivityCreditPaymentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        ButterKnife.bind(this);
+
+        getCreditValue(getIntent().getExtras());
         viewsInitializer();
+        super.onCreate(savedInstanceState);
     }
 
     @NonNull
@@ -100,11 +109,31 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
     }
 
     private void viewsInitializer() {
-        setContentView(R.layout.activity_credit_payment);
-        getCreditValue(getIntent().getExtras());
-        ButterKnife.bind(this);
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(cancelListener);
+
+        binding.btnCredit.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().creditPaymentInCash(value);
+        });
+        binding.btnCreditBuyer.setOnClickListener(click ->
+                startInstallmentActivity(INSTALLMENT_TYPE_PARC_COMPRADOR)
+        );
+        binding.btnCreditSeller.setOnClickListener(click ->
+                startInstallmentActivity(INSTALLMENT_TYPE_PARC_VENDEDOR)
+        );
+        binding.btnCreditCarne.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().creditCarnePayment(value);
+        });
     }
 
     private void getCreditValue(Bundle extras) {
@@ -180,36 +209,6 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
     @Override
     public void showAuthProgress(String message) {
         showDialog(message);
-    }
-
-    @OnClick(R.id.btn_credit)
-    public void qrcodeInCashClickedDebit() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().creditPaymentInCash(value);
-    }
-
-    @OnClick(R.id.btn_credit_buyer)
-    public void creditBuyerInstallmentsClicked() {
-        startInstallmentActivity(INSTALLMENT_TYPE_PARC_COMPRADOR);
-    }
-
-    @OnClick(R.id.btn_credit_seller)
-    public void creditSellerInstallmentsClicked() {
-        startInstallmentActivity(INSTALLMENT_TYPE_PARC_VENDEDOR);
-    }
-
-    @OnClick(R.id.btn_credit_carne)
-    public void creditCarneClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().creditCarnePayment(value);
     }
 
     private void startInstallmentActivity(int creditType) {

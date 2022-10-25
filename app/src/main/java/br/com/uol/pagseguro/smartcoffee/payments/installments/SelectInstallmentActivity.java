@@ -8,17 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
-
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
-
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivitySelectInstallmentBinding;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerSelectInstallmentComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.SelectInstallmentComponent;
@@ -28,7 +25,6 @@ import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentContract, SelectInstallmentPresenter>
@@ -39,9 +35,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
     private Integer mValue;
     private Integer mParcType;
     private Boolean isPreAutoKeyed = false;
-
-    @BindView(R.id.list_installments)
-    RecyclerView installmentsRecyclerView;
+    private ActivitySelectInstallmentBinding binding;
 
     @Inject
     SelectInstallmentComponent mInjector;
@@ -50,8 +44,11 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
     protected void onCreate(Bundle savedInstanceState) {
         initDI();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_installment);
-        initView();
+
+        binding = ActivitySelectInstallmentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        ButterKnife.bind(this);
+        this.setTitle(R.string.text_select_installment);
         initExtras();
     }
 
@@ -88,7 +85,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
         });
-        installmentsRecyclerView.setAdapter(adapter);
+        binding.listInstallments.setAdapter(adapter);
     }
 
     @Override
@@ -107,19 +104,11 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
     public void showAuthProgress(@Nullable String message) {
         UIFeedback.showDialog(this, message);
     }
-    // End region MVP, view implementation
 
-    // MVP, presenter creation
     @NonNull
     @Override
     public SelectInstallmentPresenter createPresenter() {
         return mInjector.presenter();
-    }
-
-    // Start region private methods
-    private void initView() {
-        ButterKnife.bind(this);
-        this.setTitle(R.string.text_select_installment);
     }
 
     private void initExtras() {

@@ -2,7 +2,6 @@ package br.com.uol.pagseguro.smartcoffee.payments.installments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,31 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
-import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.DialogInputValuePreAutoBinding;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.DismissListenerEffectivate;
 import br.com.uol.pagseguro.smartcoffee.utils.Utils;
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CustomDialogPreAutoValue extends DialogFragment {
-
-    @BindView(R.id.edittext_input) TextInputEditText mTextInputEditText;
-    @BindView(R.id.tv_value_pre_auto) TextView mTextValuePreAuto;
 
     private DismissListenerEffectivate mOnDismissListener;
     private Integer mValueTotalCreatePreAuto;
     private PlugPagTransactionResult mPlugPagTransactionResult;
+    private DialogInputValuePreAutoBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.dialog_input_value_pre_auto, container, false);
+        binding = DialogInputValuePreAutoBinding.inflate(getLayoutInflater());
+        View rootview = binding.getRoot();
         ButterKnife.bind(this, rootview);
         return rootview;
     }
@@ -44,20 +39,22 @@ public class CustomDialogPreAutoValue extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTextValuePreAuto.setText(Utils.getFormattedValue(Double.valueOf(mValueTotalCreatePreAuto)));
-        mTextInputEditText.addTextChangedListener(getWatcher());
+        binding.tvValuePreAuto.setText(Utils.getFormattedValue(Double.valueOf(mValueTotalCreatePreAuto)));
+        binding.edittextInput.addTextChangedListener(getWatcher());
+        clickButtons();
     }
 
-    @OnClick(R.id.button_confirm)
-    public void onConfirmClicked() {
-        String value = mTextInputEditText.getText().toString();
+    private void clickButtons() {
+        binding.buttonConfirm.setOnClickListener(click -> {
+            String value = binding.edittextInput.getText().toString();
 
-        if (value.isEmpty()) dismiss();
+            if (value.isEmpty()) dismiss();
 
-        final String amount = mTextInputEditText.getText() != null ?
-                mTextInputEditText.getText().toString().replaceAll("[^0-9]*", "") : "";
-        mOnDismissListener.onDismissEffectivate(amount, mPlugPagTransactionResult);
-        dismiss();
+            final String amount = binding.edittextInput.getText() != null ?
+                    binding.edittextInput.getText().toString().replaceAll("[^0-9]*", "") : "";
+            mOnDismissListener.onDismissEffectivate(amount, mPlugPagTransactionResult);
+            dismiss();
+        });
     }
 
     @NotNull
@@ -71,13 +68,13 @@ public class CustomDialogPreAutoValue extends DialogFragment {
                 String typed = Utils.onlyDigits(charSequence.toString());
 
                 if (!TextUtils.isEmpty(typed)) {
-                    mTextInputEditText.removeTextChangedListener(this);
+                    binding.edittextInput.removeTextChangedListener(this);
                     String convertedString = Utils.getFormattedValue(Double.parseDouble(typed));
-                    mTextInputEditText.setText(convertedString);
-                    mTextInputEditText.setSelection(convertedString.length());
-                    mTextInputEditText.addTextChangedListener(this);
+                    binding.edittextInput.setText(convertedString);
+                    binding.edittextInput.setSelection(convertedString.length());
+                    binding.edittextInput.addTextChangedListener(this);
                 } else {
-                    mTextInputEditText.setText("0");
+                    binding.edittextInput.setText("0");
                 }
             }
 

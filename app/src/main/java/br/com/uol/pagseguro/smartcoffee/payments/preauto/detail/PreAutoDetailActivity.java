@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityPreAutoDetailBinding;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PreAutoComponent;
@@ -32,26 +33,9 @@ import butterknife.OnClick;
 public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, PreAutoDetailPresenter>
     implements PreAutoDetailContract {
 
-    @BindView(R.id.container_detail_success) RelativeLayout containerSuccess;
-    @BindView(R.id.container_detail_error) LinearLayout containerError;
-    @BindView(R.id.btn_preauto_cancel) Button btnCancel;
-
-    @BindView(R.id.txt_transaction_auto) TextView txtAUTO;
-    @BindView(R.id.txt_transaction_amount) TextView txtAmount;
-    @BindView(R.id.txt_transaction_card_brand) TextView txtCardBrand;
-    @BindView(R.id.txt_transaction_holder_name) TextView txtHolderName;
-    @BindView(R.id.txt_transaction_holder) TextView txtHolder;
-    @BindView(R.id.txt_transaction_date) TextView txtDate;
-    @BindView(R.id.txt_transaction_nsu) TextView txtNSU;
-    @BindView(R.id.txt_transaction_payment_type) TextView txtPaymentType;
-    @BindView(R.id.txt_transaction_type) TextView txtTransactionType;
-    @BindView(R.id.txt_installments_val) TextView txtInstallmentsValue;
-
-    @BindView(R.id.txt_error_code) TextView txtErrorCode;
-    @BindView(R.id.txt_error_message) TextView txtErrorMessage;
-
     private static final String PREAUTO_DETAIL = "PREAUTO_DETAIL";
     private static Boolean isPreAutoCancel = false;
+    private ActivityPreAutoDetailBinding binding;
 
     private String transactionId = "";
     private String transactionCode = "";
@@ -63,7 +47,8 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
     public void onCreate(Bundle savedInstanceState) {
         initDI();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pre_auto_detail);
+        binding = ActivityPreAutoDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         initListener();
         bindUI();
@@ -79,13 +64,6 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
     @Override
     public PreAutoDetailPresenter createPresenter() {
         return mInjector.preAutoDetailPresenter();
-    }
-
-    @OnClick(R.id.btn_preauto_cancel)
-    public void cancelPreAuto() {
-        if (!transactionId.isEmpty() && !transactionCode.isEmpty() && isPreAutoCancel) {
-            getPresenter().doPreAutoCancel(transactionId, transactionCode);
-        }
     }
 
     @Override
@@ -129,28 +107,28 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
 
                 showLabelsSuccess();
 
-                txtAUTO.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getAutoCode()));
-                txtCardBrand.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getCardBrand()));
-                txtHolderName.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getHolderName()));
-                txtHolder.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getHolder()));
-                txtDate.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getDate()));
-                txtNSU.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getNsu()));
-                txtTransactionType.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getTypeTransaction()));
+                binding.txtTransactionAuto.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getAutoCode()));
+                binding.txtTransactionCardBrand.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getCardBrand()));
+                binding.txtTransactionHolderName.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getHolderName()));
+                binding.txtTransactionHolder.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getHolder()));
+                binding.txtTransactionDate.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getDate()));
+                binding.txtTransactionNsu.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getNsu()));
+                binding.txtTransactionType.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getTypeTransaction()));
 
                 if(plugPagTransactionResult.getInstallments() != null) {
-                    txtInstallmentsValue.setText(String.valueOf((int) plugPagTransactionResult.getInstallments()));
+                    binding.txtInstallmentsVal.setText(String.valueOf((int) plugPagTransactionResult.getInstallments()));
                 }
 
                 if (!plugPagTransactionResult.getAmount().isEmpty()) {
-                    txtAmount.setText(Utils.getFormattedValue(Double.valueOf(plugPagTransactionResult.getAmount())));
+                    binding.txtTransactionAmount.setText(Utils.getFormattedValue(Double.valueOf(plugPagTransactionResult.getAmount())));
                 } else {
-                    txtAmount.setText(getString(R.string.txt_not_value));
+                    binding.txtTransactionAmount.setText(getString(R.string.txt_not_value));
                 }
 
                 if (plugPagTransactionResult.getPaymentType() <= 0) {
-                    txtPaymentType.setText(Utils.VALUE_NULL_OR_EMPTY);
+                    binding.txtTransactionPaymentType.setText(Utils.VALUE_NULL_OR_EMPTY);
                 } else {
-                    txtPaymentType.setText(plugPagTransactionResult.getPaymentType().toString());
+                    binding.txtTransactionPaymentType.setText(plugPagTransactionResult.getPaymentType().toString());
                 }
 
                 transactionId = Utils.isNotNullOrEmpty(plugPagTransactionResult.getTransactionId());
@@ -158,31 +136,31 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
             } else {
                 showLabelErrors();
 
-                txtErrorCode.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getErrorCode()));
-                txtErrorMessage.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getMessage()));
+                binding.txtErrorCode.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getErrorCode()));
+                binding.txtErrorMessage.setText(Utils.isNotNullOrEmpty(plugPagTransactionResult.getMessage()));
             }
         } else {
             showLabelErrors();
 
-            txtErrorCode.setText(getString(R.string.txt_error_code));
-            txtErrorMessage.setText(getString(R.string.txt_msg_default_error));
+            binding.txtErrorCode.setText(getString(R.string.txt_error_code));
+            binding.txtErrorMessage.setText(getString(R.string.txt_msg_default_error));
         }
     }
 
     private void showLabelErrors() {
-        containerError.setVisibility(View.VISIBLE);
-        containerSuccess.setVisibility(View.GONE);
-        btnCancel.setVisibility(View.GONE);
+        binding.containerDetailError.setVisibility(View.VISIBLE);
+        binding.containerDetailSuccess.setVisibility(View.GONE);
+        binding.btnPreautoCancel.setVisibility(View.GONE);
     }
 
     private void showLabelsSuccess() {
-        containerSuccess.setVisibility(View.VISIBLE);
-        containerError.setVisibility(View.GONE);
+        binding.containerDetailSuccess.setVisibility(View.VISIBLE);
+        binding.containerDetailError.setVisibility(View.GONE);
 
         if (isPreAutoCancel) {
-            btnCancel.setVisibility(View.VISIBLE);
+            binding.btnPreautoCancel.setVisibility(View.VISIBLE);
         } else {
-            btnCancel.setVisibility(View.GONE);
+            binding.btnPreautoCancel.setVisibility(View.GONE);
         }
     }
 
@@ -197,6 +175,11 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
     private void initListener() {
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(DialogInterface::dismiss);
+        binding.btnPreautoCancel.setOnClickListener(click -> {
+            if (!transactionId.isEmpty() && !transactionCode.isEmpty() && isPreAutoCancel) {
+                getPresenter().doPreAutoCancel(transactionId, transactionCode);
+            }
+        });
     }
 
     private void showDialog(String message) {

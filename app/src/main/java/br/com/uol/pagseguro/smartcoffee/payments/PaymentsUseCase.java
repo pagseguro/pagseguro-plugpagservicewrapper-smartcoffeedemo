@@ -13,8 +13,11 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
+
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.*;
+
 import java.util.Locale;
+
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -27,6 +30,7 @@ public class PaymentsUseCase {
     public PaymentsUseCase(PlugPag plugPag) {
         mPlugPag = plugPag;
     }
+    private static final String CUSTOM_PRINT_MESSAGE = "Teste: Imprimir via do cliente?";
 
     //Payment Methods
 
@@ -104,7 +108,7 @@ public class PaymentsUseCase {
         ));
     }
 
-    public Observable<ActionResult> doQRCodePaymentInCashDebit(int value){
+    public Observable<ActionResult> doQRCodePaymentInCashDebit(int value) {
         return doPayment(new PlugPagPaymentData(
                 TYPE_QRCODE_DEBITO,
                 value,
@@ -117,7 +121,7 @@ public class PaymentsUseCase {
         ));
     }
 
-    public Observable<ActionResult> doQRCodePaymentInCashCredit(int value){
+    public Observable<ActionResult> doQRCodePaymentInCashCredit(int value) {
         return doPayment(new PlugPagPaymentData(
                 TYPE_QRCODE_CREDITO,
                 value,
@@ -130,7 +134,7 @@ public class PaymentsUseCase {
         ));
     }
 
-    public Observable<ActionResult> doQRCodePaymentBuyerInstallments(int value, int installments){
+    public Observable<ActionResult> doQRCodePaymentBuyerInstallments(int value, int installments) {
         return doPayment(new PlugPagPaymentData(
                 TYPE_QRCODE_CREDITO,
                 value,
@@ -143,7 +147,7 @@ public class PaymentsUseCase {
         ));
     }
 
-    public Observable<ActionResult> doQRCodePaymentSellerInstallments(int value,int installments){
+    public Observable<ActionResult> doQRCodePaymentSellerInstallments(int value, int installments) {
         return doPayment(new PlugPagPaymentData(
                 TYPE_QRCODE_CREDITO,
                 value,
@@ -192,7 +196,12 @@ public class PaymentsUseCase {
             ActionResult result
     ) {
         if (plugPagTransactionResult.getResult() != 0) {
-            emitter.onError(new PlugPagException(plugPagTransactionResult.getMessage(), plugPagTransactionResult.getErrorCode()));
+            emitter.onError(
+                    new PlugPagException(
+                            plugPagTransactionResult.getMessage(),
+                            plugPagTransactionResult.getErrorCode()
+                    )
+            );
         } else {
             result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
             result.setTransactionId(plugPagTransactionResult.getTransactionId());
@@ -261,7 +270,10 @@ public class PaymentsUseCase {
                 emitter.onNext(actionResult);
             });
 
-            PlugPagInitializationResult result = mPlugPag.initializeAndActivatePinpad(new PlugPagActivationData(activationCode));
+            PlugPagInitializationResult result =
+                    mPlugPag.initializeAndActivatePinpad(
+                            new PlugPagActivationData(activationCode)
+                    );
 
             if (result.getResult() == PlugPag.RET_OK) {
                 emitter.onNext(new ActionResult());
@@ -334,7 +346,9 @@ public class PaymentsUseCase {
             @Override
             public void onError(PlugPagPrintResult printResult) {
                 result.setResult(printResult.getResult());
-                result.setMessage(String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage()));
+                result.setMessage(
+                        String.format("Error %s %s", printResult.getErrorCode(), printResult.getMessage())
+                );
                 result.setErrorCode(printResult.getErrorCode());
                 emitter.onNext(result);
             }
@@ -342,7 +356,11 @@ public class PaymentsUseCase {
             @Override
             public void onSuccess(PlugPagPrintResult printResult) {
                 result.setResult(printResult.getResult());
-                result.setMessage(String.format(Locale.getDefault(), "Print OK: Steps [%d]", printResult.getSteps()));
+                result.setMessage(
+                        String.format(
+                                Locale.getDefault(), "Print OK: Steps [%d]", printResult.getSteps()
+                        )
+                );
                 result.setErrorCode(printResult.getErrorCode());
                 emitter.onNext(result);
             }
@@ -353,7 +371,7 @@ public class PaymentsUseCase {
 
     public PlugPagCustomPrinterLayout getCustomPrinterDialog() {
         PlugPagCustomPrinterLayout customDialog = new PlugPagCustomPrinterLayout();
-        customDialog.setTitle("Teste: Imprimir via do cliente?");
+        customDialog.setTitle(CUSTOM_PRINT_MESSAGE);
         customDialog.setMaxTimeShowPopup(60);
         return customDialog;
     }

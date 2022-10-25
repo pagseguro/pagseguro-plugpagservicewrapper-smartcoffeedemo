@@ -15,6 +15,7 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityQrcodeOptionsBinding;
 import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
@@ -43,6 +44,7 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
 
     @Inject
     QrcodeComponent mInjector;
+    private ActivityQrcodeOptionsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +54,13 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
                 .build();
         mInjector.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qrcode_options);
+
+        binding = ActivityQrcodeOptionsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         getExtra(getIntent().getExtras());
         ButterKnife.bind(this);
-        dialog = new CustomDialog(this);
-        dialog.setOnCancelListener(cancelListener);
+
+        clickButtons();
     }
 
     @NonNull
@@ -101,62 +105,60 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
         }
     }
 
-    @OnClick(R.id.btnQRCodeInCashDebit)
-    public void qrcodeInCashClickedDebit() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().qrCodePaymentInCashDebit(value);
-    }
+    private void clickButtons() {
+        dialog = new CustomDialog(this);
+        dialog.setOnCancelListener(cancelListener);
 
-    @OnClick(R.id.btnQRCodeInCashCredit)
-    public void qrcodeInCashCreditClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().qrCodePaymentInCashCredit(value);
-    }
-
-    @OnClick(R.id.btnQRCodeBuyerInstallments)
-    public void qrcodeBuyerInstallmentsClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        if (value < VALUE_MINIMAL_INSTALLMENT) {
-            showMessage(getString(R.string.txt_installments_invalid_message));
-        } else {
-            Intent intent = SelectInstallmentActivity.getStartIntent(
-                    getApplicationContext(),
-                    value,
-                    INSTALLMENT_TYPE_PARC_COMPRADOR
-            );
-            startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
-        }
-    }
-
-    @OnClick(R.id.btnQRCodeSellerInstallments)
-    public void qrcodeSellerInstallmentsClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        if (value < VALUE_MINIMAL_INSTALLMENT) {
-            showMessage(getString(R.string.txt_installments_invalid_message));
-        } else {
-            Intent intent = SelectInstallmentActivity.getStartIntent(
-                    getApplicationContext(),
-                    value,
-                    INSTALLMENT_TYPE_PARC_VENDEDOR
-            );
-            startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
-        }
+        binding.btnQRCodeInCashDebit.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().qrCodePaymentInCashDebit(value);
+        });
+        binding.btnQRCodeInCashCredit.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().qrCodePaymentInCashCredit(value);
+        });
+        binding.btnQRCodeBuyerInstallments.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            if (value < VALUE_MINIMAL_INSTALLMENT) {
+                showMessage(getString(R.string.txt_installments_invalid_message));
+            } else {
+                Intent intent = SelectInstallmentActivity.getStartIntent(
+                        getApplicationContext(),
+                        value,
+                        INSTALLMENT_TYPE_PARC_COMPRADOR
+                );
+                startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
+            }
+        });
+        binding.btnQRCodeSellerInstallments.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            if (value < VALUE_MINIMAL_INSTALLMENT) {
+                showMessage(getString(R.string.txt_installments_invalid_message));
+            } else {
+                Intent intent = SelectInstallmentActivity.getStartIntent(
+                        getApplicationContext(),
+                        value,
+                        INSTALLMENT_TYPE_PARC_VENDEDOR
+                );
+                startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
+            }
+        });
     }
 
     private void getExtra(Bundle extras) {

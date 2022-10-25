@@ -14,8 +14,6 @@ interface DemoInternoContract extends MvpView{
 
     void writeToFile(String transactionCode, String transactionId);
 
-    void showAbortedSuccessfully();
-
     void disposeDialog();
 
     void showActivationDialog();

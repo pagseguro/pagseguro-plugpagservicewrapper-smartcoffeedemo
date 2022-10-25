@@ -12,11 +12,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import java.text.NumberFormat;
 import java.util.Locale;
+
 import javax.inject.Inject;
+
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityCoffeeSelectionBinding;
 import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerDemoInternoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DemoInternoComponent;
@@ -37,10 +42,8 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     @Inject
     DemoInternoComponent mInjector;
 
-    @BindView(R.id.txtTotalValue)
-    EditText mTotalValue;
+    private ActivityCoffeeSelectionBinding binding;
     private boolean shouldShowDialog;
-
     private boolean mCanClick = true;
 
     @Override
@@ -51,15 +54,17 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
                 .build();
         mInjector.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coffee_selection);
+        binding = ActivityCoffeeSelectionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         initPropertiesAndListeners();
+        clickButtons();
     }
 
     private void initPropertiesAndListeners() {
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(cancelListener);
-        mTotalValue.addTextChangedListener(new TextWatcher() {
+        binding.txtTotalValue.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //DoNothing
@@ -69,14 +74,14 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String typed = onlyDigits(charSequence.toString());
                 if (!TextUtils.isEmpty(typed)) {
-                    mTotalValue.removeTextChangedListener(this);
+                    binding.txtTotalValue.removeTextChangedListener(this);
                     double converted = Double.parseDouble(typed) / 100;
                     String convertedString = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(converted);
-                    mTotalValue.setText(convertedString);
-                    mTotalValue.setSelection(convertedString.length());
-                    mTotalValue.addTextChangedListener(this);
+                    binding.txtTotalValue.setText(convertedString);
+                    binding.txtTotalValue.setSelection(convertedString.length());
+                    binding.txtTotalValue.addTextChangedListener(this);
                 } else {
-                    mTotalValue.setText("0");
+                    binding.txtTotalValue.setText("0");
                 }
             }
 
@@ -87,6 +92,70 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         });
     }
 
+    private void clickButtons() {
+        binding.txtTotalValue.setOnClickListener(click ->
+                openKeyboard()
+        );
+        binding.btnDebit.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().doDebitPayment(getValue());
+        });
+        binding.btnDebitCarne.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().doDebitCarnePayment(getValue());
+        });
+        binding.btnCredit.setOnClickListener(click -> {
+            Intent intent = new Intent(this, CreditPaymentActivity.class);
+            intent.putExtra(CREDIT_VALUE, getValue());
+            startActivity(intent);
+        });
+        binding.btnVoucher.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().doVoucherPayment(getValue());
+        });
+        binding.btnQRCode.setOnClickListener(click -> {
+            Intent intent = new Intent(this, QrcodeActivity.class);
+            intent.putExtra(QrcodeActivity.TAG, getValue());
+            startActivity(intent);
+        });
+        binding.btnPix.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+            mCanClick = false;
+            shouldShowDialog = true;
+            getPresenter().pixPayment(getValue());
+        });
+        binding.btnPreAuto.setOnClickListener(click -> {
+            Intent intent = new PreAutoActivity().getStartIntent(getApplicationContext(), getValue());
+            startActivity(intent);
+        });
+        binding.btnLastTransaction.setOnClickListener(click -> {
+            shouldShowDialog = true;
+            getPresenter().getLastTransaction();
+        });
+        binding.btnRefund.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+
+            shouldShowDialog = true;
+            mCanClick = false;
+            getPresenter().doRefund(FileHelper.readFromFile(this));
+        });
+    }
 
     @NonNull
     @Override
@@ -99,94 +168,12 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     }
 
     private int getValue() {
-        return Integer.parseInt(mTotalValue.getText().toString().replaceAll("[^0-9]*", ""));
-    }
-
-    @OnClick(R.id.txtTotalValue)
-    public void onAmmountClicked() {
-        openKeyboard();
+        return Integer.parseInt(binding.txtTotalValue.getText().toString().replaceAll("[^0-9]*", ""));
     }
 
     private void openKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mTotalValue, InputMethodManager.SHOW_FORCED);
-    }
-
-    @OnClick(R.id.btnDebit)
-    public void onDebitClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().doDebitPayment(getValue());
-    }
-
-    @OnClick(R.id.btnDebitCarne)
-    public void onDebitCarneClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().doDebitCarnePayment(getValue());
-    }
-
-    @OnClick(R.id.btnCredit)
-    public void onCreditClicked() {
-        Intent intent = new Intent(this, CreditPaymentActivity.class);
-        intent.putExtra(CREDIT_VALUE, getValue());
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btnVoucher)
-    public void onVoucherClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().doVoucherPayment(getValue());
-    }
-
-    @OnClick(R.id.btnQRCode)
-    public void onQRCodeClicked() {
-        Intent intent = new Intent(this, QrcodeActivity.class);
-        intent.putExtra(QrcodeActivity.TAG, getValue());
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btnPix)
-    public void onPixClicked() {
-        if (!mCanClick) {
-            return;
-        }
-        mCanClick = false;
-        shouldShowDialog = true;
-        getPresenter().pixPayment(getValue());
-    }
-
-    @OnClick(R.id.btn_pre_auto)
-    public void onClickPreAuto() {
-        Intent intent = new PreAutoActivity().getStartIntent(getApplicationContext(), getValue());
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.btnLastTransaction)
-    public void lastTransaction() {
-        shouldShowDialog = true;
-        getPresenter().getLastTransaction();
-    }
-
-    @OnClick(R.id.btnRefund)
-    public void onRefundClicked() {
-        if (!mCanClick) {
-            return;
-        }
-
-        shouldShowDialog = true;
-        mCanClick = false;
-        getPresenter().doRefund(FileHelper.readFromFile(this));
+        imm.showSoftInput(binding.txtTotalValue, InputMethodManager.SHOW_FORCED);
     }
 
     @Override
@@ -213,7 +200,7 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
 
     @Override
     public void setPaymentValue(String value) {
-        mTotalValue.setText(value);
+        binding.txtTotalValue.setText(value);
     }
 
     @Override
@@ -227,11 +214,6 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     @Override
     public void showError(String message) {
         UIFeedback.showDialog(this, message);
-    }
-
-    @Override
-    public void showAbortedSuccessfully() {
-        UIFeedback.showDialog(this, R.string.transactions_successful_abort, true);
     }
 
     @Override

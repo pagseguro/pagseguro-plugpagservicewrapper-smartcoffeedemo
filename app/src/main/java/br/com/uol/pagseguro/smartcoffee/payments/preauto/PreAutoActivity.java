@@ -30,6 +30,7 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoQueryData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityPreAutoOptionsBinding;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
@@ -66,11 +67,14 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     @Inject
     PreAutoComponent mInjector;
 
+    private ActivityPreAutoOptionsBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initDI();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pre_auto_options);
+        binding = ActivityPreAutoOptionsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         initView();
         setupExtras();
     }
@@ -237,88 +241,6 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         startActivityForResult(intent, PRE_AUTO_KEYED_ACTIVITY);
     }
 
-    // Start preauto flow
-    @OnClick(R.id.btn_create)
-    public void btnCreatePreAuto() {
-        getPresenter().doPreAutoCreation(mValue, INSTALLMENT_TYPE_A_VISTA, INSTALLMENT_1X);
-    }
-
-    // Start preauto digitado a vista flow
-    @OnClick(R.id.btn_create_keying)
-    public void btnCreatePreAutoKeyedin() {
-        startActivitiesPreAutoKeyed(PREAUTO_KEYED_CREATE, INSTALLMENT_TYPE_A_VISTA);
-    }
-
-    // Start preauto card installments flow
-    @OnClick(R.id.btn_create_installments)
-    public void btnCreatePreAutoInstallments() {
-        if (mValue < VALUE_MINIMAL_INSTALLMENT) {
-            showMessage(getString(R.string.txt_installments_invalid_message));
-        } else {
-            Intent intent = SelectInstallmentActivity.getStartIntent(
-                    getApplicationContext(),
-                    mValue,
-                    INSTALLMENT_TYPE_PARC_VENDEDOR
-            ).putExtra(PREAUTO_OPERATION, PREAUTO_CARD);
-
-            startActivityForResult(intent, SELECT_INSTALLMENTS_ACTIVITY);
-        }
-    }
-
-    // Start preauto keying flow
-    @OnClick(R.id.btn_create_installments_keying)
-    public void btnCreatePreAutoInstallmentsKeying() {
-        if (mValue < VALUE_MINIMAL_INSTALLMENT) {
-            showMessage(getString(R.string.txt_installments_invalid_message));
-        } else {
-            Intent intent = SelectInstallmentActivity.getStartIntent(
-                    getApplicationContext(),
-                    mValue,
-                    INSTALLMENT_TYPE_PARC_VENDEDOR)
-                    .putExtra(TOTAL_VALUE, mValue)
-                    .putExtra(PREAUTO_OPERATION, PREAUTO_KEYED);
-            startActivityForResult(intent, SELECT_INSTALLMENTS_ACTIVITY);
-        }
-    }
-
-    @OnClick(R.id.btn_effectuate_cash_keying)
-    public void onEffectuatePreAutoClicked() {
-        startActivitiesPreAutoKeyed(PREAUTO_EFFETIVATE_KEYING, null);
-    }
-
-    @OnClick(R.id.btn_consulta_pre_auto)
-    public void onClickConsultaPreAuto() {
-        getPresenter().getPreAutoDataEffectivate(
-                (valueEffectuate, plugPagTransactionResult) ->
-                        getPresenter().doPreAutoEffectuate(
-                                Integer.parseInt(valueEffectuate),
-                                plugPagTransactionResult.getTransactionId(),
-                                plugPagTransactionResult.getTransactionCode()
-                        ), null);
-    }
-
-    @OnClick(R.id.btn_consulta_pre_auto_dig)
-    public void onClickConsultarPreAutoKeydin() {
-        startActivitiesPreAutoKeyed(PREAUTO_CONSULT_KEYING, null);
-    }
-
-    @OnClick(R.id.btn_cancel_preauto)
-    public void onCancelPreAutoClicked() {
-        getPresenter().getPreAutoData(true, null);
-    }
-
-    @OnClick(R.id.btn_cancel_preauto_keying)
-    public void onCancelPreAutoKeydinClicked() {
-        startActivitiesPreAutoKeyed(PREAUTO_CANCEL_KEYING, null);
-    }
-
-    @OnClick(R.id.btn_report)
-    public void onClickReport() {
-        getPresenter().getPreAutoData(false, null);
-    }
-
-    // End region preauto flow
-    // Start region MVP, view implementation
     @Override
     public void showTransactionSuccess() {
         showDialog(getString(R.string.transactions_successful));
@@ -428,6 +350,73 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
             dialogCancel.dismiss();
             getPresenter().abortTransaction();
         });
+        binding.btnCreate.setOnClickListener(click ->
+                getPresenter().doPreAutoCreation(mValue, INSTALLMENT_TYPE_A_VISTA, INSTALLMENT_1X)
+        );
+        binding.btnCreateKeying.setOnClickListener(click ->
+                startActivitiesPreAutoKeyed(PREAUTO_KEYED_CREATE, INSTALLMENT_TYPE_A_VISTA)
+        );
+        binding.btnCreateInstallments.setOnClickListener(click -> {
+            if (mValue < VALUE_MINIMAL_INSTALLMENT) {
+                showMessage(getString(R.string.txt_installments_invalid_message));
+            } else {
+                Intent intent = SelectInstallmentActivity.getStartIntent(
+                        getApplicationContext(),
+                        mValue,
+                        INSTALLMENT_TYPE_PARC_VENDEDOR
+                ).putExtra(PREAUTO_OPERATION, PREAUTO_CARD);
+
+                startActivityForResult(intent, SELECT_INSTALLMENTS_ACTIVITY);
+            }
+        });
+        binding.btnEffectuateCash.setOnClickListener(click ->
+            getPresenter().getPreAutoDataEffectivate(
+                    (valueEffectuate, plugPagTransactionResult) ->
+                            getPresenter().doPreAutoEffectuate(
+                                    Integer.parseInt(valueEffectuate),
+                                    plugPagTransactionResult.getTransactionId(),
+                                    plugPagTransactionResult.getTransactionCode()
+                            ),
+                    null
+            )
+        );
+        binding.btnCreateInstallmentsKeying.setOnClickListener(click -> {
+            if (mValue < VALUE_MINIMAL_INSTALLMENT) {
+                showMessage(getString(R.string.txt_installments_invalid_message));
+            } else {
+                Intent intent = SelectInstallmentActivity.getStartIntent(
+                                getApplicationContext(),
+                                mValue,
+                                INSTALLMENT_TYPE_PARC_VENDEDOR)
+                        .putExtra(TOTAL_VALUE, mValue)
+                        .putExtra(PREAUTO_OPERATION, PREAUTO_KEYED);
+                startActivityForResult(intent, SELECT_INSTALLMENTS_ACTIVITY);
+            }
+        });
+        binding.btnEffectuateCashKeying.setOnClickListener(click ->
+                startActivitiesPreAutoKeyed(PREAUTO_EFFETIVATE_KEYING, null)
+        );
+        binding.btnConsultaPreAuto.setOnClickListener(click ->
+                getPresenter().getPreAutoDataEffectivate(
+                        (valueEffectuate, plugPagTransactionResult) ->
+                                getPresenter().doPreAutoEffectuate(
+                                        Integer.parseInt(valueEffectuate),
+                                        plugPagTransactionResult.getTransactionId(),
+                                        plugPagTransactionResult.getTransactionCode()
+                                ), null)
+        );
+        binding.btnConsultaPreAutoDig.setOnClickListener(click ->
+                startActivitiesPreAutoKeyed(PREAUTO_CONSULT_KEYING, null)
+        );
+        binding.btnCancelPreauto.setOnClickListener(click ->
+                getPresenter().getPreAutoData(true, null)
+        );
+        binding.btnCancelPreautoKeying.setOnClickListener(click ->
+                startActivitiesPreAutoKeyed(PREAUTO_CANCEL_KEYING, null)
+        );
+        binding.btnReport.setOnClickListener(click ->
+                getPresenter().getPreAutoData(false, null)
+        );
     }
 
     private void setupExtras() {

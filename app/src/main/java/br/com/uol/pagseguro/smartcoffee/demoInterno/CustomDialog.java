@@ -5,42 +5,40 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import br.com.uol.pagseguro.smartcoffee.R;
-import butterknife.BindView;
+import br.com.uol.pagseguro.smartcoffee.databinding.CustomDialogBinding;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class CustomDialog extends Dialog {
-
-    @BindView(R.id.textview_message)
-    TextView mTextViewMessage;
 
     public CustomDialog(@NonNull Context context) {
         super(context);
     }
+    private CustomDialogBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.custom_dialog);
+        binding = CustomDialogBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ButterKnife.bind(this);
         setCanceledOnTouchOutside(false);
+        clickButtons();
     }
 
     public void setMessage(String message) {
-        mTextViewMessage.setText(message);
+        binding.textviewMessage.setText(message);
+    }
+
+    private void clickButtons() {
+        binding.btnCancel.setOnClickListener(click ->
+                cancel()
+        );
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    }
-
-    @OnClick(R.id.btn_cancel)
-    public void mCancelBtnClicked() {
-        cancel();
     }
 }
