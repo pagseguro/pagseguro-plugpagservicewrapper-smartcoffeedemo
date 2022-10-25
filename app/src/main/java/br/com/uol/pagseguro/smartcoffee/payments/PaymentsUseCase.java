@@ -31,6 +31,7 @@ public class PaymentsUseCase {
         mPlugPag = plugPag;
     }
     private static final String CUSTOM_PRINT_MESSAGE = "Teste: Imprimir via do cliente?";
+    private final int VOID_QRCODE = 2;
 
     //Payment Methods
 
@@ -183,6 +184,24 @@ public class PaymentsUseCase {
                             transaction.getTransactionCode(),
                             transaction.getTransactionId(),
                             true
+                    )
+            );
+
+            sendResponse(emitter, result, actionResult);
+        });
+    }
+
+
+    public Observable<ActionResult> doRefundQrCode(ActionResult transaction) {
+        return Observable.create(emitter -> {
+            ActionResult actionResult = new ActionResult();
+            setListener(emitter, actionResult);
+            PlugPagTransactionResult result = mPlugPag.voidPayment(
+                    new PlugPagVoidData(
+                            transaction.getTransactionCode(),
+                            transaction.getTransactionId(),
+                            true,
+                            VOID_QRCODE
                     )
             );
 

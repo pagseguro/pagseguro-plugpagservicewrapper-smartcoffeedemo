@@ -155,6 +155,15 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
             mCanClick = false;
             getPresenter().doRefund(FileHelper.readFromFile(this));
         });
+        binding.btnRefundQrCode.setOnClickListener(click -> {
+            if (!mCanClick) {
+                return;
+            }
+
+            shouldShowDialog = true;
+            mCanClick = false;
+            getPresenter().doRefundQrCode(FileHelper.readFromFile(this));
+        });
     }
 
     @NonNull

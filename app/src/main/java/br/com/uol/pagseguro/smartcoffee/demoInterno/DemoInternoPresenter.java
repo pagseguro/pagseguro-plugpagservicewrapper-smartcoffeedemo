@@ -52,6 +52,15 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
         }
     }
 
+    public void doRefundQrCode(ActionResult actionResult) {
+        if (actionResult.getMessage() != null) {
+            getView().showError(actionResult.getMessage());
+            getView().disposeDialog();
+        } else {
+            doAction(mUseCase.doRefundQrCode(actionResult), 0);
+        }
+    }
+
     private void doAction(Observable<ActionResult> action, int value) {
         mSubscribe = mUseCase.isAuthenticated()
                 .filter(aBoolean -> {

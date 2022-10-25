@@ -42,13 +42,5 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <Button
-            android:id="@+id/btn_refund_qr_code"
-            android:text="@string/btn_smartpos_refund_qr_code"
-            style="@style/ButtonStyle"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnQRCodeSellerInstallments" />
-
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
