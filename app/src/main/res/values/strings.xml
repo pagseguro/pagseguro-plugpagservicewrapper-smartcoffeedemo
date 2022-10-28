@@ -12,6 +12,7 @@
     <!-- PERMISSIONS -->
     <string name="btn_permissions">Solicitar/Verificar permissões</string>
     <string name="btn_swcapabilities">Verificar software capabilities</string>
+    <string name="btn_product_initialization">Verificar inicialização de produtos</string>
     <string name="msg_all_permissions_granted">Todas permissões concedidas</string>
 
     <!-- AUTH -->

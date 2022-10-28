@@ -4,10 +4,7 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public interface SoftwareCapabilityContract extends MvpView {
 
-    void showError(String message);
+    void showLoading(boolean show);
 
-    void showLoading();
-
-    void showSuccess(String message);
-
+    void showDialog(String message);
 }

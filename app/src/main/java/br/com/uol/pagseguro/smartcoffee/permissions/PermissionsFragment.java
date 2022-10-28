@@ -39,6 +39,7 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
     public static PermissionsFragment getInstance() {
         return new PermissionsFragment();
     }
+
     private FragmentPermissionsBinding binding;
 
     @Nullable
@@ -64,6 +65,9 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
     private void clickButtons() {
         binding.btnPermissions.setOnClickListener(click -> requestPermissions());
         binding.btnSoftwareCapabilities.setOnClickListener(click -> softwareCapabilities());
+        binding.btnProductInitialization.setOnClickListener(click ->
+                getPresenter().doProductInitialization()
+        );
     }
 
     private String[] filterMissingPermissions(String[] permissions) {
@@ -130,17 +134,16 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
     }
 
     @Override
-    public void showError(String message) {
-        UIFeedback.showDialog(getContext(), message);
+    public void showLoading(boolean show) {
+        if (show) {
+            UIFeedback.showProgress(getContext());
+        } else {
+            UIFeedback.dismissProgress();
+        }
     }
 
     @Override
-    public void showLoading() {
-        UIFeedback.showDialog(getContext(), R.string.txt_loading);
-    }
-
-    @Override
-    public void showSuccess(String message) {
+    public void showDialog(String message) {
         UIFeedback.showDialog(getContext(), message);
     }
 }

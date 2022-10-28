@@ -24,4 +24,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_permissions" />
 
+    <Button
+        android:id="@+id/btn_product_initialization"
+        style="@style/ButtonStyle"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_product_initialization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_softwareCapabilities" />
+
 </android.support.constraint.ConstraintLayout>

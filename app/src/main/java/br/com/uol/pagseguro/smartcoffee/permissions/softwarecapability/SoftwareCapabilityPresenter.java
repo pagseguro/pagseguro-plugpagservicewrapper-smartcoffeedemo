@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SoftwareCapabilityPresenter extends MvpNullObjectBasePresenter<SoftwareCapabilityContract> {
 
-    private SoftwareCapabilityUseCase mUseCase;
+    private final SoftwareCapabilityUseCase mUseCase;
     private CompositeDisposable mSubscribes;
 
     private ArrayList<SoftwareCapability> softwareCapabilities;
@@ -62,36 +62,36 @@ public class SoftwareCapabilityPresenter extends MvpNullObjectBasePresenter<Soft
         softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_GET_READER_INFOS.getCommand(), "GET_READER_INFOS"));
 
         // Keep just a sample
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_REPRINT_CUSTOMER_RECEIPT, "REPRINT_CUSTOMER_RECEIPT"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_INVALIDATE_AUTHENTICATION, "INVALIDATE_AUTHENTICATION"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_CALCULATE_INSTALLMENTS, "CALCULATE_INSTALLMENTS"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_CHECK_AUTHENTICATION, "CHECK_AUTHENTICATION"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_GET_LIB_VERSION, "GET_LIB_VERSION"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_GET_APPLICATION_CODE, "GET_APPLICATION_CODE"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_ABORT, "ABORT"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_REPRINT_STABLISHMENT_RECEIPT, "REPRINT_STABLISHMENT_RECEIPT"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_PRINT, "PRINT"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_QUERY_LAST_APPROVED_TRANSACTION, "QUERY_LAST_APPROVED_TRANSACTION"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_ENABLE_MOCK, "ENABLE_MOCK"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_CHECK_MOCK_STATE, "CHECK_MOCK_STATE"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_SET_MOCK_RESULT, "SET_MOCK_RESULT"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_GET_MOCK_RESULT, "GET_MOCK_RESULT"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_SEND_SMS, "SEND_SMS"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_GET_CARD_DATA, "GET_CARD_DATA"));
-//        softwareCapabilities.add(new SoftwareCapability(PlugPag.OPERATION_SET_PROFILE, "SET_PROFILE"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_REPRINT_CUSTOMER_RECEIPT.getCommand(), "REPRINT_CUSTOMER_RECEIPT"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_INVALIDATE_AUTHENTICATION.getCommand(), "INVALIDATE_AUTHENTICATION"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_CALCULATE_INSTALLMENTS.getCommand(), "CALCULATE_INSTALLMENTS"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_CHECK_AUTHENTICATION.getCommand(), "CHECK_AUTHENTICATION"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_GET_LIB_VERSION.getCommand(), "GET_LIB_VERSION"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_GET_APPLICATION_CODE, "GET_APPLICATION_CODE"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_ABORT.getCommand(), "ABORT"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_REPRINT_STABLISHMENT_RECEIPT, "REPRINT_STABLISHMENT_RECEIPT"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_PRINT.getCommand(), "PRINT"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_QUERY_LAST_APPROVED_TRANSACTION.getCommand(), "QUERY_LAST_APPROVED_TRANSACTION"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_ENABLE_MOCK, "ENABLE_MOCK"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_CHECK_MOCK_STATE, "CHECK_MOCK_STATE"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_SET_MOCK_RESULT, "SET_MOCK_RESULT"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_GET_MOCK_RESULT, "GET_MOCK_RESULT"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_SEND_SMS.getCommand(), "SEND_SMS"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_GET_CARD_DATA.getCommand(), "GET_CARD_DATA"));
+//        softwareCapabilities.add(new SoftwareCapability(PlugPagCommand.OPERATION_SET_PROFILE.getCommand(), "SET_PROFILE"));
     }
 
     public void loadCapabilities() {
         prepareList();
 
-        getView().showLoading();
+        getView().showLoading(true);
 
         loadCapabilities(0);
     }
 
     private void loadCapabilities(int index) {
         if (index >= softwareCapabilities.size()) {
-            getView().showSuccess(testedMessage());
+            getView().showDialog(testedMessage());
             return;
         }
 
@@ -101,31 +101,45 @@ public class SoftwareCapabilityPresenter extends MvpNullObjectBasePresenter<Soft
                     mUseCase.loadSoftwareCapability(softwareCapability.getIndex(), softwareCapability.getMode())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
+                            .doFinally(() -> getView().showLoading(false))
                             .doOnComplete(() -> loadCapabilities(index + 1))
-                            .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                            .subscribe(message -> softwareCapability.setHas(message),
-                                    throwable -> getView().showError(throwable.getMessage()))
+                            .doOnError(throwable -> getView().showDialog(throwable.getMessage()))
+                            .subscribe(softwareCapability::setHas,
+                                    throwable -> getView().showDialog(throwable.getMessage())
+                            )
             );
         } else {
             mSubscribes.add(
                     mUseCase.loadSoftwareCapability(softwareCapability.getIndex())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
+                            .doFinally(() -> getView().showLoading(false))
                             .doOnComplete(() -> loadCapabilities(index + 1))
-                            .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                            .subscribe(message -> softwareCapability.setHas(message),
-                                    throwable -> getView().showError(throwable.getMessage()))
+                            .doOnError(throwable -> getView().showDialog(throwable.getMessage()))
+                            .subscribe(softwareCapability::setHas,
+                                    throwable -> getView().showDialog(throwable.getMessage()))
             );
         }
     }
 
     private String testedMessage() {
-        String message = "";
+        StringBuilder message = new StringBuilder();
 
         for (SoftwareCapability softwareCapability : softwareCapabilities) {
-            message += softwareCapability.getMessage();
+            message.append(softwareCapability.getMessage());
         }
 
-        return message;
+        return message.toString();
+    }
+
+    public void doProductInitialization() {
+        mSubscribes.add(mUseCase.showProductInitialization()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doFinally(() -> getView().showLoading(false))
+                .doOnSuccess(message -> getView().showDialog(message))
+                .subscribe()
+        );
     }
 }
