@@ -25,7 +25,6 @@ import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
 
 public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentContract, SelectInstallmentPresenter>
         implements SelectInstallmentContract {
@@ -42,12 +41,15 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initDI();
+        mInjector = DaggerSelectInstallmentComponent.builder()
+                .useCaseModule(new UseCaseModule())
+                .wrapperModule(new WrapperModule(getApplicationContext()))
+                .build();
+        mInjector.inject(this);
         super.onCreate(savedInstanceState);
 
         binding = ActivitySelectInstallmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
         this.setTitle(R.string.text_select_installment);
         initExtras();
     }
@@ -127,15 +129,6 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
             }
         }
     }
-
-    private void initDI() {
-        mInjector = DaggerSelectInstallmentComponent.builder()
-                .useCaseModule(new UseCaseModule())
-                .wrapperModule(new WrapperModule(getApplicationContext()))
-                .build();
-        mInjector.inject(this);
-    }
-    // End region private methods
 
     public static Intent getStartIntent(
             Context context,

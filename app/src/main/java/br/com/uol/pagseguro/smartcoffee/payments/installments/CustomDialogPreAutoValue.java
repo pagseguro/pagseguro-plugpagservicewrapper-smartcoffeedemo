@@ -18,7 +18,6 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.databinding.DialogInputValuePreAutoBinding;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.DismissListenerEffectivate;
 import br.com.uol.pagseguro.smartcoffee.utils.Utils;
-import butterknife.ButterKnife;
 
 public class CustomDialogPreAutoValue extends DialogFragment {
 
@@ -31,9 +30,7 @@ public class CustomDialogPreAutoValue extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogInputValuePreAutoBinding.inflate(getLayoutInflater());
-        View rootview = binding.getRoot();
-        ButterKnife.bind(this, rootview);
-        return rootview;
+        return binding.getRoot();
     }
 
     @Override

@@ -31,9 +31,6 @@ import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.payments.qrcode.QrcodeActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoInternoPresenter> implements DemoInternoContract {
 
@@ -56,7 +53,6 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         super.onCreate(savedInstanceState);
         binding = ActivityCoffeeSelectionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
         initPropertiesAndListeners();
         clickButtons();
     }

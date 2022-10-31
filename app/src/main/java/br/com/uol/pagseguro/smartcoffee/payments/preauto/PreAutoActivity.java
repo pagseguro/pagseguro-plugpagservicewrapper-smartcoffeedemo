@@ -43,8 +43,6 @@ import br.com.uol.pagseguro.smartcoffee.payments.preauto.detail.PreAutoDetailAct
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresenter> implements PreAutoContract {
     private static final String TAG = PreAutoActivity.class.getSimpleName();
@@ -247,11 +245,6 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     }
 
     @Override
-    public void showError(@Nullable String message) {
-        showDialog(message);
-    }
-
-    @Override
     public void showMessage(@Nullable String message) {
         showDialog(message);
     }
@@ -324,16 +317,13 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
                 )
         );
     }
-    // End region MVP, view implementation
 
-    // MVP, presenter creation
     @NonNull
     @Override
     public PreAutoPresenter createPresenter() {
         return mInjector.presenter();
     }
 
-    // Start region private methods
     private void initDI() {
         mInjector = DaggerPreAutoComponent.builder()
                 .useCaseModule(new UseCaseModule())
@@ -343,8 +333,6 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     }
 
     private void initView() {
-        ButterKnife.bind(this);
-
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(dialogCancel -> {
             dialogCancel.dismiss();
@@ -434,7 +422,6 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
 
         dialog.setMessage(message);
     }
-    // End region private methods
 
     public static Intent getStartIntent(Context context, int totalValue) {
         return new Intent(context, PreAutoActivity.class)

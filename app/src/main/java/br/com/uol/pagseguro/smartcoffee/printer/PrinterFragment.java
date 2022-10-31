@@ -12,14 +12,11 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPermissionsBinding;
 import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPrinterBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPrinterComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PrinterComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresenter> implements PrinterContract, HomeFragment {
 
@@ -38,13 +35,10 @@ public class PrinterFragment extends MvpFragment<PrinterContract, PrinterPresent
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .useCaseModule(new UseCaseModule())
                 .build();
-
         binding = FragmentPrinterBinding.inflate(getLayoutInflater());
         mInjector.inject(this);
-        View rootview = binding.getRoot();
-        ButterKnife.bind(this, rootview);
 
-        return rootview;
+        return binding.getRoot();
     }
 
     @Override

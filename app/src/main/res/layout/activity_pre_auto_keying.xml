@@ -10,25 +10,25 @@
         android:id="@+id/tv_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/txt_preauto_amount"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="30dp"
-        android:text="@string/txt_preauto_amount"
         app:layout_constraintVertical_bias="0.125" />
 
     <TextView
         android:id="@+id/tv_installments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_amount"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_amount" />
 
     <EditText
         android:id="@+id/txt_pan"
@@ -51,30 +51,30 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/txt_pan"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/txt_pan">
 
         <EditText
             android:id="@+id/txt_credit_card_exp_date"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:maxLength="4"
-            android:inputType="number"
+            android:layout_marginEnd="10dp"
             android:hint="@string/exp_date"
-            android:layout_marginRight="10dp"
-            android:textAlignment="center"
-            android:nextFocusDown="@id/txt_credit_card_cvv" />
+            android:inputType="number"
+            android:maxLength="4"
+            android:nextFocusDown="@id/txt_credit_card_cvv"
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/txt_credit_card_cvv"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
-            android:maxLength="4"
-            android:inputType="number"
             android:hint="@string/cvv"
-            android:textAlignment="center"
-            android:nextFocusDown="@id/txt_transaction_date" />
+            android:inputType="number"
+            android:maxLength="4"
+            android:nextFocusDown="@id/txt_transaction_date"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -85,29 +85,29 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
 
-        app:layout_constraintTop_toBottomOf="@id/lay_credit_card_extras"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/lay_credit_card_extras">
 
         <EditText
             android:id="@+id/txt_transaction_date"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:maxLength="8"
-            android:inputType="number"
+            android:layout_marginEnd="10dp"
             android:hint="@string/date"
-            android:layout_marginRight="10dp"
-            android:textAlignment="center"
-            android:nextFocusDown="@id/txt_transaction_code" />
+            android:inputType="number"
+            android:maxLength="8"
+            android:nextFocusDown="@id/txt_transaction_code"
+            android:textAlignment="center" />
 
         <EditText
             android:id="@+id/txt_transaction_code"
             android:layout_width="65dp"
             android:layout_height="wrap_content"
-            android:maxLength="6"
-            android:inputType="number"
             android:hint="@string/cv"
-            android:textAlignment="center"/>
+            android:inputType="number"
+            android:maxLength="6"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -117,23 +117,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/lay_query"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/lay_query">
 
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:minWidth="100dp"
-            android:text="@string/ok"
-            android:layout_marginRight="10dp" />
+            android:text="@string/ok" />
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cancel" />
+            android:text="@string/txt_cancel" />
 
     </LinearLayout>
 

@@ -20,7 +20,6 @@ import br.com.uol.pagseguro.smartcoffee.injection.DaggerNFCComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.NFCComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
 
 public class NFCFragment extends MvpFragment<NFCContract, NFCPresenter> implements NFCContract, HomeFragment {
 
@@ -38,13 +37,10 @@ public class NFCFragment extends MvpFragment<NFCContract, NFCPresenter> implemen
                 .useCaseModule(new UseCaseModule())
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
-
         mInjector.inject(this);
         binding = FragmentNfcBinding.inflate(getLayoutInflater());
-        View rootview = binding.getRoot();
-        ButterKnife.bind(this, rootview);
 
-        return rootview;
+        return binding.getRoot();
     }
 
     @Override

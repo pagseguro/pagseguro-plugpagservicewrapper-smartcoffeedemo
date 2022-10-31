@@ -24,8 +24,6 @@ import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class TransactionsFragment extends MvpFragment<TransactionsContract, TransactionsPresenter> implements TransactionsContract, HomeFragment {
 
@@ -45,13 +43,10 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
                 .useCaseModule(new UseCaseModule())
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
-
         binding = FragmentTransactionsBinding.inflate(getLayoutInflater());
         mInjector.inject(this);
-        View rootView = binding.getRoot();
-        ButterKnife.bind(this, rootView);
 
-        return rootView;
+        return binding.getRoot();
     }
 
     @Override

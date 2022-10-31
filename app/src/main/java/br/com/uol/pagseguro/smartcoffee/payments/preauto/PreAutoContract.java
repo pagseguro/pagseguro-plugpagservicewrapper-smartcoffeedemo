@@ -8,8 +8,6 @@ public interface PreAutoContract extends MvpView {
 
     void showTransactionSuccess();
 
-    void showError(String message);
-
     void showMessage(String message);
 
     void dismissDialog();

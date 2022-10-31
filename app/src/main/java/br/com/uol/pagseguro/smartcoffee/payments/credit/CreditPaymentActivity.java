@@ -29,7 +29,6 @@ import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
 import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
 
 public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, CreditPaymentPresenter>
         implements CreditPaymentContract {
@@ -52,7 +51,6 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         daggerInitializer();
         binding = ActivityCreditPaymentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
 
         getCreditValue(getIntent().getExtras());
         viewsInitializer();

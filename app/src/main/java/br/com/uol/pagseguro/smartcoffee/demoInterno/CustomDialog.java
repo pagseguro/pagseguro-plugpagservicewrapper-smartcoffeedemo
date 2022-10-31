@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
 import br.com.uol.pagseguro.smartcoffee.databinding.CustomDialogBinding;
-import butterknife.ButterKnife;
 
 public class CustomDialog extends Dialog {
 
@@ -21,7 +20,6 @@ public class CustomDialog extends Dialog {
         super.onCreate(savedInstanceState);
         binding = CustomDialogBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
         setCanceledOnTouchOutside(false);
         clickButtons();
     }

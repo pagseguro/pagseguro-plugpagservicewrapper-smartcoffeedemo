@@ -26,8 +26,6 @@ import br.com.uol.pagseguro.smartcoffee.injection.SoftwareCapabilityComponent;
 import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityContract;
 import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityPresenter;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract, SoftwareCapabilityPresenter> implements SoftwareCapabilityContract, HomeFragment {
 
@@ -48,12 +46,9 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
         mInjector = DaggerSoftwareCapabilityComponent.builder()
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
-
         binding = FragmentPermissionsBinding.inflate(getLayoutInflater());
-        View rootView = binding.getRoot();
-        ButterKnife.bind(this, rootView);
 
-        return rootView;
+        return binding.getRoot();
     }
 
     @Override

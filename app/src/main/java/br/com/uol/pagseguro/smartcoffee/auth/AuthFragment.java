@@ -17,7 +17,6 @@ import br.com.uol.pagseguro.smartcoffee.databinding.FragmentAuthBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.AuthComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerAuthComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
 
 public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> implements AuthContract, HomeFragment {
 
@@ -36,12 +35,9 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
         mInjector.inject(this);
-
         binding = FragmentAuthBinding.inflate(getLayoutInflater());
-        View rootView = binding.getRoot();
-        ButterKnife.bind(this, rootView);
 
-        return rootView;
+        return binding.getRoot();
     }
 
     @Override

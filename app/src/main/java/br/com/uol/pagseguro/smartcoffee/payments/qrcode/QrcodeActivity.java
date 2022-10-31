@@ -27,8 +27,6 @@ import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentA
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter> implements QrcodeContract {
 
@@ -58,7 +56,6 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
         binding = ActivityQrcodeOptionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getExtra(getIntent().getExtras());
-        ButterKnife.bind(this);
 
         clickButtons();
     }

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import br.com.uol.pagseguro.smartcoffee.databinding.DialogInputBinding;
-import butterknife.ButterKnife;
 
 public class ActivationDialog extends DialogFragment {
 
@@ -22,9 +21,7 @@ public class ActivationDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogInputBinding.inflate(getLayoutInflater());
-        View rootview = binding.getRoot();
-        ButterKnife.bind(this, rootview);
-        return rootview;
+        return binding.getRoot();
     }
 
     @Override

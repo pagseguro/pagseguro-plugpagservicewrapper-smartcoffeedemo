@@ -9,11 +9,10 @@ import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityMainBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerMainComponent;
 import br.com.uol.pagseguro.smartcoffee.permissions.PermissionsFragment;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
 import br.com.uol.pagseguro.smartcoffee.injection.MainComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.ScreenFlowModule;
@@ -24,13 +23,12 @@ import br.com.uol.pagseguro.smartcoffee.nfc.NFCFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.bottom_navigation)
-    BottomNavigationView mBottomNavigationView;
-
     @Inject
     FragmentFlowManager mFlowManager;
 
     MainComponent mInjector;
+
+    private ActivityMainBinding binding;
 
     BottomNavigationView.OnNavigationItemSelectedListener bottonMenuListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -70,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         mInjector.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         initView();
     }
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         mFlowManager.showFragment(PermissionsFragment.getInstance(), this);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(bottonMenuListener);
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(bottonMenuListener);
     }
 
     public MainComponent getMainComponent() {

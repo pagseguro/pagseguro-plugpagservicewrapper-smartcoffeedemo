@@ -152,9 +152,12 @@
     <string name="txt_preauto_terminal_serial">Terminal serial</string>
     <string name="txt_installments">Installments</string>
     <string name="preauto_cancel_successful">Pré autorização foi cancelado com sucesso</string>
+    <string name="txt_fill_fields_values">Preencha os campos necessários</string>
+    <string name="txt_fill_date_value">Digite a data no formato DDMMAAAA</string>
     <string name="txt_not_value">Sem valor</string>
     <string name="txt_error_code">Código de erro desconhecido</string>
     <string name="txt_msg_default_error">Houve um erro inesperado..</string>
     <string name="txt_confirm">Confirmar</string>
+    <string name="txt_cancel">cancel</string>
 
 </resources>

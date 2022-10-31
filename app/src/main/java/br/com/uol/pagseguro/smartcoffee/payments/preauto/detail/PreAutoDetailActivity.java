@@ -26,9 +26,6 @@ import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 import br.com.uol.pagseguro.smartcoffee.utils.Utils;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, PreAutoDetailPresenter>
     implements PreAutoDetailContract {
@@ -49,7 +46,6 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
         super.onCreate(savedInstanceState);
         binding = ActivityPreAutoDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ButterKnife.bind(this);
         initListener();
         bindUI();
     }
