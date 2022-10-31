@@ -8,6 +8,8 @@
     <string name="menu_transactions">Transações</string>
     <string name="menu_nfc">NFC</string>
     <string name="menu_printer">Impressão</string>
+    <string name="txt_demo_interno">Demo Interno</string>
+    <string name="txt_todas_funcionalidades">Todas Funcionalidades</string>
 
     <!-- PERMISSIONS -->
     <string name="btn_permissions">Solicitar/Verificar permissões</string>
@@ -158,6 +160,6 @@
     <string name="txt_error_code">Código de erro desconhecido</string>
     <string name="txt_msg_default_error">Houve um erro inesperado..</string>
     <string name="txt_confirm">Confirmar</string>
-    <string name="txt_cancel">cancel</string>
+    <string name="txt_cancel">Cancel</string>
 
 </resources>

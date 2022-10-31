@@ -14,10 +14,12 @@ import br.com.uol.pagseguro.smartcoffee.R;
 
 public class FileHelper {
 
+    private static final String FILE_NAME = "transactionInfo.txt";
+
     private static void writeToFile(String transactionInfos, Context context) {
-        FileOutputStream fileOutputStream = null;
+        FileOutputStream fileOutputStream;
         try {
-            fileOutputStream = context.openFileOutput("transactionInfo" + ".txt", Context.MODE_PRIVATE);
+            fileOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
             outputStreamWriter.write(transactionInfos);
             outputStreamWriter.close();
@@ -27,9 +29,9 @@ public class FileHelper {
     }
 
     public static ActionResult readFromFile(Context context) {
-        FileInputStream fileInputStream = null;
+        FileInputStream fileInputStream;
         try {
-            fileInputStream = context.openFileInput("transactionInfo" + ".txt");
+            fileInputStream = context.openFileInput(FILE_NAME);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
             String line = bufferedReader.readLine();
             ActionResult actionResult = new ActionResult();
