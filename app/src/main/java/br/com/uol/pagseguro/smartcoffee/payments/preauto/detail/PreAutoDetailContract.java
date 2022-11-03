@@ -4,14 +4,11 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 
 public interface PreAutoDetailContract extends MvpView {
 
-    void showMessage(String message);
+    void showDialog(String message);
 
     void showTransactionSuccess();
-
-    void showError(String error);
 
     void dismissDialog();
 
     void closeActivity();
-
 }

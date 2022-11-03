@@ -31,7 +31,6 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoQueryData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityPreAutoOptionsBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PreAutoComponent;
@@ -73,7 +72,7 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         super.onCreate(savedInstanceState);
         binding = ActivityPreAutoOptionsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initView();
+        clickButtons();
         setupExtras();
     }
 
@@ -245,7 +244,7 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     }
 
     @Override
-    public void showMessage(@Nullable String message) {
+    public void showTransactionDialog(@Nullable String message) {
         showDialog(message);
     }
 
@@ -269,18 +268,6 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     @Override
     public void writeToFile(@Nullable String transactionCode, @Nullable String transactionId) {
         FileHelper.writeToFile(transactionCode, transactionId, this);
-    }
-
-    @Override
-    public void showActivationDialog() {
-        ActivationDialog dialog = new ActivationDialog();
-        dialog.setOnDismissListener(activationCode -> getPresenter().activate(activationCode));
-        dialog.show(getSupportFragmentManager(), TAG);
-    }
-
-    @Override
-    public void showAuthProgress(@Nullable String message) {
-        showDialog(message);
     }
 
     @Override
@@ -332,7 +319,7 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         mInjector.inject(this);
     }
 
-    private void initView() {
+    private void clickButtons() {
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(dialogCancel -> {
             dialogCancel.dismiss();
@@ -346,7 +333,7 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         );
         binding.btnCreateInstallments.setOnClickListener(click -> {
             if (mValue < VALUE_MINIMAL_INSTALLMENT) {
-                showMessage(getString(R.string.txt_installments_invalid_message));
+                showTransactionDialog(getString(R.string.txt_installments_invalid_message));
             } else {
                 Intent intent = SelectInstallmentActivity.getStartIntent(
                         getApplicationContext(),
@@ -358,19 +345,19 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
             }
         });
         binding.btnEffectuateCash.setOnClickListener(click ->
-            getPresenter().getPreAutoDataEffectivate(
-                    (valueEffectuate, plugPagTransactionResult) ->
-                            getPresenter().doPreAutoEffectuate(
-                                    Integer.parseInt(valueEffectuate),
-                                    plugPagTransactionResult.getTransactionId(),
-                                    plugPagTransactionResult.getTransactionCode()
-                            ),
-                    null
-            )
+                getPresenter().getPreAutoDataEffectivate(
+                        (valueEffectuate, plugPagTransactionResult) ->
+                                getPresenter().doPreAutoEffectuate(
+                                        Integer.parseInt(valueEffectuate),
+                                        plugPagTransactionResult.getTransactionId(),
+                                        plugPagTransactionResult.getTransactionCode()
+                                ),
+                        null
+                )
         );
         binding.btnCreateInstallmentsKeying.setOnClickListener(click -> {
             if (mValue < VALUE_MINIMAL_INSTALLMENT) {
-                showMessage(getString(R.string.txt_installments_invalid_message));
+                showTransactionDialog(getString(R.string.txt_installments_invalid_message));
             } else {
                 Intent intent = SelectInstallmentActivity.getStartIntent(
                                 getApplicationContext(),
@@ -419,7 +406,6 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         if (!dialog.isShowing()) {
             dialog.show();
         }
-
         dialog.setMessage(message);
     }
 

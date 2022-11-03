@@ -8,22 +8,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
+
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInstallment;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivitySelectInstallmentBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerSelectInstallmentComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.SelectInstallmentComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
-import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 
 public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentContract, SelectInstallmentPresenter>
@@ -50,14 +53,9 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
 
         binding = ActivitySelectInstallmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        this.setTitle(R.string.text_select_installment);
+        setTitle(R.string.text_select_installment);
         initExtras();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getPresenter().calculateInstallments(mValue, mParcType, isPreAutoKeyed);
     }
 
     @Override
@@ -77,7 +75,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
     }
 
     @Override
-    public void setUpAdapter(List<String> installments) {
+    public void setUpAdapter(List<PlugPagInstallment> installments) {
         final InstallmentsAdapter adapter = new InstallmentsAdapter(installments, itemClick -> {
             Intent returnIntent = new Intent();
             returnIntent.putExtra(InstallmentConstants.TOTAL_VALUE, mValue);
@@ -91,20 +89,8 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
     }
 
     @Override
-    public void showError(@Nullable String message) {
-        UIFeedback.showDialog(this, message);
-    }
-
-    @Override
-    public void showActivationDialog() {
-        ActivationDialog dialog = new ActivationDialog();
-        dialog.setOnDismissListener(activationCode -> getPresenter().activate(activationCode));
-        dialog.show(getSupportFragmentManager(), TAG);
-    }
-
-    @Override
-    public void showAuthProgress(@Nullable String message) {
-        UIFeedback.showDialog(this, message);
+    public void showMessage(@Nullable String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @NonNull
@@ -118,16 +104,13 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
 
         if (extras != null) {
             mValue = extras.getInt(InstallmentConstants.TOTAL_VALUE);
-            preAutoOperation = (PreAutoActivity.PreAutoOperation)extras.get(PreAutoKeyingConstants.PREAUTO_OPERATION);
-            if (preAutoOperation != null && preAutoOperation == PreAutoActivity.PreAutoOperation.PREAUTO_KEYED) {
-                isPreAutoKeyed = true;
-            }
             if (getIntent().hasExtra(InstallmentConstants.TRANSACTION_TYPE)) {
                 mParcType = extras.getInt(InstallmentConstants.TRANSACTION_TYPE);
             } else {
                 mParcType = INSTALLMENT_TYPE_PARC_VENDEDOR;
             }
         }
+        getPresenter().calculateInstallments(mValue, mParcType);
     }
 
     public static Intent getStartIntent(

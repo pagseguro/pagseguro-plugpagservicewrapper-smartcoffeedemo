@@ -4,15 +4,13 @@ import com.hannesdorfmann.mosby.mvp.MvpView;
 
 import java.util.List;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInstallment;
+
 public interface SelectInstallmentContract extends MvpView {
 
     void showLoading(boolean show);
 
-    void setUpAdapter(List<String> installments);
+    void setUpAdapter(List<PlugPagInstallment> installments);
 
-    void showError(String message);
-
-    void showActivationDialog();
-
-    void showAuthProgress(String message);
+    void showMessage(String message);
 }

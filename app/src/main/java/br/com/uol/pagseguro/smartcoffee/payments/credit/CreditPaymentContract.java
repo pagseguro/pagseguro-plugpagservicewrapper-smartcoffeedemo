@@ -8,15 +8,11 @@ public interface CreditPaymentContract extends MvpView {
 
     void showError(String message);
 
-    void showMessage(String message);
+    void showTransactionDialog(String message);
 
     void showLoading(boolean show);
 
     void writeToFile(String transactionCode, String transactionId);
 
     void disposeDialog();
-
-    void showActivationDialog();
-
-    void showAuthProgress(String message);
 }

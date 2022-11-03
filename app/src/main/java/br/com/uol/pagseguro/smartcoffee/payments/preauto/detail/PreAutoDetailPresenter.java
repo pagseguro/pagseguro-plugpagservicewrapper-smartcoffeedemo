@@ -43,7 +43,7 @@ public class PreAutoDetailPresenter extends MvpNullObjectBasePresenter<PreAutoDe
                     (ActionResult result) -> {
                         if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                 result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                            getView().showMessage(Utils.checkMessagePassword(result.getEventCode(), 0));
+                            getView().showDialog(Utils.checkMessagePassword(result.getEventCode(), 0));
                         } else {
                             final PlugPagTransactionResult transactionResult = result.getTransactionResult();
 
@@ -52,14 +52,14 @@ public class PreAutoDetailPresenter extends MvpNullObjectBasePresenter<PreAutoDe
                                 getView().showTransactionSuccess();
                                 getView().closeActivity();
                             } else {
-                                getView().showMessage(Utils.checkMessage(result.getMessage()));
+                                getView().showDialog(Utils.checkMessage(result.getMessage()));
                             }
                         }
                     },
-                    error -> getView().showError(error.getMessage())
+                    error -> getView().showDialog(error.getMessage())
                 );
         } else {
-            getView().showError("TransactionId e transactionCode não pode ser vazio ou nulo");
+            getView().showDialog("TransactionId e transactionCode não pode ser vazio ou nulo");
         }
     }
 }

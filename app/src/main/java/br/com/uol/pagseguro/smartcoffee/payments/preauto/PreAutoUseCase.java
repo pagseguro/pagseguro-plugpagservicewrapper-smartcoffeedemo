@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import java.util.Locale;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEffectuatePreAutoData;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoKeyingData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoQueryData;
@@ -125,36 +123,8 @@ public class PreAutoUseCase {
         });
     }
 
-    public Observable<ActionResult> initializeAndActivatePinpad(String activationCode) {
-        return Observable.create(emitter -> {
-            ActionResult actionResult = new ActionResult();
-            mPlugPag.setEventListener(plugPagEventData -> {
-                actionResult.setEventCode(plugPagEventData.getEventCode());
-                actionResult.setMessage(plugPagEventData.getCustomMessage());
-                emitter.onNext(actionResult);
-            });
-
-            PlugPagInitializationResult result = mPlugPag.initializeAndActivatePinpad(new PlugPagActivationData(activationCode));
-
-            if (result.getResult() == PlugPag.RET_OK) {
-                emitter.onNext(new ActionResult());
-            } else {
-                emitter.onError(new RuntimeException(result.getErrorMessage()));
-            }
-
-            emitter.onComplete();
-        });
-    }
-
     public Completable abort() {
         return Completable.create(emitter -> mPlugPag.abort());
-    }
-
-    public Observable<Boolean> isAuthenticated() {
-        return Observable.create(emitter -> {
-            emitter.onNext(mPlugPag.isAuthenticated());
-            emitter.onComplete();
-        });
     }
 
     private void setPrintListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {

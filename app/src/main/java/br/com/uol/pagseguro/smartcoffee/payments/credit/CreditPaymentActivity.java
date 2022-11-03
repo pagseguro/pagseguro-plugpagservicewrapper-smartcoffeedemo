@@ -13,6 +13,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
@@ -20,7 +22,6 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityCreditPaymentBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.CreditComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerCreditComponent;
@@ -38,7 +39,6 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
     private ActivityCreditPaymentBinding binding;
 
     private static final int LAUNCH_INSTALLMENTS_ACTIVITY = 1;
-    public static final String ACTIVATION_DIALOG = "dialog";
 
     private boolean shouldShowDialog;
     private boolean mCanClick = true;
@@ -52,8 +52,8 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         binding = ActivityCreditPaymentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getCreditValue(getIntent().getExtras());
         viewsInitializer();
+        clickButtons();
         super.onCreate(savedInstanceState);
     }
 
@@ -71,7 +71,7 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
 
     private void startPayment(int requestCode, int resultCode, Intent data) {
         if (requestCode != LAUNCH_INSTALLMENTS_ACTIVITY) {
-            UIFeedback.showDialog(this, R.string.text_error_select_installment);
+            Snackbar.make(new View(this), R.string.text_error_select_installment, Snackbar.LENGTH_LONG).show();
             return;
         }
         if (resultCode == Activity.RESULT_OK) {
@@ -110,6 +110,12 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(cancelListener);
 
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        value = extras.getInt(CREDIT_VALUE);
+    }
+
+    private void clickButtons() {
         binding.btnCredit.setOnClickListener(click -> {
             if (!mCanClick) {
                 return;
@@ -126,14 +132,6 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         );
     }
 
-    private void getCreditValue(Bundle extras) {
-        if (extras != null) {
-            value = extras.getInt(CREDIT_VALUE);
-        } else {
-            value = 0;
-        }
-    }
-
     DialogInterface.OnCancelListener cancelListener = dialogInterface -> {
         dialogInterface.dismiss();
         if (shouldShowDialog) {
@@ -141,27 +139,19 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         }
     };
 
-    private void showDialog(String message) {
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
-
-        dialog.setMessage(message);
-    }
-
     @Override
     public void showTransactionSuccess() {
         mCanClick = true;
-        showMessage(getString(R.string.transactions_successful));
+        showTransactionDialog(getString(R.string.transactions_successful));
     }
 
     @Override
     public void showError(String message) {
-        showDialog(message);
+        UIFeedback.showDialog(this, message);
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showTransactionDialog(String message) {
         if (shouldShowDialog && !dialog.isShowing()) {
             dialog.show();
         }
@@ -189,18 +179,6 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         shouldShowDialog = false;
     }
 
-    @Override
-    public void showActivationDialog() {
-        ActivationDialog dialog = new ActivationDialog();
-        dialog.setOnDismissListener(activationCode -> getPresenter().activate(activationCode));
-        dialog.show(getSupportFragmentManager(), ACTIVATION_DIALOG);
-    }
-
-    @Override
-    public void showAuthProgress(String message) {
-        showDialog(message);
-    }
-
     private void startInstallmentActivity(int creditType) {
         if (!mCanClick) {
             return;
@@ -208,7 +186,7 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         mCanClick = false;
         shouldShowDialog = true;
         if (value < VALUE_MINIMAL_INSTALLMENT) {
-            showMessage(getString(R.string.txt_installments_invalid_message));
+            showTransactionDialog(getString(R.string.txt_installments_invalid_message));
             return;
         }
         Intent intent = SelectInstallmentActivity.getStartIntent(

@@ -8,17 +8,13 @@ public interface PreAutoContract extends MvpView {
 
     void showTransactionSuccess();
 
-    void showMessage(String message);
+    void showTransactionDialog(String message);
 
     void dismissDialog();
 
     void showLoading(boolean show);
 
     void writeToFile(String transactionCode, String transactionId);
-
-    void showActivationDialog();
-
-    void showAuthProgress(String message);
 
     void showDialogValuePreAuto(
         DismissListenerEffectivate onDismissListener,

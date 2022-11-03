@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
@@ -22,11 +21,11 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityCoffeeSelectionBinding;
-import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerDemoInternoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DemoInternoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
+import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.payments.qrcode.QrcodeActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
@@ -192,7 +191,7 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     @Override
     public void showTransactionSuccess() {
         mCanClick = true;
-        showMessage(getString(R.string.transactions_successful));
+        showTransactionDialog(getString(R.string.transactions_successful));
     }
 
     @Override
@@ -207,26 +206,16 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
     }
 
     @Override
-    public void showAuthProgress(String message) {
-        UIFeedback.showDialog(this, message);
-    }
-
-    @Override
     public void setPaymentValue(String value) {
         binding.txtTotalValue.setText(value);
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showTransactionDialog(String message) {
         if (shouldShowDialog && !dialog.isShowing()) {
             dialog.show();
         }
         dialog.setMessage(message);
-    }
-
-    @Override
-    public void showError(String message) {
-        UIFeedback.showDialog(this, message);
     }
 
     @Override
@@ -236,13 +225,6 @@ public class DemoInternoActivity extends MvpActivity<DemoInternoContract, DemoIn
         } else {
             UIFeedback.dismissProgress();
         }
-    }
-
-    @Override
-    public void showActivationDialog() {
-        ActivationDialog dialog = new ActivationDialog();
-        dialog.setOnDismissListener(activationCode -> getPresenter().activate(activationCode));
-        dialog.show(getSupportFragmentManager(), CreditPaymentActivity.ACTIVATION_DIALOG);
     }
 
     DialogInterface.OnCancelListener cancelListener = dialogInterface -> {

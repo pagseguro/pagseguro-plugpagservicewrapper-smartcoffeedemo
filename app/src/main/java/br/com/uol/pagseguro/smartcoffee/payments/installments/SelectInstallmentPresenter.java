@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInstallment;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -32,47 +33,15 @@ public class SelectInstallmentPresenter extends MvpNullObjectBasePresenter<Selec
         super.detachView(retainInstance);
     }
 
-    public void calculateInstallments(Integer saleValue, Integer installmentType, Boolean isPreAutoKeyed) {
-        mSubscribe = mUseCase.isAuthenticated()
-            .filter(isAuthenticated -> {
-                if (!isAuthenticated) {
-                    getView().showActivationDialog();
-                    mSubscribe.dispose();
-                }
-
-                return isAuthenticated;
-            })
-            .flatMap((Function<Boolean, ObservableSource<List<String>>>) aBoolean ->
-                    mUseCase.calculateInstallments(
-                            saleValue,
-                            installmentType,
-                            isPreAutoKeyed
-                    ))
+    public void calculateInstallments(Integer saleValue, Integer installmentType) {
+        mSubscribe = mUseCase.calculateInstallments(saleValue, installmentType)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe(disposable -> getView().showLoading(true))
-            .doOnComplete(() -> getView().showLoading(false))
+            .doFinally(() -> getView().showLoading(false))
             .subscribe(
                 installments ->
                     getView().setUpAdapter(installments),
-                throwable -> {
-                    getView().showLoading(false);
-                    getView().showError(throwable.getMessage());
-                });
-    }
-
-    public void activate(String activationCode) {
-        mSubscribe = mUseCase.initializeAndActivatePinpad(activationCode)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .doOnSubscribe(disposable -> getView().showLoading(true))
-            .doOnComplete(() -> getView().showLoading(false))
-            .subscribe(
-                actionResult ->
-                    getView().showAuthProgress(actionResult.getMessage()),
-                throwable -> {
-                    getView().showLoading(false);
-                    getView().showError(throwable.getMessage());
-                });
+                throwable -> getView().showMessage(throwable.getMessage()));
     }
 }

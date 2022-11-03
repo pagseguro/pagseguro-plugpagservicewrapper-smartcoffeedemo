@@ -9,10 +9,6 @@ import android.view.ViewGroup;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNFCResult;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.databinding.FragmentNfcBinding;
@@ -69,9 +65,6 @@ public class NFCFragment extends MvpFragment<NFCContract, NFCPresenter> implemen
         );
         binding.btnDetectRemoveCardDirectly.setOnClickListener(click ->
                 getPresenter().detectRemoveCardDirectly()
-        );
-        binding.btnApduCmdExchange.setOnClickListener(click ->
-                getPresenter().cmdExchange()
         );
         binding.btnAuthDirectly.setOnClickListener(click ->
                 getPresenter().detectJustAuthDirectly()

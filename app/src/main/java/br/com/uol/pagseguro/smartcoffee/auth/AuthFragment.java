@@ -14,6 +14,7 @@ import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.FragmentAuthBinding;
+import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.AuthComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerAuthComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
@@ -26,6 +27,7 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
     public static AuthFragment getInstance() {
         return new AuthFragment();
     }
+    public static final String ACTIVATION_DIALOG = "dialog";
     private FragmentAuthBinding binding;
 
     @Nullable
@@ -48,8 +50,16 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
 
     private void clickButtons() {
         binding.btnAuthenticationCheck.setOnClickListener(click -> getPresenter().checkIsAuthenticated());
-        binding.btnAuthenticationRequest.setOnClickListener(click -> getPresenter().requestAuth());
-        binding.btnAuthenticationInvalidate.setOnClickListener(click -> getPresenter().deactivate());
+        binding.btnAuthenticationRequest.setOnClickListener(click -> {
+            ActivationDialog dialog = new ActivationDialog();
+            dialog.setOnDismissListener(activationCode -> getPresenter().requestAuth(activationCode));
+            dialog.show(getFragmentManager(), ACTIVATION_DIALOG);
+        });
+        binding.btnAuthenticationInvalidate.setOnClickListener(click -> {
+            ActivationDialog dialog = new ActivationDialog();
+            dialog.setOnDismissListener(activationCode -> getPresenter().deactivate(activationCode));
+            dialog.show(getFragmentManager(), ACTIVATION_DIALOG);
+        });
     }
 
     @Override

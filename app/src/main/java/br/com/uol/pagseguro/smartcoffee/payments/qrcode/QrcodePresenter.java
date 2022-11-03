@@ -1,7 +1,5 @@
 package br.com.uol.pagseguro.smartcoffee.payments.qrcode;
 
-import android.util.Log;
-
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
 import javax.inject.Inject;
@@ -10,10 +8,8 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagEventData;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> {
@@ -44,23 +40,13 @@ public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> 
     }
 
     private void doAction(Observable<ActionResult> action, int value) {
-        mSubscribe = mUseCase.isAuthenticated()
-                .filter(aBoolean -> {
-                    if (!aBoolean) {
-                        getView().showActivationDialog();
-                        mSubscribe.dispose();
-                    }
-                    return aBoolean;
-                })
-                .flatMap((Function<Boolean, ObservableSource<ActionResult>>) aBoolean -> action)
+        mSubscribe = action
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> getView().showTransactionSuccess())
                 .doOnDispose(() -> getView().disposeDialog())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
-
-                            Log.d("SmartCoffee", String.format("%s - '%s'", result.getEventCode(), (result.getMessage() == null) ? "" : result.getMessage()));
 
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
@@ -105,23 +91,6 @@ public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> 
         }
 
         return message;
-    }
-
-    public void activate(String activationCode) {
-        mSubscribe = mUseCase.initializeAndActivatePinpad(activationCode)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> {
-                    getView().showLoading(false);
-                    getView().disposeDialog();
-                })
-                .doOnDispose(() -> getView().disposeDialog())
-                .subscribe(actionResult -> getView().showAuthProgress(actionResult.getMessage()),
-                        throwable -> {
-                            getView().showLoading(false);
-                            getView().showError(throwable.getMessage());
-                        });
     }
 
     public void abortTransaction() {

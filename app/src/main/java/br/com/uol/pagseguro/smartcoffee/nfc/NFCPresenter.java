@@ -6,8 +6,8 @@ import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.BEEP_S
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CARD_DETECTED_SUCCESS;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.LED_OFF_SUCCESS;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.LED_ON_SUCCESS;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.NFC_OK;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.REMOVED_CARD;
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.RET_OK;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.RET_WAITING_REMOVE_CARD;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.VALUE_RESULT;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.WAITING_REMOVE_CARD;
@@ -76,7 +76,7 @@ public class NFCPresenter extends MvpNullObjectBasePresenter<NFCContract> {
                 .doFinally(() -> getView().showLoading(false))
                 .subscribe(
                         result -> {
-                            if (result.getResult() == RET_OK) {
+                            if (result.getResult() == NFC_OK) {
                                 getView().showSnackbar(CARD_DETECTED_SUCCESS + result.getCid());
                             }
                         },
@@ -93,7 +93,7 @@ public class NFCPresenter extends MvpNullObjectBasePresenter<NFCContract> {
                 .subscribe(
                         result -> {
                             switch (result) {
-                                case RET_OK: {
+                                case NFC_OK: {
                                     getView().showSnackbar(REMOVED_CARD);
                                     break;
                                 }
@@ -107,26 +107,6 @@ public class NFCPresenter extends MvpNullObjectBasePresenter<NFCContract> {
                 );
     }
 
-    public void cmdExchange() {
-        mSubscribe = mUseCase.cmdExchange()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doFinally(() -> getView().showLoading(false))
-                .subscribe(result -> {
-                            final byte[] commandApdu = result.getCmd();
-
-                            if (commandApdu != null) {
-                                final int swa = commandApdu[0];
-                                final int swb = commandApdu[1];
-
-                                getView().showSnackbar("SWA: " + swa + " - " + "SWB: " + swb);
-                            }
-
-                        },
-                        throwable -> getView().showSnackbar(throwable.getMessage()));
-    }
-
     public void detectJustAuthDirectly() {
         mSubscribe = mUseCase.detectJustAuthDirectly()
                 .subscribeOn(Schedulers.io())
@@ -135,7 +115,7 @@ public class NFCPresenter extends MvpNullObjectBasePresenter<NFCContract> {
                 .doFinally(() -> getView().showLoading(false))
                 .subscribe(
                         result -> {
-                            if (result == RET_OK) {
+                            if (result == NFC_OK) {
                                 getView().showSnackbar(AUTH_CARD_SUCCESS);
                             }
                         },
@@ -149,7 +129,7 @@ public class NFCPresenter extends MvpNullObjectBasePresenter<NFCContract> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         result -> {
-                            if(result == RET_OK){
+                            if(result == NFC_OK){
                                 getView().showSnackbar(AUTH_BLOCK_B_CARD_SUCCESS);
                             }
                         },

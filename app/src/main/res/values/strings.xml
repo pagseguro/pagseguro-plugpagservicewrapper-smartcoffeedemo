@@ -18,7 +18,7 @@
     <string name="msg_all_permissions_granted">Todas permissões concedidas</string>
 
     <!-- AUTH -->
-    <string name="txt_activation_code">Insira o código de ativação</string>
+    <string name="txt_activation_code">Insira seu código</string>
     <string name="btn_authentication_check">Verificar autenticação</string>
     <string name="btn_authentication_request">Solicitar autenticação</string>
     <string name="btn_authentication_deactivate">Solicitar desativação</string>

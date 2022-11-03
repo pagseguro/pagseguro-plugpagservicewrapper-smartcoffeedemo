@@ -4,13 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 
@@ -46,7 +41,7 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
         super.onCreate(savedInstanceState);
         binding = ActivityPreAutoDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initListener();
+        clickButtons();
         bindUI();
     }
 
@@ -64,17 +59,12 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
 
     @Override
     public void showTransactionSuccess() {
-        showDialog(getString(R.string.preauto_cancel_successful));
+        UIFeedback.showDialog(this, getString(R.string.preauto_cancel_successful));
     }
 
     @Override
-    public void showMessage(String message) {
-        showDialog(message);
-    }
-
-    @Override
-    public void showError(String error) {
-        showDialog(error);
+    public void showDialog(String message) {
+        UIFeedback.showDialog(this, message);
     }
 
     @Override
@@ -168,7 +158,7 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
         mInjector.inject(this);
     }
 
-    private void initListener() {
+    private void clickButtons() {
         dialog = new CustomDialog(this);
         dialog.setOnCancelListener(DialogInterface::dismiss);
         binding.btnPreautoCancel.setOnClickListener(click -> {
@@ -178,17 +168,8 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
         });
     }
 
-    private void showDialog(String message) {
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
-
-        dialog.setMessage(message);
-    }
-
     @Override
     public void closeActivity() {
-        Handler handler = new Handler();
-        handler.postDelayed(this::finish, 2000);
+        this.onDestroy();
     }
 }

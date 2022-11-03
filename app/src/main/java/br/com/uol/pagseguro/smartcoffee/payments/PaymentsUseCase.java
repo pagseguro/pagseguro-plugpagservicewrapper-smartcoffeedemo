@@ -1,10 +1,31 @@
 package br.com.uol.pagseguro.smartcoffee.payments;
 
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CONTENT_TEXT_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CONTENT_TEXT_VALUE_1_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CONTENT_TEXT_VALUE_2_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.HEAD_BACKGROUND_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.HEAD_TEXT_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_A_VISTA;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_COMPRADOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.INSTALLMENT_TYPE_PARC_VENDEDOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.LINE_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.NEGATIVE_BUTTON_BACKGROUND;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.NEGATIVE_BUTTON_TEXT_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.POSITIVE_BUTTON_BACKGROUND;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.POSITIVE_BUTTON_TEXT_COLOR;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TYPE_CREDITO;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TYPE_DEBITO;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TYPE_PIX;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TYPE_QRCODE_CREDITO;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TYPE_QRCODE_DEBITO;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TYPE_VOUCHER;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.USER_REFERENCE;
+
+import java.util.Locale;
+
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagActivationData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCardInfoResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCustomPrinterLayout;
-import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInitializationResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPaymentData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrintResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPrinterListener;
@@ -13,11 +34,6 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagVoidData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
-
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.*;
-
-import java.util.Locale;
-
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -271,37 +287,6 @@ public class PaymentsUseCase {
 
     public Completable abort() {
         return Completable.create(emitter -> mPlugPag.abort());
-    }
-
-    public Observable<Boolean> isAuthenticated() {
-        return Observable.create(emitter -> {
-            emitter.onNext(mPlugPag.isAuthenticated());
-            emitter.onComplete();
-        });
-    }
-
-    public Observable<ActionResult> initializeAndActivatePinpad(String activationCode) {
-        return Observable.create(emitter -> {
-            ActionResult actionResult = new ActionResult();
-            mPlugPag.setEventListener(plugPagEventData -> {
-                actionResult.setEventCode(plugPagEventData.getEventCode());
-                actionResult.setMessage(plugPagEventData.getCustomMessage());
-                emitter.onNext(actionResult);
-            });
-
-            PlugPagInitializationResult result =
-                    mPlugPag.initializeAndActivatePinpad(
-                            new PlugPagActivationData(activationCode)
-                    );
-
-            if (result.getResult() == PlugPag.RET_OK) {
-                emitter.onNext(new ActionResult());
-            } else {
-                emitter.onError(new RuntimeException(result.getErrorMessage()));
-            }
-
-            emitter.onComplete();
-        });
     }
 
     public Observable<ActionResult> getLastTransaction() {

@@ -64,20 +64,12 @@
             app:layout_constraintTop_toBottomOf="@id/btn_detect_card_directly" />
 
         <Button
-            android:id="@+id/btn_apdu_cmd_exchange"
-            style="@style/ButtonStyle"
-            android:text="@string/apdu_read_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_detect_remove_card_directly" />
-
-        <Button
             android:id="@+id/btn_auth_directly"
             style="@style/ButtonStyle"
             android:text="@string/nfc_auth_card_directly"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_apdu_cmd_exchange" />
+            app:layout_constraintTop_toBottomOf="@id/btn_detect_remove_card_directly" />
 
         <Button
             android:id="@+id/btn_auth_nfc_bloco_b"

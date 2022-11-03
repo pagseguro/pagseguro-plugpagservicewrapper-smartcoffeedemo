@@ -8,15 +8,16 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInstallment;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.utils.Utils;
 
 public class InstallmentsAdapter extends RecyclerView.Adapter<InstallmentsAdapter.ViewHolder> {
 
-    private final List<String> installments;
+    private final List<PlugPagInstallment> installments;
     private final OnItemClickListener listener;
 
-    public InstallmentsAdapter(List<String> installments, OnItemClickListener listener) {
+    public InstallmentsAdapter(List<PlugPagInstallment> installments, OnItemClickListener listener) {
         this.installments = installments;
         this.listener = listener;
     }
@@ -49,14 +50,17 @@ public class InstallmentsAdapter extends RecyclerView.Adapter<InstallmentsAdapte
             itemInstallment = itemView.findViewById(R.id.tvInstallment);
         }
 
-        public void bind(String installment, final int item, final OnItemClickListener listener) {
+        public void bind(PlugPagInstallment installment, final int item, final OnItemClickListener listener) {
             if (installment != null) {
-                final Integer installNumber = item + 1;
-                itemInstallment.setText(installNumber + " x " + Utils.getFormattedValue(Double.parseDouble(installment)));
-                itemView.setOnClickListener(v -> listener.onItemClick(installNumber.toString()));
+                final int installNumber = item + 1;
+                itemInstallment.setText(
+                        new StringBuilder()
+                                .append(installment.getQuantity())
+                                .append(" x ")
+                                .append(Utils.getFormattedValue((double) installment.getAmount()))
+                );
+                itemView.setOnClickListener(v -> listener.onItemClick(Integer.toString(installNumber)));
             }
-
         }
-
     }
 }

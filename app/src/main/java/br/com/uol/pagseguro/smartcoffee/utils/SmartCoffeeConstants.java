@@ -20,7 +20,7 @@ public class SmartCoffeeConstants {
     public static final String PAYMENT_CARD_MESSAGE = "Aproxime, insira ou passe o cartão";
 
     //NFC Constants
-    public static final int RET_OK = 1;
+    public static final int NFC_OK = 1;
     public static final int RET_WAITING_REMOVE_CARD = 2;
     public static final String NFC_START_FAIL = "Ocorreu um erro ao iniciar o serviço nfc: ";
     public static final String APDU_COMMAND_FAIL = "Ocorreu um erro no comando APDU: ";

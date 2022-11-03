@@ -10,11 +10,9 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.utils.Utils;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract> {
@@ -39,20 +37,6 @@ public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract
         super.detachView(retainInstance);
     }
 
-    public void activate(String activationCode) {
-        mSubscribe = mUseCase.initializeAndActivatePinpad(activationCode)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> getView().showLoading(false))
-                .subscribe(
-                        actionResult -> {
-                            getView().showAuthProgress(actionResult.getMessage());
-                        },
-                        throwable -> getView().showMessage(throwable.getMessage())
-                );
-    }
-
     public void abortTransaction() {
         mSubscribe = mUseCase.abort()
                 .subscribeOn(Schedulers.io())
@@ -74,34 +58,22 @@ public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract
             String transactionId,
             String transactionCode
     ) {
-        mSubscribe = mUseCase.isAuthenticated()
-                .filter(isAuthenticate -> {
-                    if (!isAuthenticate) {
-                        getView().showActivationDialog();
-                        mSubscribe.dispose();
-                    }
-                    return isAuthenticate;
-                })
-                .flatMap((Function<Boolean, ObservableSource<ActionResult>>) aBoolean ->
-                        mUseCase.doPreAutoEffectuate(value, transactionId, transactionCode)
-                )
+        mSubscribe = mUseCase.doPreAutoEffectuate(value, transactionId, transactionCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doFinally(() -> getView().showLoading(false))
-                .doOnComplete(() -> {
-                    getView().showMessage("Pre autorização foi efetivada com sucesso");
-                })
+                .doOnComplete(() -> getView().showTransactionDialog("Pre autorização foi efetivada com sucesso"))
                 .subscribe(
                         (ActionResult result) -> {
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                                getView().showMessage(Utils.checkMessagePassword(result.getEventCode(), value));
+                                getView().showTransactionDialog(Utils.checkMessagePassword(result.getEventCode(), value));
                             } else {
-                                getView().showMessage(result.getMessage());
+                                getView().showTransactionDialog(result.getMessage());
                             }
                         },
-                        throwable -> getView().showMessage(throwable.getMessage())
+                        throwable -> getView().showTransactionDialog(throwable.getMessage())
                 );
     }
 
@@ -116,7 +88,7 @@ public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract
                         (ActionResult result) -> {
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                                getView().showMessage(
+                                getView().showTransactionDialog(
                                         Utils.checkMessagePassword(result.getEventCode(), 0)
                                 );
                             } else {
@@ -134,11 +106,11 @@ public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract
                                         );
                                     }
                                 } else {
-                                    getView().showMessage(result.getMessage());
+                                    getView().showTransactionDialog(result.getMessage());
                                 }
                             }
                         },
-                        throwable -> getView().showMessage(throwable.getMessage())
+                        throwable -> getView().showTransactionDialog(throwable.getMessage())
                 );
     }
 
@@ -152,7 +124,7 @@ public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract
                         (ActionResult result) -> {
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                                getView().showMessage(Utils.checkMessagePassword(result.getEventCode(), 0));
+                                getView().showTransactionDialog(Utils.checkMessagePassword(result.getEventCode(), 0));
                             } else {
                                 final PlugPagTransactionResult transactionResult = result.getTransactionResult();
 
@@ -162,39 +134,31 @@ public class PreAutoPresenter extends MvpNullObjectBasePresenter<PreAutoContract
                                     getView().dismissDialog();
                                     getView().showPreAutoDetail(result.getTransactionResult(), isPreAutoCancel);
                                 } else {
-                                    getView().showMessage(Utils.checkMessage(result.getMessage()));
+                                    getView().showTransactionDialog(Utils.checkMessage(result.getMessage()));
                                 }
 
                             }
                         },
-                        error -> getView().showMessage(error.getMessage())
+                        error -> getView().showTransactionDialog(error.getMessage())
                 );
     }
 
     private void doAction(Observable<ActionResult> action, int value) {
-        mSubscribe = mUseCase.isAuthenticated()
-                .filter(isAuthenticate -> {
-                    if (!isAuthenticate) {
-                        getView().showActivationDialog();
-                        mSubscribe.dispose();
-                    }
-                    return isAuthenticate;
-                })
-                .flatMap((Function<Boolean, ObservableSource<ActionResult>>) aBoolean -> action)
+        mSubscribe = action
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(disposable -> getView().showMessage("CARREGANDO"))
+                .doOnSubscribe(disposable -> getView().showTransactionDialog("CARREGANDO"))
                 .doOnComplete(() -> getView().showTransactionSuccess())
                 .subscribe(
                         (ActionResult result) -> {
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                                getView().showMessage(Utils.checkMessagePassword(result.getEventCode(), value));
+                                getView().showTransactionDialog(Utils.checkMessagePassword(result.getEventCode(), value));
                             } else {
-                                getView().showMessage(result.getMessage());
+                                getView().showTransactionDialog(result.getMessage());
                             }
                         },
-                        throwable -> getView().showMessage(throwable.getMessage())
+                        throwable -> getView().showTransactionDialog(throwable.getMessage())
                 );
     }
 

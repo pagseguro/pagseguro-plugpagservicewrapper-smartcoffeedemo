@@ -1,13 +1,12 @@
 package br.com.uol.pagseguro.smartcoffee.nfc;
 
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.APDU_COMMAND_FAIL;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.BEEP_FAIL;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CARD_NOT_FOUND;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.CARD_NOT_REMOVED;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.LED_FAIL;
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.NFC_OK;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.NFC_START_FAIL;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.NO_NEAR_FIELD_FOUND;
-import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.RET_OK;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.RET_WAITING_REMOVE_CARD;
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.TEST_16_BYTES;
 
@@ -24,7 +23,6 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagLedData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagNFCAuth;
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagNFCAuthDirectly;
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagSimpleNFCData;
-import br.com.uol.pagseguro.plugpagservice.wrapper.data.result.PlugPagCmdExchangeResult;
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.result.PlugPagNFCInfosResultDirectly;
 import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException;
 import br.com.uol.pagseguro.smartcoffee.utils.Utils;
@@ -59,7 +57,7 @@ public class NFCUseCase {
 
             PlugPagNFCResult result = mPlugPag.readFromNFCCard(cardData);
 
-            if (result.getResult() == RET_OK) {
+            if (result.getResult() == NFC_OK) {
                 emitter.onNext(result);
             } else {
                 emitter.onError(new PlugPagException(CARD_NOT_FOUND + result.getResult()));
@@ -79,7 +77,7 @@ public class NFCUseCase {
 
             PlugPagNFCResult result = mPlugPag.writeToNFCCard(cardData);
 
-            if (result.getResult() == RET_OK) {
+            if (result.getResult() == NFC_OK) {
                 emitter.onNext(result);
             } else {
                 emitter.onError(new PlugPagException(CARD_NOT_FOUND + result.getResult()));
@@ -98,7 +96,7 @@ public class NFCUseCase {
         return Observable.create(emitter -> {
             try {
                 int resultStartNfc = mPlugPag.startNFCCardDirectly();
-                if (resultStartNfc != RET_OK) {
+                if (resultStartNfc != NFC_OK) {
                     emitter.onError(new PlugPagException(NFC_START_FAIL + resultStartNfc));
                     emitter.onComplete();
                     return;
@@ -112,7 +110,7 @@ public class NFCUseCase {
                 );
                 int resultAuth = mPlugPag.authNFCCardDirectly(auth);
 
-                if (resultAuth != RET_OK) {
+                if (resultAuth != NFC_OK) {
                     emitter.onError(new PlugPagException(String.format(
                             Locale.getDefault(),
                             "Erro ao autenticar bloco [ %s ]: %d", cardData.getSlot(), resultAuth)));
@@ -122,7 +120,7 @@ public class NFCUseCase {
 
                 int result = mPlugPag.writeToNFCCardDirectly(cardData);
 
-                if (result == RET_OK) {
+                if (result == NFC_OK) {
                     emitter.onNext(result);
                 } else {
                     emitter.onError(
@@ -146,7 +144,7 @@ public class NFCUseCase {
         return Observable.create(emitter -> {
             try {
                 int resultStartNfc = mPlugPag.startNFCCardDirectly();
-                if (resultStartNfc != RET_OK) {
+                if (resultStartNfc != NFC_OK) {
                     emitter.onError(new PlugPagException(NFC_START_FAIL + resultStartNfc));
                     emitter.onComplete();
                     return;
@@ -154,7 +152,7 @@ public class NFCUseCase {
 
                 PlugPagNFCInfosResultDirectly plugPagNFCInfosResult = mPlugPag.detectNfcCardDirectly(PlugPagNearFieldCardData.ONLY_M, 20);
 
-                if (plugPagNFCInfosResult.getResult() != RET_OK) {
+                if (plugPagNFCInfosResult.getResult() != NFC_OK) {
                     emitter.onError(new PlugPagException(CARD_NOT_FOUND + plugPagNFCInfosResult.getResult()));
                     mPlugPag.stopNFCCardDirectly();
                     emitter.onComplete();
@@ -177,7 +175,7 @@ public class NFCUseCase {
         return Observable.create(emitter -> {
             try {
                 int resultStartNfc = mPlugPag.startNFCCardDirectly();
-                if (resultStartNfc != RET_OK) {
+                if (resultStartNfc != NFC_OK) {
                     emitter.onError(new PlugPagException(NFC_START_FAIL + resultStartNfc));
                     emitter.onComplete();
                     return;
@@ -186,7 +184,7 @@ public class NFCUseCase {
                 PlugPagNFCInfosResultDirectly plugPagNFCInfosResult =
                         mPlugPag.detectNfcCardDirectly(PlugPagNearFieldCardData.ONLY_M, 20);
 
-                if (plugPagNFCInfosResult.getResult() != RET_OK) {
+                if (plugPagNFCInfosResult.getResult() != NFC_OK) {
                     emitter.onError(
                             new PlugPagException(CARD_NOT_FOUND + plugPagNFCInfosResult.getResult())
                     );
@@ -206,7 +204,7 @@ public class NFCUseCase {
                             );
 
                     result = mPlugPag.detectNfcRemoveDirectly(plugPagNFCDetectRemoveCard);
-                    if (result != RET_OK) {
+                    if (result != NFC_OK) {
                         emitter.onError(new PlugPagException(CARD_NOT_REMOVED + result));
                         mPlugPag.stopNFCCardDirectly();
                         emitter.onComplete();
@@ -229,39 +227,11 @@ public class NFCUseCase {
         });
     }
 
-    public Observable<PlugPagCmdExchangeResult> cmdExchange() {
-        return Observable.create(emitter -> {
-            byte[] command = new byte[]{
-                    (byte) 0x00,
-                    (byte) 0xa4,
-                    (byte) 0x00,
-                    (byte) 0x00,
-                    (byte) 0x02,
-                    (byte) 0x2f,
-                    (byte) 0xf7
-            };
-            try {
-                PlugPagCmdExchangeResult resultAuth = mPlugPag.apduCommand(command, 256);
-
-                if (resultAuth.getCmd() != null && resultAuth.getCmd().length > 0) {
-                    emitter.onNext(resultAuth);
-                } else {
-                    emitter.onError(new PlugPagException(APDU_COMMAND_FAIL + resultAuth));
-                }
-
-                emitter.onComplete();
-            } catch (Exception e) {
-                e.printStackTrace();
-                emitter.onError(e);
-            }
-        });
-    }
-
     public Observable<Integer> detectJustAuthDirectly() {
         return Observable.create(emitter -> {
             try {
                 int resultStartNfc = mPlugPag.startNFCCardDirectly();
-                if (resultStartNfc != RET_OK) {
+                if (resultStartNfc != NFC_OK) {
                     emitter.onError(new PlugPagException(NFC_START_FAIL + resultStartNfc));
                     mPlugPag.stopNFCCardDirectly();
                     emitter.onComplete();
@@ -271,7 +241,7 @@ public class NFCUseCase {
                 PlugPagNFCInfosResultDirectly plugPagNFCInfosResult =
                         mPlugPag.detectNfcCardDirectly(PlugPagNearFieldCardData.ONLY_M, 20);
 
-                if (plugPagNFCInfosResult.getResult() != RET_OK) {
+                if (plugPagNFCInfosResult.getResult() != NFC_OK) {
                     emitter.onError(
                             new PlugPagException(CARD_NOT_FOUND + plugPagNFCInfosResult.getResult())
                     );
@@ -284,7 +254,7 @@ public class NFCUseCase {
                         DEFAULT_KEY_NFC, EM1KeyType.TYPE_A, plugPagNFCInfosResult.getSerialNumber());
                 int resultAuth = mPlugPag.justAuthNfcDirectly(auth);
 
-                if (resultAuth != RET_OK) {
+                if (resultAuth != NFC_OK) {
                     emitter.onError(new PlugPagException(String.format(
                             Locale.getDefault(),
                             "Erro ao autenticar bloco: %d", resultAuth)));
@@ -313,7 +283,7 @@ public class NFCUseCase {
         return Observable.create(emitter -> {
             try {
                 int resultStartNfc = mPlugPag.startNFCCardDirectly();
-                if (resultStartNfc != RET_OK) {
+                if (resultStartNfc != NFC_OK) {
                     emitter.onError(new PlugPagException(NFC_START_FAIL + resultStartNfc));
                     emitter.onComplete();
                     return;
@@ -323,7 +293,7 @@ public class NFCUseCase {
                         (byte) cardData.getSlot(), DEFAULT_KEY_NFC, EM1KeyType.TYPE_B);
                 int resultAuth = mPlugPag.authNFCCardDirectly(auth);
 
-                if (resultAuth != RET_OK) {
+                if (resultAuth != NFC_OK) {
                     emitter.onError(new PlugPagException(String.format(
                             Locale.getDefault(),
                             "Erro ao autenticar bloco [ %s ]: %d", cardData.getSlot(), resultAuth)));
@@ -350,7 +320,7 @@ public class NFCUseCase {
                     PlugPagBeepData.FREQUENCE_LEVEL_1, 500)
             );
 
-            if (result == RET_OK) {
+            if (result == NFC_OK) {
                 emitter.onNext(result);
             } else {
                 emitter.onError(new PlugPagException(BEEP_FAIL));
@@ -365,7 +335,7 @@ public class NFCUseCase {
 
             int result = mPlugPag.setLed(new PlugPagLedData(ledColor));
 
-            if (result == RET_OK) {
+            if (result == NFC_OK) {
                 emitter.onNext(result);
             } else {
                 emitter.onError(new PlugPagException(LED_FAIL));

@@ -221,15 +221,4 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
         shouldShowDialog = false;
     }
 
-    @Override
-    public void showActivationDialog() {
-        ActivationDialog dialog = new ActivationDialog();
-        dialog.setOnDismissListener(activationCode -> getPresenter().activate(activationCode));
-        dialog.show(getSupportFragmentManager(), CreditPaymentActivity.ACTIVATION_DIALOG);
-    }
-
-    @Override
-    public void showAuthProgress(String message) {
-        showDialog(message);
-    }
 }

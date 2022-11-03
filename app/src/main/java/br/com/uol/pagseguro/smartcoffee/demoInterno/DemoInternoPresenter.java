@@ -49,7 +49,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
 
     public void doRefund(ActionResult actionResult) {
         if (actionResult.getMessage() != null) {
-            getView().showError(actionResult.getMessage());
+            getView().showTransactionDialog(actionResult.getMessage());
             getView().disposeDialog();
         } else {
             doAction(mUseCase.doRefund(actionResult), 0);
@@ -58,7 +58,7 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
 
     public void doRefundQrCode(ActionResult actionResult) {
         if (actionResult.getMessage() != null) {
-            getView().showError(actionResult.getMessage());
+            getView().showTransactionDialog(actionResult.getMessage());
             getView().disposeDialog();
         } else {
             doAction(mUseCase.doRefundQrCode(actionResult), 0);
@@ -66,36 +66,24 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
     }
 
     private void doAction(Observable<ActionResult> action, int value) {
-        mSubscribe = mUseCase.isAuthenticated()
-                .filter(aBoolean -> {
-                    if (!aBoolean) {
-                        getView().showActivationDialog();
-                        mSubscribe.dispose();
-                    }
-                    return aBoolean;
-                })
-                .flatMap((Function<Boolean, ObservableSource<ActionResult>>) aBoolean -> action)
+        mSubscribe = action
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(
-                        () -> getView().showTransactionSuccess()
-                )
-                .doOnDispose(
-                        () -> getView().disposeDialog()
-                )
+                .doOnComplete(() -> getView().showTransactionSuccess())
+                .doOnDispose(() -> getView().disposeDialog())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
                             updateValue(result.getTransactionResult());
 
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                                getView().showMessage(checkMessagePassword(result.getEventCode(), value));
+                                getView().showTransactionDialog(checkMessagePassword(result.getEventCode(), value));
                             } else {
-                                getView().showMessage(checkMessage(result.getMessage()));
+                                getView().showTransactionDialog(checkMessage(result.getMessage()));
                             }
                         },
                         throwable -> {
-                            getView().showMessage(throwable.getMessage());
+                            getView().showTransactionDialog(throwable.getMessage());
                             getView().disposeDialog();
                         });
     }
@@ -155,28 +143,11 @@ public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInterno
         super.detachView(retainInstance);
     }
 
-    public void activate(String activationCode) {
-        mSubscribe = mUseCase.initializeAndActivatePinpad(activationCode)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> {
-                    getView().showLoading(false);
-                    getView().disposeDialog();
-                })
-                .doOnDispose(() -> getView().disposeDialog())
-                .subscribe(actionResult -> getView().showAuthProgress(actionResult.getMessage()),
-                        throwable -> {
-                            getView().showLoading(false);
-                            getView().showError(throwable.getMessage());
-                        });
-    }
-
     public void getLastTransaction() {
         mSubscribe = mUseCase.getLastTransaction()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(actionResult -> getView().showMessage(actionResult.getTransactionCode()),
-                        throwable -> getView().showError(throwable.getMessage()));
+                .subscribe(actionResult -> getView().showTransactionDialog(actionResult.getTransactionCode()),
+                        throwable -> getView().showTransactionDialog(throwable.getMessage()));
     }
 }

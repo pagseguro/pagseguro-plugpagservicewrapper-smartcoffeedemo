@@ -15,9 +15,4 @@ public interface QrcodeContract extends MvpView {
     void writeToFile(String transactionCode, String transactionId);
 
     void disposeDialog();
-
-    void showActivationDialog();
-
-    void showAuthProgress(String message);
-
 }
