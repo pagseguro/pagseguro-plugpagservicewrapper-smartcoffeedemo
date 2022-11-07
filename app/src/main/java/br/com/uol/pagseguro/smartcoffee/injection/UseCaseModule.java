@@ -4,7 +4,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentUseCase;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoUseCase;
-import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityUseCase;
+import br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability.SoftwareCapabilityUseCase;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterUseCase;
 import dagger.Module;
 import dagger.Provides;

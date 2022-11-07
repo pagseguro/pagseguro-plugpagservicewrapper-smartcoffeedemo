@@ -183,18 +183,18 @@ public class PaymentsUseCase {
         mPlugPagPaymentData = paymentData;
         return Observable.create(emitter -> {
             ActionResult result = new ActionResult();
-            setListener(emitter, result);
+            setEventListener(emitter, result);
             setStyle();
             mPlugPag.setPlugPagCustomPrinterLayout(getCustomPrinterDialog());
             PlugPagTransactionResult plugPagTransactionResult = mPlugPag.doPayment(paymentData);
-            sendResponse(emitter, plugPagTransactionResult, result);
+            sendTransactionResponse(emitter, plugPagTransactionResult, result);
         });
     }
 
     public Observable<ActionResult> doRefund(ActionResult transaction) {
         return Observable.create(emitter -> {
             ActionResult actionResult = new ActionResult();
-            setListener(emitter, actionResult);
+            setEventListener(emitter, actionResult);
             PlugPagTransactionResult result = mPlugPag.voidPayment(
                     new PlugPagVoidData(
                             transaction.getTransactionCode(),
@@ -203,15 +203,14 @@ public class PaymentsUseCase {
                     )
             );
 
-            sendResponse(emitter, result, actionResult);
+            sendTransactionResponse(emitter, result, actionResult);
         });
     }
-
 
     public Observable<ActionResult> doRefundQrCode(ActionResult transaction) {
         return Observable.create(emitter -> {
             ActionResult actionResult = new ActionResult();
-            setListener(emitter, actionResult);
+            setEventListener(emitter, actionResult);
             PlugPagTransactionResult result = mPlugPag.voidPayment(
                     new PlugPagVoidData(
                             transaction.getTransactionCode(),
@@ -221,11 +220,11 @@ public class PaymentsUseCase {
                     )
             );
 
-            sendResponse(emitter, result, actionResult);
+            sendTransactionResponse(emitter, result, actionResult);
         });
     }
 
-    private void sendResponse(
+    private void sendTransactionResponse(
             ObservableEmitter<ActionResult> emitter,
             PlugPagTransactionResult plugPagTransactionResult,
             ActionResult result
@@ -246,7 +245,7 @@ public class PaymentsUseCase {
         emitter.onComplete();
     }
 
-    private void sendResponse(
+    private void sendPrintResponse(
             ObservableEmitter<ActionResult> emitter,
             PlugPagPrintResult printResult,
             ActionResult result
@@ -257,7 +256,7 @@ public class PaymentsUseCase {
         emitter.onComplete();
     }
 
-    private void sendResponse(
+    private void sendCardResponse(
             ObservableEmitter<ActionResult> emitter,
             PlugPagCardInfoResult cardResult,
             ActionResult result
@@ -267,7 +266,7 @@ public class PaymentsUseCase {
             result.setMessage(cardResult.getMessage());
         } else {
             result.setMessage(
-                    "Bin: " + cardResult.getCardHolder() + "\n" +
+                    "BIN: " + cardResult.getBin() + "\n" +
                             "Holder: " + cardResult.getHolder() + "\n" +
                             "CardHolder: " + cardResult.getCardHolder()
             );
@@ -277,7 +276,7 @@ public class PaymentsUseCase {
         emitter.onComplete();
     }
 
-    private void setListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
+    private void setEventListener(ObservableEmitter<ActionResult> emitter, ActionResult result) {
         mPlugPag.setEventListener(plugPagEventData -> {
             result.setEventCode(plugPagEventData.getEventCode());
             result.setMessage(plugPagEventData.getCustomMessage());
@@ -295,7 +294,7 @@ public class PaymentsUseCase {
 
             PlugPagTransactionResult result = mPlugPag.getLastApprovedTransaction();
 
-            sendResponse(emitter, result, actionResult);
+            sendTransactionResponse(emitter, result, actionResult);
         });
     }
 
@@ -303,45 +302,31 @@ public class PaymentsUseCase {
         return mPlugPagPaymentData;
     }
 
-    public Completable reboot() {
-        return Completable.create(emitter -> {
-            mPlugPag.reboot();
-            emitter.onComplete();
-        });
-    }
-
-    public Completable startOnboarding() {
-        return Completable.create(emitter -> {
-            mPlugPag.startOnboarding();
-            emitter.onComplete();
-        });
-    }
-
     public Observable<ActionResult> getCardData() {
         return Observable.create(emitter -> {
             ActionResult action = new ActionResult();
             PlugPagCardInfoResult result = mPlugPag.getCardData();
-            sendResponse(emitter, result, action);
+            sendCardResponse(emitter, result, action);
         });
     }
 
     //Printer
 
-    public Observable<ActionResult> printCustomerReceipt() {
+    public Observable<ActionResult> reprintCustomerReceipt() {
         return Observable.create(emitter -> {
             ActionResult actionResult = new ActionResult();
             setPrintListener(emitter, actionResult);
             PlugPagPrintResult result = mPlugPag.reprintCustomerReceipt();
-            sendResponse(emitter, result, actionResult);
+            sendPrintResponse(emitter, result, actionResult);
         });
     }
 
-    public Observable<ActionResult> printStablishmentReceipt() {
+    public Observable<ActionResult> reprintStablishmentReceipt() {
         return Observable.create(emitter -> {
             ActionResult actionResult = new ActionResult();
             setPrintListener(emitter, actionResult);
             PlugPagPrintResult result = mPlugPag.reprintStablishmentReceipt();
-            sendResponse(emitter, result, actionResult);
+            sendPrintResponse(emitter, result, actionResult);
         });
     }
 

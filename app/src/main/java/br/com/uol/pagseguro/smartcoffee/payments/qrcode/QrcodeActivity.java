@@ -16,9 +16,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityQrcodeOptionsBinding;
-import br.com.uol.pagseguro.smartcoffee.payments.credit.CreditPaymentActivity;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerQrcodeComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.QrcodeComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -34,7 +32,8 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
     CustomDialog dialog;
 
     public static final String TAG = "valueQR";
-    private static final int VALUE_MINIMAL_INSTALLMENT = 500;
+    public static final int DEFAULT_VALUE = 0;
+    private static final int VALUE_MINIMAL_INSTALLMENT = 1000;
     private static final int LAUNCH_SECOND_ACTIVITY = 1;
 
     private boolean shouldShowDialog;
@@ -71,13 +70,13 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
-                final int amount = data.getIntExtra(InstallmentConstants.TOTAL_VALUE, 0);
+                final int amount = data.getIntExtra(InstallmentConstants.TOTAL_VALUE, DEFAULT_VALUE);
                 final String installmentNumber = data.getStringExtra(
                         InstallmentConstants.INSTALLMENT_NUMBER
                 );
                 final int transactionType = data.getIntExtra(
                         TRANSACTION_TYPE,
-                        0
+                        DEFAULT_VALUE
                 );
 
                 switch (transactionType) {
@@ -129,7 +128,7 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
             mCanClick = false;
             shouldShowDialog = true;
             if (value < VALUE_MINIMAL_INSTALLMENT) {
-                showMessage(getString(R.string.txt_installments_invalid_message));
+                showTransactionDialog(getString(R.string.txt_installments_invalid_message));
             } else {
                 Intent intent = SelectInstallmentActivity.getStartIntent(
                         getApplicationContext(),
@@ -146,7 +145,7 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
             mCanClick = false;
             shouldShowDialog = true;
             if (value < VALUE_MINIMAL_INSTALLMENT) {
-                showMessage(getString(R.string.txt_installments_invalid_message));
+                showTransactionDialog(getString(R.string.txt_installments_invalid_message));
             } else {
                 Intent intent = SelectInstallmentActivity.getStartIntent(
                         getApplicationContext(),
@@ -173,27 +172,14 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
         }
     };
 
-    private void showDialog(String message) {
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
-
-        dialog.setMessage(message);
-    }
-
     @Override
     public void showTransactionSuccess() {
         mCanClick = true;
-        showMessage(getString(R.string.transactions_successful));
+        showTransactionDialog(getString(R.string.transactions_successful));
     }
 
     @Override
-    public void showError(String message) {
-        showDialog(message);
-    }
-
-    @Override
-    public void showMessage(String message) {
+    public void showTransactionDialog(String message) {
         if (shouldShowDialog && !dialog.isShowing()) {
             dialog.show();
         }

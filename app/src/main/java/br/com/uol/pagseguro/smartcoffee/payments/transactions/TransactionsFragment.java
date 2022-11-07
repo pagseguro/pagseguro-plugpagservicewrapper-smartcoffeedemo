@@ -1,10 +1,9 @@
-package br.com.uol.pagseguro.smartcoffee.transactions;
+package br.com.uol.pagseguro.smartcoffee.payments.transactions;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,12 +88,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
         binding.btnSmartposGetLastTransaction.setOnClickListener(click ->
                 getPresenter().getLastTransaction()
         );
-        binding.btnSmartposReboot.setOnClickListener(click ->
-                getPresenter().doReboot()
-        );
-        binding.btnSmartposStartOnboarding.setOnClickListener(click ->
-                getPresenter().doStartOnboarding()
-        );
         binding.btnSmartposDebitCarne.setOnClickListener(click ->
                 getPresenter().doDebitCarnePayment()
         );
@@ -117,11 +110,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     }
 
     @Override
-    public void showTransactionSuccess(String message) {
-        UIFeedback.showDialog(getContext(), message);
-    }
-
-    @Override
     public void writeToFile(String transactionCode, String transactionId) {
         FileHelper.writeToFile(transactionCode, transactionId, getContext());
     }
@@ -129,16 +117,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
     @Override
     public void showMessage(String message) {
         UIFeedback.showDialog(getContext(), message, cancelListener);
-    }
-
-    @Override
-    public void showError(String message) {
-        UIFeedback.showDialog(getContext(), message);
-    }
-
-    @Override
-    public void showPrintError(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -157,11 +135,6 @@ public class TransactionsFragment extends MvpFragment<TransactionsContract, Tran
 
     public void showLastTransaction(String transactionCode) {
         UIFeedback.showDialog(getContext(), transactionCode);
-    }
-
-    @Override
-    public void showRebootSuccessfully() {
-        UIFeedback.showDialog(getContext(), R.string.transactions_successful_reboot, true);
     }
 
     @Override

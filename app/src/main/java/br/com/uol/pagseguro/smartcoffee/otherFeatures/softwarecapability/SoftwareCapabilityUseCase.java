@@ -1,7 +1,8 @@
-package br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability;
+package br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability;
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagCommand;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -48,6 +49,20 @@ public class SoftwareCapabilityUseCase {
                     );
 
             emitter.onSuccess(message);
+        });
+    }
+
+    public Completable reboot() {
+        return Completable.create(emitter -> {
+            mPlugPag.reboot();
+            emitter.onComplete();
+        });
+    }
+
+    public Completable startOnboarding() {
+        return Completable.create(emitter -> {
+            mPlugPag.startOnboarding();
+            emitter.onComplete();
         });
     }
 }

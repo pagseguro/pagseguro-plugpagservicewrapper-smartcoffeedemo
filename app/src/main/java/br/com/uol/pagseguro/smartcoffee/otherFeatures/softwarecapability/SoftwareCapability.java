@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability;
+package br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability;
 
 public class SoftwareCapability {
     private final int index;

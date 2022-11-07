@@ -1,5 +1,7 @@
 package br.com.uol.pagseguro.smartcoffee.payments.preauto;
 
+import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.USER_REFERENCE;
+
 import android.support.annotation.Nullable;
 
 import java.util.Locale;
@@ -43,26 +45,26 @@ public class PreAutoUseCase {
 
             if (securityCode != null && expirationDate != null && pan != null)
                 plugPagTransactionResult = mPlugPag.doPreAutoCreate(
-                    new PlugPagPreAutoKeyingData(
-                        value,
-                        installmentType,
-                        installments,
-                        "pagcafe",
-                        true,
-                        pan,
-                        securityCode,
-                        expirationDate
-                    )
+                        new PlugPagPreAutoKeyingData(
+                                value,
+                                installmentType,
+                                installments,
+                                USER_REFERENCE,
+                                true,
+                                pan,
+                                securityCode,
+                                expirationDate
+                        )
                 );
             else
                 plugPagTransactionResult = mPlugPag.doPreAutoCreate(
-                    new PlugPagPreAutoData(
-                        value,
-                        installmentType,
-                        installments,
-                        "pagcafe",
-                        true
-                    )
+                        new PlugPagPreAutoData(
+                                value,
+                                installmentType,
+                                installments,
+                                USER_REFERENCE,
+                                true
+                        )
                 );
 
             sendResponse(emitter, plugPagTransactionResult, result);
@@ -70,17 +72,17 @@ public class PreAutoUseCase {
     }
 
     public Observable<ActionResult> doPreAutoEffectuate(
-        int value,
-        String transactionId,
-        String transactionCode
+            int value,
+            String transactionId,
+            String transactionCode
     ) {
         return Observable.create(emitter -> {
             PlugPagEffectuatePreAutoData plugPagEffectuatePreAutoData = new PlugPagEffectuatePreAutoData(
-                value,
-                null,
-                true,
-                transactionId,
-                transactionCode
+                    value,
+                    null,
+                    true,
+                    transactionId,
+                    transactionCode
             );
 
             ActionResult result = new ActionResult();
@@ -112,17 +114,6 @@ public class PreAutoUseCase {
         });
     }
 
-    public Observable<ActionResult> getPreAutoHistory() {
-        return Observable.create(emitter -> {
-            ActionResult result = new ActionResult();
-            setListener(emitter, result, null);
-
-            PlugPagTransactionResult plugPagTransactionResult = mPlugPag.getPreAutoData(null);
-
-            sendResponse(emitter, plugPagTransactionResult, result);
-        });
-    }
-
     public Completable abort() {
         return Completable.create(emitter -> mPlugPag.abort());
     }
@@ -148,9 +139,9 @@ public class PreAutoUseCase {
     }
 
     private void setListener(
-        ObservableEmitter<ActionResult> emitter,
-        ActionResult result,
-        PlugPagTransactionResult plugPagTransactionResult
+            ObservableEmitter<ActionResult> emitter,
+            ActionResult result,
+            PlugPagTransactionResult plugPagTransactionResult
     ) {
         mPlugPag.setEventListener(plugPagEventData -> {
             result.setEventCode(plugPagEventData.getEventCode());
@@ -161,15 +152,18 @@ public class PreAutoUseCase {
     }
 
     private void sendResponse(
-        ObservableEmitter<ActionResult> emitter,
-        PlugPagTransactionResult plugPagTransactionResult,
-        ActionResult result
+            ObservableEmitter<ActionResult> emitter,
+            PlugPagTransactionResult plugPagTransactionResult,
+            ActionResult result
     ) {
         if (plugPagTransactionResult != null &&
-            plugPagTransactionResult.getResult() != null &&
-            plugPagTransactionResult.getResult() != 0
+                plugPagTransactionResult.getResult() != null &&
+                plugPagTransactionResult.getResult() != 0
         ) {
-            emitter.onError(new PlugPagException(plugPagTransactionResult.getMessage(), plugPagTransactionResult.getErrorCode()));
+            emitter.onError(new PlugPagException(
+                    plugPagTransactionResult.getMessage(),
+                    plugPagTransactionResult.getErrorCode()
+            ));
         } else {
             result.setTransactionCode(plugPagTransactionResult.getTransactionCode());
             result.setTransactionId(plugPagTransactionResult.getTransactionId());

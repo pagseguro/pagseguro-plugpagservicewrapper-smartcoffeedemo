@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityCreditPaymentBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.CreditComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerCreditComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;

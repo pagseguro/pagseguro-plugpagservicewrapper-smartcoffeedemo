@@ -11,13 +11,13 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityMainBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerMainComponent;
-import br.com.uol.pagseguro.smartcoffee.permissions.PermissionsFragment;
+import br.com.uol.pagseguro.smartcoffee.otherFeatures.OtherFeaturesFragment;
 import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
 import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
 import br.com.uol.pagseguro.smartcoffee.injection.MainComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.ScreenFlowModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
-import br.com.uol.pagseguro.smartcoffee.transactions.TransactionsFragment;
+import br.com.uol.pagseguro.smartcoffee.payments.transactions.TransactionsFragment;
 import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
 import br.com.uol.pagseguro.smartcoffee.nfc.NFCFragment;
 
@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             int menuId = item.getItemId();
-            Fragment fragment = PermissionsFragment.getInstance();
+            Fragment fragment = OtherFeaturesFragment.getInstance();
 
             switch (menuId) {
-                case R.id.menu_permissions:
-                    fragment = PermissionsFragment.getInstance();
+                case R.id.other_features:
+                    fragment = OtherFeaturesFragment.getInstance();
                     break;
                 case R.id.menu_auth:
                     fragment = AuthFragment.getInstance();
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mFlowManager.showFragment(PermissionsFragment.getInstance(), this);
+        mFlowManager.showFragment(OtherFeaturesFragment.getInstance(), this);
         binding.bottomNavigation.setOnNavigationItemSelectedListener(bottonMenuListener);
     }
 

@@ -33,4 +33,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_softwareCapabilities" />
 
+    <Button
+        android:id="@+id/btn_smartpos_reboot"
+        style="@style/ButtonStyle"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_smartpos_reboot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_product_initialization" />
+
+    <Button
+        android:id="@+id/btn_smartpos_start_onboarding"
+        style="@style/ButtonStyle"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_smartpos_start_onboarding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_smartpos_reboot" />
+
 </android.support.constraint.ConstraintLayout>

@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityPreAutoDetailBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -170,6 +170,6 @@ public class PreAutoDetailActivity extends MvpActivity<PreAutoDetailContract, Pr
 
     @Override
     public void closeActivity() {
-        this.onDestroy();
+        finish();
     }
 }

@@ -1,5 +1,6 @@
-package br.com.uol.pagseguro.smartcoffee.permissions;
+package br.com.uol.pagseguro.smartcoffee.otherFeatures;
 
+import android.app.AlertDialog;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,19 +24,19 @@ import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPermissionsBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerSoftwareCapabilityComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.SoftwareCapabilityComponent;
-import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityContract;
-import br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability.SoftwareCapabilityPresenter;
+import br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability.SoftwareCapabilityContract;
+import br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability.SoftwareCapabilityPresenter;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 
-public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract, SoftwareCapabilityPresenter> implements SoftwareCapabilityContract, HomeFragment {
+public class OtherFeaturesFragment extends MvpFragment<SoftwareCapabilityContract, SoftwareCapabilityPresenter> implements SoftwareCapabilityContract, HomeFragment {
 
     private static final int PERMISSIONS_REQUEST_CODE = 0x1234;
 
     @Inject
     SoftwareCapabilityComponent mInjector;
 
-    public static PermissionsFragment getInstance() {
-        return new PermissionsFragment();
+    public static OtherFeaturesFragment getInstance() {
+        return new OtherFeaturesFragment();
     }
 
     private FragmentPermissionsBinding binding;
@@ -63,6 +64,20 @@ public class PermissionsFragment extends MvpFragment<SoftwareCapabilityContract,
         binding.btnProductInitialization.setOnClickListener(click ->
                 getPresenter().doProductInitialization()
         );
+        binding.btnSmartposReboot.setOnClickListener(click ->
+            rebootTerminal()
+        );
+        binding.btnSmartposStartOnboarding.setOnClickListener(click ->
+                getPresenter().doStartOnboarding()
+        );
+    }
+
+    private void rebootTerminal()  {
+        new AlertDialog.Builder(getContext())
+                .setMessage("Deseja reiniciar o terminal?") //todo
+                .setPositiveButton("Sim", (dialog, which) -> getPresenter().doReboot())
+                .setNegativeButton("Não", null)
+                .show();
     }
 
     private String[] filterMissingPermissions(String[] permissions) {

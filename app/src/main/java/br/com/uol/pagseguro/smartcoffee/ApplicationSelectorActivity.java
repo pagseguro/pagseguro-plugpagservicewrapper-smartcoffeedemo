@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityApplicationSelectorBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.DemoInternoActivity;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.DemoInternoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
 
 public class ApplicationSelectorActivity extends Activity {

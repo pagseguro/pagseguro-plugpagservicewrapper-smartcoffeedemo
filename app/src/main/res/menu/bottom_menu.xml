@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_permissions"
-        android:icon="@drawable/ic_permission"
-        android:title="@string/menu_permissions" />
+        android:id="@+id/other_features"
+        android:icon="@drawable/ic_other_features"
+        android:title="@string/other_features" />
 
     <item
         android:id="@+id/menu_auth"

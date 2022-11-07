@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability;
+package br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability;
 
 import com.hannesdorfmann.mosby.mvp.MvpView;
 

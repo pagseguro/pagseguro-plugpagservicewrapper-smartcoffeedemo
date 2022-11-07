@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.demoInterno;
+package br.com.uol.pagseguro.smartcoffee.payments.demoInterno;
 
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
@@ -10,10 +10,8 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.ActionResult;
 import br.com.uol.pagseguro.smartcoffee.payments.PaymentsUseCase;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class DemoInternoPresenter extends MvpNullObjectBasePresenter<DemoInternoContract> {

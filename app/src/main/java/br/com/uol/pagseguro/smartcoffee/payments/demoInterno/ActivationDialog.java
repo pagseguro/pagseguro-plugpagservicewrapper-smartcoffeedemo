@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.demoInterno;
+package br.com.uol.pagseguro.smartcoffee.payments.demoInterno;
 
 
 import android.os.Bundle;

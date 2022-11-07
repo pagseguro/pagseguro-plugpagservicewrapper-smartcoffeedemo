@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.transactions;
+package br.com.uol.pagseguro.smartcoffee.payments.transactions;
 
 import static br.com.uol.pagseguro.smartcoffee.utils.SmartCoffeeConstants.PAYMENT_CARD_MESSAGE;
 
@@ -58,7 +58,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
 
     public void doRefundPayment(ActionResult actionResult) {
         if(actionResult.getMessage() != null)  {
-            getView().showError(actionResult.getMessage());
+            getView().showMessage(actionResult.getMessage());
         } else {
             doAction(mUseCase.doRefund(actionResult));
         }
@@ -75,7 +75,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
                                 getView().showMessage(checkMessagePassword(result.getEventCode()));
                             } else if (result.getErrorCode() != null) {
-                                getView().showPrintError(result.getMessage());
+                                getView().showMessage(result.getMessage());
                             } else {
                                 getView().showMessage(result.getMessage());
                             }
@@ -83,7 +83,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                         },
                         throwable -> {
                             hasAborted = true;
-                            getView().showError(throwable.getMessage());
+                            getView().showMessage(throwable.getMessage());
                         });
     }
 
@@ -116,7 +116,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
         }
     }
 
-
     public void abortTransaction() {
         if (hasAborted) {
             hasAborted = false;
@@ -138,24 +137,24 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
     }
 
     public void printStablishmentReceipt() {
-        mSubscribe = mUseCase.printStablishmentReceipt()
+        mSubscribe = mUseCase.reprintStablishmentReceipt()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .subscribe(message -> getView().showTransactionSuccess(message.getMessage()),
-                        throwable -> getView().showError(throwable.getMessage()));
+                .subscribe(message -> getView().showMessage(message.getMessage()),
+                        throwable -> getView().showMessage(throwable.getMessage()));
     }
 
     public void printCustomerReceipt() {
-        mSubscribe = mUseCase.printCustomerReceipt()
+        mSubscribe = mUseCase.reprintCustomerReceipt()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .doOnComplete(() -> getView().showLoading(false))
                 .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                .subscribe(message -> getView().showTransactionSuccess(message.getMessage()),
-                        throwable -> getView().showError(throwable.getMessage()));
+                .doOnError(throwable -> getView().showMessage(throwable.getMessage()))
+                .subscribe(message -> getView().showMessage(message.getMessage()),
+                        throwable -> getView().showMessage(throwable.getMessage()));
     }
 
     public void getLastTransaction() {
@@ -163,7 +162,7 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(actionResult -> getView().showLastTransaction(actionResult.getTransactionCode()),
-                        throwable -> getView().showError(throwable.getMessage()));
+                        throwable -> getView().showMessage(throwable.getMessage()));
     }
 
     public int getAmount() {
@@ -180,28 +179,6 @@ public class TransactionsPresenter extends MvpNullObjectBasePresenter<Transactio
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable -> getView().showMessage(PAYMENT_CARD_MESSAGE))
                 .subscribe(actionResult -> getView().showMessage(actionResult.getMessage()),
-                        throwable -> getView().showError(throwable.getMessage()));
+                        throwable -> getView().showMessage(throwable.getMessage()));
     }
-
-    public void doReboot() {
-        mSubscribe = mUseCase.reboot()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnComplete(() -> getView().showLoading(false))
-                .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnError(throwable -> getView().showError(throwable.getMessage()))
-                .subscribe(() -> getView().showRebootSuccessfully(),
-                        throwable -> getView().showError(throwable.getMessage())
-                );
-    }
-
-    public void doStartOnboarding() {
-        mSubscribe = mUseCase.startOnboarding()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe(disposable -> getView().showLoading(true))
-                .doOnComplete(() -> getView().showLoading(false))
-                .subscribe();
-    }
-
 }

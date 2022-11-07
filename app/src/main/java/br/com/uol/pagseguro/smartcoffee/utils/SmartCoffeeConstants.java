@@ -12,7 +12,7 @@ public class SmartCoffeeConstants {
     public static final int TYPE_QRCODE_DEBITO = 4;
     public static final int TYPE_PIX = 5;
     public static final int TYPE_QRCODE_CREDITO =7;
-    public static final int VALUE_MINIMAL_INSTALLMENT = 500;
+    public static final int VALUE_MINIMAL_INSTALLMENT = 1000;
     public static final int INSTALLMENT_TYPE_A_VISTA = 1;
     public static final int INSTALLMENT_TYPE_PARC_VENDEDOR = 2;
     public static final int INSTALLMENT_TYPE_PARC_COMPRADOR = 3;

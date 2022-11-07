@@ -31,7 +31,7 @@ import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagPreAutoQueryData;
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagTransactionResult;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityPreAutoOptionsBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.CustomDialog;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerPreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.PreAutoComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
@@ -47,7 +47,7 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     private static final String TAG = PreAutoActivity.class.getSimpleName();
     private static final int SELECT_INSTALLMENTS_ACTIVITY = 1;
     private static final int PRE_AUTO_KEYED_ACTIVITY = 2;
-    private static final int VALUE_MINIMAL_INSTALLMENT = 500;
+    private static final int VALUE_MINIMAL_INSTALLMENT = 1000;
 
     private CustomDialog dialog;
     private Integer mValue;

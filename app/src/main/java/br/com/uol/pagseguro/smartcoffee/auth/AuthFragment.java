@@ -14,7 +14,7 @@ import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.FragmentAuthBinding;
-import br.com.uol.pagseguro.smartcoffee.demoInterno.ActivationDialog;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.AuthComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerAuthComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;

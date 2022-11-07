@@ -50,13 +50,13 @@ public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> 
 
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
                                     result.getEventCode() == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
-                                getView().showMessage(checkMessagePassword(result.getEventCode(), value));
+                                getView().showTransactionDialog(checkMessagePassword(result.getEventCode(), value));
                             } else {
-                                getView().showMessage(checkMessage(result.getMessage()));
+                                getView().showTransactionDialog(checkMessage(result.getMessage()));
                             }
                         },
                         throwable -> {
-                            getView().showMessage(throwable.getMessage());
+                            getView().showTransactionDialog(throwable.getMessage());
                             getView().disposeDialog();
                         });
     }

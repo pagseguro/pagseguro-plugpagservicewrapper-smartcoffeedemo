@@ -27,16 +27,15 @@ import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
 import br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
+import br.com.uol.pagseguro.smartcoffee.utils.PreAutoKeyingConstants;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
 
 public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentContract, SelectInstallmentPresenter>
         implements SelectInstallmentContract {
 
-    private static final String TAG = SelectInstallmentActivity.class.getSimpleName();
     private PreAutoActivity.PreAutoOperation preAutoOperation;
     private Integer mValue;
     private Integer mParcType;
-    private Boolean isPreAutoKeyed = false;
     private ActivitySelectInstallmentBinding binding;
 
     @Inject
@@ -54,7 +53,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
         binding = ActivitySelectInstallmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setTitle(R.string.text_select_installment);
-        initExtras();
+        initCalculateInstallments();
 
     }
 
@@ -99,11 +98,12 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
         return mInjector.presenter();
     }
 
-    private void initExtras() {
+    private void initCalculateInstallments() {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             mValue = extras.getInt(InstallmentConstants.TOTAL_VALUE);
+            preAutoOperation = (PreAutoActivity.PreAutoOperation)extras.get(PreAutoKeyingConstants.PREAUTO_OPERATION);
             if (getIntent().hasExtra(InstallmentConstants.TRANSACTION_TYPE)) {
                 mParcType = extras.getInt(InstallmentConstants.TRANSACTION_TYPE);
             } else {

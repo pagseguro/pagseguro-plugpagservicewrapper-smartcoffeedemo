@@ -1,4 +1,4 @@
-package br.com.uol.pagseguro.smartcoffee.permissions.softwarecapability;
+package br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability;
 
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 
@@ -139,6 +139,29 @@ public class SoftwareCapabilityPresenter extends MvpNullObjectBasePresenter<Soft
                 .doOnSubscribe(disposable -> getView().showLoading(true))
                 .doFinally(() -> getView().showLoading(false))
                 .doOnSuccess(message -> getView().showDialog(message))
+                .subscribe()
+        );
+    }
+
+    public void doReboot() {
+        mSubscribes.add(mUseCase.reboot()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnComplete(() -> getView().showLoading(false))
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnError(throwable -> getView().showDialog(throwable.getMessage()))
+                .subscribe(() -> getView().showDialog("O terminal será reiniciado!"), //todo
+                        throwable -> getView().showDialog(throwable.getMessage())
+                )
+        );
+    }
+
+    public void doStartOnboarding() {
+        mSubscribes.add(mUseCase.startOnboarding()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(disposable -> getView().showLoading(true))
+                .doOnComplete(() -> getView().showLoading(false))
                 .subscribe()
         );
     }

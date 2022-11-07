@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".demoInterno.DemoInternoActivity"
+        <activity android:name=".payments.demoInterno.DemoInternoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="br.com.uol.pagseguro.PAYMENT" />

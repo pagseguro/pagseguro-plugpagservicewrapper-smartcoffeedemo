@@ -3,7 +3,7 @@
     <string name="dialog_name">PlugPagService Demo</string>
 
     <!-- MENU -->
-    <string name="menu_permissions">Permissões</string>
+    <string name="other_features">Outras Funcionalidades</string>
     <string name="menu_auth">Autenticação</string>
     <string name="menu_transactions">Transações</string>
     <string name="menu_nfc">NFC</string>
@@ -102,7 +102,7 @@
     <string name="text_invalid_operation">Operação inválida</string>
     <string name="text_not_selected_installment">Não foi selecionado nenhuma quantidade de parcelas</string>
     <string name="text_select_installment">Selecione a parcela</string>
-    <string name="txt_installments_invalid_message">O valor da parcela deve ser ao menos R$5,00</string>
+    <string name="txt_installments_invalid_message">O valor total mínimo para parcelamento é de R$10,00</string>
     <string name="transactions_successful_reboot">Dispositivo será rebootado</string>
     <string name="default_value">R$ 0,00</string>
     <string name="default_zero_value">0,00</string>

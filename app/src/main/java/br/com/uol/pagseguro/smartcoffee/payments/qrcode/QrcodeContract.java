@@ -6,9 +6,7 @@ public interface QrcodeContract extends MvpView {
 
     void showTransactionSuccess();
 
-    void showError(String message);
-
-    void showMessage(String message);
+    void showTransactionDialog(String message);
 
     void showLoading(boolean show);
 
