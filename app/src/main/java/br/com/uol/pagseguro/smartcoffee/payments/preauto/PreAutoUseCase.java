@@ -23,7 +23,7 @@ import io.reactivex.ObservableEmitter;
 public class PreAutoUseCase {
 
     private final PlugPag mPlugPag;
-
+    private static final Boolean PRINT_RECEIPT = true;
     public PreAutoUseCase(PlugPag plugPag) {
         mPlugPag = plugPag;
     }
@@ -50,7 +50,7 @@ public class PreAutoUseCase {
                                 installmentType,
                                 installments,
                                 USER_REFERENCE,
-                                true,
+                                PRINT_RECEIPT,
                                 pan,
                                 securityCode,
                                 expirationDate
@@ -63,7 +63,7 @@ public class PreAutoUseCase {
                                 installmentType,
                                 installments,
                                 USER_REFERENCE,
-                                true
+                                PRINT_RECEIPT
                         )
                 );
 
@@ -79,8 +79,8 @@ public class PreAutoUseCase {
         return Observable.create(emitter -> {
             PlugPagEffectuatePreAutoData plugPagEffectuatePreAutoData = new PlugPagEffectuatePreAutoData(
                     value,
-                    null,
-                    true,
+                    USER_REFERENCE,
+                    PRINT_RECEIPT,
                     transactionId,
                     transactionCode
             );

@@ -16,11 +16,11 @@ import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.R;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityQrcodeOptionsBinding;
-import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerQrcodeComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.QrcodeComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.UseCaseModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.CustomDialog;
 import br.com.uol.pagseguro.smartcoffee.payments.installments.SelectInstallmentActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FileHelper;
 import br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants;
@@ -32,7 +32,8 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
     CustomDialog dialog;
 
     public static final String TAG = "valueQR";
-    public static final int DEFAULT_VALUE = 0;
+    public static final int UNKNOW_AMOUNT = 0;
+    public static final int UNKNOW_TRANSACTION_TYPE = 0;
     private static final int VALUE_MINIMAL_INSTALLMENT = 1000;
     private static final int LAUNCH_SECOND_ACTIVITY = 1;
 
@@ -70,13 +71,16 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
-                final int amount = data.getIntExtra(InstallmentConstants.TOTAL_VALUE, DEFAULT_VALUE);
+                final int amount = data.getIntExtra(
+                        InstallmentConstants.TOTAL_VALUE,
+                        UNKNOW_AMOUNT
+                );
                 final String installmentNumber = data.getStringExtra(
                         InstallmentConstants.INSTALLMENT_NUMBER
                 );
                 final int transactionType = data.getIntExtra(
                         TRANSACTION_TYPE,
-                        DEFAULT_VALUE
+                        UNKNOW_TRANSACTION_TYPE
                 );
 
                 switch (transactionType) {
@@ -91,6 +95,7 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
                         );
                         break;
                     default:
+                        UIFeedback.showDialog(this, getString(R.string.text_invalid_operation));
                         break;
                 }
             }

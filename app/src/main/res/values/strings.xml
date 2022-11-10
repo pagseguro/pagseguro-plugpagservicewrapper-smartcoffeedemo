@@ -3,7 +3,7 @@
     <string name="dialog_name">PlugPagService Demo</string>
 
     <!-- MENU -->
-    <string name="other_features">Outras Funcionalidades</string>
+    <string name="other_features">Outras</string>
     <string name="menu_auth">Autenticação</string>
     <string name="menu_transactions">Transações</string>
     <string name="menu_nfc">NFC</string>
@@ -11,11 +11,12 @@
     <string name="txt_demo_interno">Demo Interno</string>
     <string name="txt_todas_funcionalidades">Todas Funcionalidades</string>
 
-    <!-- PERMISSIONS -->
+    <!-- OTHER FEATURES -->
     <string name="btn_permissions">Solicitar/Verificar permissões</string>
     <string name="btn_swcapabilities">Verificar software capabilities</string>
     <string name="btn_product_initialization">Verificar inicialização de produtos</string>
     <string name="msg_all_permissions_granted">Todas permissões concedidas</string>
+    <string name="msg_reboot_terminal">Deseja reiniciar o terminal?</string>
 
     <!-- AUTH -->
     <string name="txt_activation_code">Insira seu código</string>
@@ -49,7 +50,7 @@
     <string name="btn_smartpos_print_customer">Via do Cliente</string>
     <string name="btn_smartpos_print_stablishment">Via do Establecimento</string>
     <string name="transactions_successful">Transação realizada com sucesso</string>
-    <string name="transactions_successful_abort">Abortado com sucesso</string>
+    <string name="transactions_successful_abort">Cancelado com sucesso</string>
     <string name="no_transaction_to_refund">Não há transação a ser estornada.</string>
 
     <!-- NFC -->
@@ -64,7 +65,7 @@
     <string name="apdu_read_card">Leitura APDU</string>
     <string name="nfc_detect_card_directly">Detectar Cartão</string>
     <string name="nfc_detect_remove_card_directly">Detectar Remoção Cartão</string>
-    <string name="txt_abort_nfc">Abortar Operação NFC</string>
+    <string name="txt_abort_nfc">Cancelar Operação NFC</string>
 
     <!-- BEEP E LEDS -->
     <string name="txt_beep_leds">Beep e Leds</string>
@@ -103,7 +104,6 @@
     <string name="text_not_selected_installment">Não foi selecionado nenhuma quantidade de parcelas</string>
     <string name="text_select_installment">Selecione a parcela</string>
     <string name="txt_installments_invalid_message">O valor total mínimo para parcelamento é de R$10,00</string>
-    <string name="transactions_successful_reboot">Dispositivo será rebootado</string>
     <string name="default_value">R$ 0,00</string>
     <string name="default_zero_value">0,00</string>
     <string name="text_senha">SENHA</string>
@@ -113,10 +113,10 @@
     <!-- PRÉ-AUTORIZAÇÃO -->
     <string name="btn_smartpos_effectuate_pre_auto">Efetivar pré autorização</string>
     <string name="btn_smartpos_pre_auto">Pré autorização</string>
-    <string name="btn_pre_auto_dig_data">Consultar PreAuto Digitada</string>
-    <string name="btn_pre_auto_dig_create_in_cash">Criar Pre Digitada à Vista</string>
-    <string name="btn_pre_auto_dig_cancel">Cancelar PreAuto Digitada</string>
-    <string name="btn_pre_auto_dig_effectuate">Efetivar PreAuto Digitada</string>
+    <string name="btn_pre_auto_dig_data">Consultar Pré Auto Digitada</string>
+    <string name="btn_pre_auto_dig_create_in_cash">Criar Pré Auto Digitada à Vista</string>
+    <string name="btn_pre_auto_dig_cancel">Cancelar Pré Auto Digitada</string>
+    <string name="btn_pre_auto_dig_effectuate">Efetivar Pré Auto Digitada</string>
     <string name="credit_card">0000 0000 0000 0000</string>
     <string name="exp_date">MMAA</string>
     <string name="cvv">CVV</string>
@@ -129,20 +129,20 @@
     <string name="txt_preauto_card_brand">Card brand</string>
     <string name="txt_preauto_holder">Holder</string>
     <string name="txt_preauto_date">Date</string>
-    <string name="txt_preauto_detail_title">Informações de Pré autorização</string>
+    <string name="txt_preauto_detail_title">Informações de Pré Autorização</string>
     <string name="text_value_pre_auto">Valor pré autorização</string>
     <string name="value_pre_auto_created">Confirmar valor desejado:</string>
     <string name="txt_preauto">Pré Autorização</string>
     <string name="txt_preauto_digitado">Pré Autorização Digitada</string>
     <string name="txt_pre_auto_create">Criar à vista</string>
     <string name="btn_pre_auto_create_installments">Criar à prazo</string>
-    <string name="pre_auto_dig_create_installments">Criar Pre digitado à prazo </string>
+    <string name="pre_auto_dig_create_installments">Criar Pré Auto digitado à prazo </string>
     <string name="btn_pre_auto_effectuate">Efetivar</string>
-    <string name="btn_pre_auto_effectuate_keying">Efetivar pre auto digitada</string>
+    <string name="btn_pre_auto_effectuate_keying">Efetivar Pré Auto digitada</string>
     <string name="btn_pre_auto_cancelar">Cancelar</string>
-    <string name="pre_auto_dig_cancelar">Cancelar Pre digitado</string>
+    <string name="pre_auto_dig_cancelar">Cancelar Pré Auto digitado</string>
     <string name="btn_pre_auto_report">Relatório</string>
-    <string name="text_btn_consulta_preauto_dig">Consultar Pre Auto Digitado</string>
+    <string name="text_btn_consulta_preauto_dig">Consultar Pré Auto Digitado</string>
     <string name="text_btn_consulta_preauto">Consultar</string>
     <string name="txt_preauto_auto">Auto</string>
     <string name="txt_preauto_holder_name">Holder name</string>
@@ -153,12 +153,26 @@
     <string name="txt_preauto_transaction_code">Transaction Code</string>
     <string name="txt_preauto_terminal_serial">Terminal serial</string>
     <string name="txt_installments">Installments</string>
+    <string name="txt_transaction_auto_example">888888</string>
+    <string name="txt_amount_example">RS. 151515</string>
+    <string name="txt_card_brand_example">MASTER CARD</string>
+    <string name="txt_holder_name_example">Petter Pan</string>
+    <string name="txt_holder_example">1546</string>
+    <string name="txt_date_example">12/01/2021</string>
+    <string name="txt_nsu_example">25895555555</string>
+    <string name="txt_payment_type_example">6</string>
+    <string name="txt_type_transaction_example">Criação</string>
+    <string name="txt_installments_example">1</string>
+    <string name="txt_error_code_example">M1000</string>
+    <string name="txt_error_code_message_example">Este cartão nao tem Pré Auto criada</string>
     <string name="preauto_cancel_successful">Pré autorização foi cancelado com sucesso</string>
     <string name="txt_fill_fields_values">Preencha os campos necessários</string>
     <string name="txt_fill_date_value">Digite a data no formato DDMMAAAA</string>
     <string name="txt_not_value">Sem valor</string>
     <string name="txt_error_code">Código de erro desconhecido</string>
-    <string name="txt_msg_default_error">Houve um erro inesperado..</string>
+    <string name="txt_msg_default_error">Ocorreu um erro inesperado..</string>
+    <string name="txt_yes">Sim</string>
+    <string name="txt_no">Não</string>
     <string name="txt_confirm">Confirmar</string>
     <string name="txt_cancel">Cancel</string>
 

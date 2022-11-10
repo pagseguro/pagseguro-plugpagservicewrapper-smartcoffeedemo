@@ -1,25 +1,25 @@
 package br.com.uol.pagseguro.smartcoffee;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
 import br.com.uol.pagseguro.smartcoffee.databinding.ActivityMainBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerMainComponent;
-import br.com.uol.pagseguro.smartcoffee.otherFeatures.OtherFeaturesFragment;
-import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
-import br.com.uol.pagseguro.smartcoffee.auth.AuthFragment;
 import br.com.uol.pagseguro.smartcoffee.injection.MainComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.ScreenFlowModule;
 import br.com.uol.pagseguro.smartcoffee.injection.WrapperModule;
-import br.com.uol.pagseguro.smartcoffee.payments.transactions.TransactionsFragment;
-import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
 import br.com.uol.pagseguro.smartcoffee.nfc.NFCFragment;
+import br.com.uol.pagseguro.smartcoffee.otherFeatures.OtherFeaturesFragment;
+import br.com.uol.pagseguro.smartcoffee.payments.transactions.TransactionsFragment;
+import br.com.uol.pagseguro.smartcoffee.printer.PrinterFragment;
+import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,12 +35,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
             int menuId = item.getItemId();
-            Fragment fragment = OtherFeaturesFragment.getInstance();
+            Fragment fragment = AuthFragment.getInstance();
 
             switch (menuId) {
-                case R.id.other_features:
-                    fragment = OtherFeaturesFragment.getInstance();
-                    break;
                 case R.id.menu_auth:
                     fragment = AuthFragment.getInstance();
                     break;
@@ -52,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_printer:
                     fragment = PrinterFragment.getInstance();
+                    break;
+                case R.id.other_features:
+                    fragment = OtherFeaturesFragment.getInstance();
                     break;
             }
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().findFragmentById(R.id.fragment_content) instanceof HomeFragment) {
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_content) instanceof HomeFragment) {
             finish();
         } else {
             super.onBackPressed();
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mFlowManager.showFragment(OtherFeaturesFragment.getInstance(), this);
+        mFlowManager.showFragment(AuthFragment.getInstance(), this);
         binding.bottomNavigation.setOnNavigationItemSelectedListener(bottonMenuListener);
     }
 

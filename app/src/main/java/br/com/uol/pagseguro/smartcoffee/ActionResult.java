@@ -10,28 +10,9 @@ public class ActionResult {
     private String errorCode;
 
     private int eventCode;
-    private int result=0;
+    private int result = 0;
 
     private PlugPagTransactionResult transactionResult;
-
-    public void ActionResult(
-            PlugPagTransactionResult transactionResult
-    ) {
-        this.transactionCode = transactionResult.getTransactionCode();
-        this.transactionId = transactionResult.getTransactionId();
-        this.transactionResult = transactionResult;
-    }
-
-    public void ActionResult(
-            String transactionCode,
-            String transactionId,
-            PlugPagTransactionResult transactionResult
-    ) {
-        this.transactionCode = transactionCode;
-        this.transactionId = transactionId;
-        this.transactionResult = transactionResult;
-    }
-
 
     public String getTransactionCode() {
         return transactionCode;

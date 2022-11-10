@@ -35,6 +35,6 @@
         android:text="@string/txt_confirm"
         android:textColor="@color/colorPrimary"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textinputlayout" />
+        app:layout_constraintTop_toBottomOf="@id/textinputlayout" />
 
 </android.support.constraint.ConstraintLayout>

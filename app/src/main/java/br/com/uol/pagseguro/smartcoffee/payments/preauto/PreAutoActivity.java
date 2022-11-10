@@ -176,9 +176,9 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         String transactionDate = data.getTransactionDate();
 
         getPresenter().getPreAutoDataEffectivate(
-                (valueEffectuate, plugPagTransactionResult) ->
+                (effectuatedValue, plugPagTransactionResult) ->
                         getPresenter().doPreAutoEffectuate(
-                                Integer.parseInt(valueEffectuate),
+                                Integer.parseInt(effectuatedValue),
                                 plugPagTransactionResult.getTransactionId(),
                                 plugPagTransactionResult.getTransactionCode()
                         ), new PlugPagPreAutoQueryData(
@@ -346,9 +346,9 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         });
         binding.btnEffectuateCash.setOnClickListener(click ->
                 getPresenter().getPreAutoDataEffectivate(
-                        (valueEffectuate, plugPagTransactionResult) ->
+                        (effectuatedValue, plugPagTransactionResult) ->
                                 getPresenter().doPreAutoEffectuate(
-                                        Integer.parseInt(valueEffectuate),
+                                        Integer.parseInt(effectuatedValue),
                                         plugPagTransactionResult.getTransactionId(),
                                         plugPagTransactionResult.getTransactionCode()
                                 ),
@@ -373,9 +373,9 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
         );
         binding.btnConsultaPreAuto.setOnClickListener(click ->
                 getPresenter().getPreAutoDataEffectivate(
-                        (valueEffectuate, plugPagTransactionResult) ->
+                        (effectuatedValue, plugPagTransactionResult) ->
                                 getPresenter().doPreAutoEffectuate(
-                                        Integer.parseInt(valueEffectuate),
+                                        Integer.parseInt(effectuatedValue),
                                         plugPagTransactionResult.getTransactionId(),
                                         plugPagTransactionResult.getTransactionCode()
                                 ), null)

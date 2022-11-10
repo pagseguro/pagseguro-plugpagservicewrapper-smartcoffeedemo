@@ -60,7 +60,14 @@ public class PrinterUseCase {
 
             @Override
             public void onSuccess(PlugPagPrintResult printResult) {
-                emitter.onError(new PlugPagException(String.format(Locale.getDefault(), "Print OK: steps [%d]", printResult.getSteps())));
+                result.setResult(printResult.getResult());
+                result.setMessage(
+                        String.format(
+                                Locale.getDefault(), "Print OK: Steps [%d]", printResult.getSteps()
+                        )
+                );
+                result.setErrorCode(printResult.getErrorCode());
+                emitter.onNext(result);
             }
         });
     }

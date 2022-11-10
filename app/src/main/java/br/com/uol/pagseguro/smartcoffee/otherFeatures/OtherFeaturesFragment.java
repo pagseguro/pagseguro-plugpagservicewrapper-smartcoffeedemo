@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
-import br.com.uol.pagseguro.smartcoffee.databinding.FragmentPermissionsBinding;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentOtherFeaturesBinding;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerSoftwareCapabilityComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.SoftwareCapabilityComponent;
 import br.com.uol.pagseguro.smartcoffee.otherFeatures.softwarecapability.SoftwareCapabilityContract;
@@ -39,7 +39,7 @@ public class OtherFeaturesFragment extends MvpFragment<SoftwareCapabilityContrac
         return new OtherFeaturesFragment();
     }
 
-    private FragmentPermissionsBinding binding;
+    private FragmentOtherFeaturesBinding binding;
 
     @Nullable
     @Override
@@ -47,7 +47,7 @@ public class OtherFeaturesFragment extends MvpFragment<SoftwareCapabilityContrac
         mInjector = DaggerSoftwareCapabilityComponent.builder()
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
-        binding = FragmentPermissionsBinding.inflate(getLayoutInflater());
+        binding = FragmentOtherFeaturesBinding.inflate(getLayoutInflater());
 
         return binding.getRoot();
     }
@@ -65,18 +65,18 @@ public class OtherFeaturesFragment extends MvpFragment<SoftwareCapabilityContrac
                 getPresenter().doProductInitialization()
         );
         binding.btnSmartposReboot.setOnClickListener(click ->
-            rebootTerminal()
+                rebootTerminal()
         );
         binding.btnSmartposStartOnboarding.setOnClickListener(click ->
                 getPresenter().doStartOnboarding()
         );
     }
 
-    private void rebootTerminal()  {
+    private void rebootTerminal() {
         new AlertDialog.Builder(getContext())
-                .setMessage("Deseja reiniciar o terminal?") //todo
-                .setPositiveButton("Sim", (dialog, which) -> getPresenter().doReboot())
-                .setNegativeButton("Não", null)
+                .setMessage(getString(R.string.msg_reboot_terminal))
+                .setPositiveButton(getString(R.string.txt_yes), (dialog, which) -> getPresenter().doReboot())
+                .setNegativeButton(getString(R.string.txt_no), null)
                 .show();
     }
 

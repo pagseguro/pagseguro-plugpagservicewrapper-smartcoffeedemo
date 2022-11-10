@@ -2,7 +2,7 @@ package br.com.uol.pagseguro.smartcoffee.payments.preauto;
 
 import static br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.PreAutoOperation.PREAUTO_KEYED;
 import static br.com.uol.pagseguro.smartcoffee.payments.preauto.PreAutoActivity.PreAutoOperation.PREAUTO_KEYED_CREATE;
-import static br.com.uol.pagseguro.smartcoffee.payments.qrcode.QrcodeActivity.DEFAULT_VALUE;
+import static br.com.uol.pagseguro.smartcoffee.payments.qrcode.QrcodeActivity.UNKNOW_AMOUNT;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.INSTALLMENT_NUMBER;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TOTAL_VALUE;
 import static br.com.uol.pagseguro.smartcoffee.utils.InstallmentConstants.TRANSACTION_TYPE;
@@ -70,7 +70,7 @@ public class PreAutoKeyingActivity extends AppCompatActivity {
     }
 
     private String getTotalAmount() {
-        Double convertedValue = (double) getIntent().getIntExtra(TOTAL_VALUE, DEFAULT_VALUE) / 100;
+        Double convertedValue = (double) getIntent().getIntExtra(TOTAL_VALUE, UNKNOW_AMOUNT) / 100;
         NumberFormat currencyLocale = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         return currencyLocale.format(convertedValue)
                 .replace(
@@ -90,7 +90,7 @@ public class PreAutoKeyingActivity extends AppCompatActivity {
 
                 setResult(RESULT_OK, returnIntent);
                 finish();
-            } catch (Exception e){
+            } catch (Exception e) {
                 showDialog(e.getMessage());
             }
         });
@@ -101,28 +101,28 @@ public class PreAutoKeyingActivity extends AppCompatActivity {
     }
 
     private PreAutoPayment createPreAutoData() throws Exception {
-        PreAutoPayment preAutoPayment;
+        String pan = validateInput(binding.txtPan);
+        String expirationDate = formatExpDate();
+        String cvv = validateInput(binding.txtCreditCardCvv);
+        String transactionCode;
+        String transactionDate;
 
         if (operationType == PREAUTO_KEYED || operationType == PREAUTO_KEYED_CREATE) {
-            preAutoPayment = new PreAutoPayment(
-                    installment,
-                    validateInput(binding.txtPan),
-                    formatExpDate(),
-                    validateInput(binding.txtCreditCardCvv),
-                    "",
-                    ""
-            );
+            transactionCode = "";
+            transactionDate = "";
         } else {
-            preAutoPayment = new PreAutoPayment(
-                    installment,
-                    validateInput(binding.txtPan),
-                    formatExpDate(),
-                    validateInput(binding.txtCreditCardCvv),
-                    validateInput(binding.txtTransactionCode),
-                    formatTransactionDate()
-            );
+            transactionCode = validateInput(binding.txtTransactionCode);
+            transactionDate = formatTransactionDate();
         }
-        return preAutoPayment;
+
+        return new PreAutoPayment(
+                installment,
+                pan,
+                expirationDate,
+                cvv,
+                transactionCode,
+                transactionDate
+        );
     }
 
     private String validateInput(EditText input) throws Exception {

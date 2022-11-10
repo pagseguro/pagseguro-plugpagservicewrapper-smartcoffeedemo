@@ -25,10 +25,6 @@ allprojects {
         maven {
             url 'https://github.com/pagseguro/PlugPagServiceWrapper/raw/master'
         }
-
-        flatDir {
-            dirs rootDir.path + '/libs'
-        }
     }
 }
 

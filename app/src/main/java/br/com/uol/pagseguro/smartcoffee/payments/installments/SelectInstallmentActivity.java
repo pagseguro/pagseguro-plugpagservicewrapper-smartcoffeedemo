@@ -53,8 +53,8 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
         binding = ActivitySelectInstallmentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setTitle(R.string.text_select_installment);
-        initCalculateInstallments();
-
+        initExtras();
+        startCalculateInstallments();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
 
     @Override
     public void setUpAdapter(List<PlugPagInstallment> installments) {
-        final InstallmentsAdapter adapter = new InstallmentsAdapter(installments, itemClick -> {
+        binding.listInstallments.setAdapter(new InstallmentsAdapter(installments, itemClick -> {
             Intent returnIntent = new Intent();
             returnIntent.putExtra(InstallmentConstants.TOTAL_VALUE, mValue);
             returnIntent.putExtra(InstallmentConstants.INSTALLMENT_NUMBER, itemClick);
@@ -83,8 +83,7 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
             returnIntent.putExtra(PREAUTO_OPERATION, preAutoOperation);
             setResult(Activity.RESULT_OK, returnIntent);
             finish();
-        });
-        binding.listInstallments.setAdapter(adapter);
+        }));
     }
 
     @Override
@@ -98,18 +97,21 @@ public class SelectInstallmentActivity extends MvpActivity<SelectInstallmentCont
         return mInjector.presenter();
     }
 
-    private void initCalculateInstallments() {
+    private void initExtras() {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             mValue = extras.getInt(InstallmentConstants.TOTAL_VALUE);
-            preAutoOperation = (PreAutoActivity.PreAutoOperation)extras.get(PreAutoKeyingConstants.PREAUTO_OPERATION);
+            preAutoOperation = (PreAutoActivity.PreAutoOperation) extras.get(PreAutoKeyingConstants.PREAUTO_OPERATION);
             if (getIntent().hasExtra(InstallmentConstants.TRANSACTION_TYPE)) {
                 mParcType = extras.getInt(InstallmentConstants.TRANSACTION_TYPE);
             } else {
                 mParcType = INSTALLMENT_TYPE_PARC_VENDEDOR;
             }
         }
+    }
+
+    private void startCalculateInstallments() {
         getPresenter().calculateInstallments(mValue, mParcType);
     }
 

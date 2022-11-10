@@ -16,10 +16,9 @@
             android:id="@+id/txt_nfc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_24"
+            android:layout_marginStart="@dimen/margin_24"
             android:text="@string/txt_nfc"
-            android:textAllCaps="false"
-            android:textSize="24sp"
+            android:textSize="@dimen/textsize_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,8 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_24"
             android:text="@string/txt_beep_leds"
-            android:textAllCaps="false"
-            android:textSize="24sp"
+            android:textSize="@dimen/textsize_24"
             app:layout_constraintBottom_toTopOf="@id/btn_nfc_beep"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_nfc_abort" />
