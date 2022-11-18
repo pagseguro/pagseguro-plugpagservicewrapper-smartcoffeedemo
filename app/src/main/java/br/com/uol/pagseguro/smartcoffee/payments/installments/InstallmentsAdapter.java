@@ -39,7 +39,7 @@ public class InstallmentsAdapter extends RecyclerView.Adapter<InstallmentsAdapte
     }
 
     public interface OnItemClickListener {
-        void onItemClick(String installNumber);
+        void onItemClick(int installNumber);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -52,14 +52,13 @@ public class InstallmentsAdapter extends RecyclerView.Adapter<InstallmentsAdapte
 
         public void bind(PlugPagInstallment installment, final int item, final OnItemClickListener listener) {
             if (installment != null) {
-                final int installNumber = item + 1;
                 itemInstallment.setText(
                         new StringBuilder()
                                 .append(installment.getQuantity())
                                 .append(" x ")
                                 .append(Utils.getFormattedValue((double) installment.getAmount()))
                 );
-                itemView.setOnClickListener(v -> listener.onItemClick(Integer.toString(installNumber)));
+                itemView.setOnClickListener(v -> listener.onItemClick(installment.getQuantity()));
             }
         }
     }

@@ -75,8 +75,9 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
                         InstallmentConstants.TOTAL_VALUE,
                         UNKNOW_AMOUNT
                 );
-                final String installmentNumber = data.getStringExtra(
-                        InstallmentConstants.INSTALLMENT_NUMBER
+                final int installmentNumber = data.getIntExtra(
+                        InstallmentConstants.INSTALLMENT_NUMBER,
+                        0
                 );
                 final int transactionType = data.getIntExtra(
                         TRANSACTION_TYPE,
@@ -86,12 +87,12 @@ public class QrcodeActivity extends MvpActivity<QrcodeContract, QrcodePresenter>
                 switch (transactionType) {
                     case INSTALLMENT_TYPE_PARC_COMPRADOR:
                         getPresenter().qrCodePaymentBuyerInstallments(
-                                amount, Integer.parseInt(installmentNumber)
+                                amount, installmentNumber
                         );
                         break;
                     case INSTALLMENT_TYPE_PARC_VENDEDOR:
                         getPresenter().qrCodePaymentSellerInstallments(
-                                amount, Integer.parseInt(installmentNumber)
+                                amount, installmentNumber
                         );
                         break;
                     default:

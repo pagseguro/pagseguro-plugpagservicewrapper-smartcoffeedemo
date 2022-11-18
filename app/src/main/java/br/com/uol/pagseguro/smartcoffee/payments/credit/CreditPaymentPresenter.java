@@ -42,7 +42,7 @@ public class CreditPaymentPresenter extends MvpNullObjectBasePresenter<CreditPay
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> getView().showTransactionSuccess())
-                .doOnDispose(() -> getView().disposeDialog())
+                .doFinally(() -> getView().disposeDialog())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
                             if (result.getEventCode() == PlugPagEventData.EVENT_CODE_NO_PASSWORD ||
@@ -95,6 +95,7 @@ public class CreditPaymentPresenter extends MvpNullObjectBasePresenter<CreditPay
         mSubscribe = mUseCase.abort()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> getView().disposeDialog())
                 .subscribe();
     }
 }

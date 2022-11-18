@@ -44,7 +44,7 @@ public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> getView().showTransactionSuccess())
-                .doOnDispose(() -> getView().disposeDialog())
+                .doFinally(() -> getView().disposeDialog())
                 .subscribe((ActionResult result) -> {
                             writeToFile(result);
 
@@ -97,6 +97,7 @@ public class QrcodePresenter extends MvpNullObjectBasePresenter<QrcodeContract> 
         mSubscribe = mUseCase.abort()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> getView().disposeDialog())
                 .subscribe();
     }
 }

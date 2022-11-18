@@ -3,7 +3,7 @@ package br.com.uol.pagseguro.smartcoffee.utils;
 public class SmartCoffeeConstants {
 
     //App Reference Constants
-    public static final String USER_REFERENCE = "SmartCoffeDemo";
+    public static final String USER_REFERENCE = "SmartCoffeeDemo";
 
     //Payments Constants
     public static final int TYPE_CREDITO = 1;

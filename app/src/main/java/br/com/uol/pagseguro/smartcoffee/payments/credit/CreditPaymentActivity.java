@@ -77,17 +77,17 @@ public class CreditPaymentActivity extends MvpActivity<CreditPaymentContract, Cr
         if (resultCode == Activity.RESULT_OK) {
             final int amount = data.getIntExtra(TOTAL_VALUE, 0);
             final int transactionType = data.getIntExtra(TRANSACTION_TYPE, 0);
-            final String installmentNumber = data.getStringExtra(INSTALLMENT_NUMBER);
+            final int installmentNumber = data.getIntExtra(INSTALLMENT_NUMBER, 0);
 
-            if (installmentNumber == null) {
+            if (installmentNumber == 0) {
                 return;
             }
             switch (transactionType) {
                 case INSTALLMENT_TYPE_PARC_COMPRADOR:
-                    getPresenter().creditPaymentBuyerInstallments(amount, Integer.parseInt(installmentNumber));
+                    getPresenter().creditPaymentBuyerInstallments(amount, installmentNumber);
                     break;
                 case INSTALLMENT_TYPE_PARC_VENDEDOR:
-                    getPresenter().creditPaymentSellerInstallments(amount, Integer.parseInt(installmentNumber));
+                    getPresenter().creditPaymentSellerInstallments(amount, installmentNumber);
                     break;
                 default:
                     break;

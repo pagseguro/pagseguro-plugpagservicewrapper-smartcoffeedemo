@@ -147,7 +147,7 @@ public class PreAutoKeyingActivity extends AppCompatActivity {
             String day = date.substring(0, 2);
             String month = date.substring(2, 4);
             String year = date.substring(4, 8);
-            date = day + "-" + month + "-" + year + "-";
+            date = year + "-" + month + "-" + day;
         } else {
             throw new Exception(getString(R.string.txt_fill_date_value));
         }

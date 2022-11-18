@@ -121,14 +121,14 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     }
 
     private void preAutoCreateInstallmentCard(Intent data) {
-        String installment = data.getStringExtra(INSTALLMENT_NUMBER);
-        if (installment == null) {
+        int installment = data.getIntExtra(INSTALLMENT_NUMBER, 0);
+        if (installment == 0) {
             UIFeedback.showDialog(this, R.string.text_not_selected_installment);
         } else {
             getPresenter().doPreAutoCreation(
                     mValue,
                     INSTALLMENT_TYPE_PARC_VENDEDOR,
-                    Integer.parseInt(installment)
+                    installment
             );
         }
     }
@@ -213,14 +213,14 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
     }
 
     public void createPreAutoInstallmentKeyedin(Intent data) {
-        String installment = data.getStringExtra(INSTALLMENT_NUMBER);
-        if (installment == null) {
+        int installment = data.getIntExtra(INSTALLMENT_NUMBER, 0);
+        if (installment == 0) {
             UIFeedback.showDialog(this, R.string.text_not_selected_installment);
         } else {
             Intent intent = new Intent(this, PreAutoKeyingActivity.class)
                     .putExtra(PREAUTO_OPERATION, PREAUTO_KEYED_CREATE)
                     .putExtra(TOTAL_VALUE, mValue)
-                    .putExtra(INSTALLMENT_NUMBER, Integer.parseInt(installment))
+                    .putExtra(INSTALLMENT_NUMBER, installment)
                     .putExtra(TRANSACTION_TYPE, INSTALLMENT_TYPE_PARC_VENDEDOR);
 
             startActivityForResult(intent, PRE_AUTO_KEYED_ACTIVITY);
@@ -372,13 +372,7 @@ public class PreAutoActivity extends MvpActivity<PreAutoContract, PreAutoPresent
                 startActivitiesPreAutoKeyed(PREAUTO_EFFETIVATE_KEYING, null)
         );
         binding.btnConsultaPreAuto.setOnClickListener(click ->
-                getPresenter().getPreAutoDataEffectivate(
-                        (effectuatedValue, plugPagTransactionResult) ->
-                                getPresenter().doPreAutoEffectuate(
-                                        Integer.parseInt(effectuatedValue),
-                                        plugPagTransactionResult.getTransactionId(),
-                                        plugPagTransactionResult.getTransactionCode()
-                                ), null)
+                getPresenter().getPreAutoData(false, null)
         );
         binding.btnConsultaPreAutoDig.setOnClickListener(click ->
                 startActivitiesPreAutoKeyed(PREAUTO_CONSULT_KEYING, null)
