@@ -1,146 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout android:id="@+id/relativeLayout"
-                                             xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:layout_marginLeft="@dimen/padding_16"
-                                             android:layout_marginRight="@dimen/padding_16"
-                                             android:layout_marginBottom="@dimen/padding_16"
-                                             tools:context="br.com.uol.pagseguro.plugpag.pagcafe.activity.CoffeeSelectionActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true">
 
-    <Button
-        android:id="@+id/btnDebit"
-        style="@style/ButtonStyle"
-        android:layout_width="0dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:background="@drawable/button_state"
-        android:text="@string/debit"
-        android:textColor="@drawable/text_state"
-        app:layout_constraintBottom_toTopOf="@+id/btnCredit"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:layout_marginStart="@dimen/padding_16"
+        android:layout_marginEnd="@dimen/padding_16">
 
-    <Button
-        android:id="@+id/btnCredit"
-        style="@style/ButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/button_state"
-        android:text="@string/credit"
-        android:textColor="@drawable/text_state"
-        app:layout_constraintBottom_toTopOf="@+id/btnVoucher"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <EditText
+            android:id="@+id/txtTotalValue"
+            style="@style/CustomTotalValue"
+            android:imeOptions="actionDone"
+            android:text="@string/default_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnVoucher"
-        style="@style/ButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/button_state"
-        android:text="@string/voucher"
-        android:textColor="@drawable/text_state"
-        android:layout_marginBottom="@dimen/padding_16"
-        app:layout_constraintBottom_toTopOf="@id/btnRefund"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <Button
+            android:id="@+id/btnDebit"
+            style="@style/ButtonStyle"
+            android:text="@string/text_debit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTotalValue" />
 
-    <Button
-        android:id="@+id/btnRefund"
-        style="@style/ButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:background="@drawable/button_state"
-        android:text="@string/refund"
-        android:textColor="@drawable/text_state"
-        app:layout_constraintBottom_toTopOf="@+id/btn_lasttransaction"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <Button
+            android:id="@+id/btnDebitCarne"
+            style="@style/ButtonStyle"
+            android:text="@string/text_debit_carne"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnDebit" />
 
-    <Button
-        android:id="@+id/btn_lasttransaction"
-        style="@style/ButtonStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/button_state"
-        android:text="Buscar ultima transação"
-        android:textColor="@drawable/text_state"
-        android:layout_marginBottom="@dimen/padding_16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <Button
+            android:id="@+id/btnCredit"
+            style="@style/ButtonStyle"
+            android:text="@string/text_credit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnDebitCarne" />
 
-    <Button
-        android:id="@+id/btnMinus"
-        android:layout_width="0dp"
-        android:layout_height="65dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginStart="3dp"
-        android:background="@drawable/test"
-        android:text="@string/button_minus"
-        android:textColor="@drawable/text_state"
-        android:textSize="30sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/txtCoffeeAmount"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <Button
+            android:id="@+id/btn_credit_carne"
+            style="@style/ButtonStyle"
+            android:text="@string/text_credit_carne"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCredit" />
 
-    <TextView
-        android:id="@+id/txtCoffeeAmount"
-        android:layout_width="0dp"
-        android:layout_height="59dp"
-        android:layout_marginBottom="30dp"
-        android:gravity="center"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="1 Café"
-        android:textIsSelectable="true"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnDebit"
-        app:layout_constraintLeft_toRightOf="@id/btnMinus"
-        app:layout_constraintRight_toLeftOf="@id/btnPlus"/>
+        <Button
+            android:id="@+id/btnVoucher"
+            style="@style/ButtonStyle"
+            android:text="@string/text_voucher"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_credit_carne" />
 
-    <Button
-        android:id="@+id/btnPlus"
-        android:layout_width="0dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/test"
-        android:text="@string/button_plus"
-        android:textColor="@drawable/text_state"
-        android:textSize="30sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/txtCoffeeAmount"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <Button
+            android:id="@+id/btnQRCode"
+            style="@style/ButtonStyle"
+            android:text="@string/text_qrcode"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnVoucher" />
 
-    <TextView
-        android:id="@+id/txtTotalValue"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="R$ 1,50"
-        android:textIsSelectable="true"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/txtCoffeeAmount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <Button
+            android:id="@+id/btnPix"
+            style="@style/ButtonStyle"
+            android:text="@string/text_pix"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnQRCode" />
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_pre_auto"
+            style="@style/ButtonStyle"
+            android:text="@string/btn_smartpos_pre_auto"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnPix" />
+
+        <Button
+            android:id="@+id/btnRefund"
+            style="@style/ButtonStyle"
+            android:text="@string/refund"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_pre_auto" />
+
+        <Button
+            android:id="@+id/btnLastTransaction"
+            style="@style/ButtonStyle"
+            android:text="@string/btn_smartpos_last_transaction"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnRefund" />
+
+        <Button
+            android:id="@+id/btn_refund_qr_code"
+            android:text="@string/btn_smartpos_refund_qr_code"
+            style="@style/ButtonStyle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnLastTransaction" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

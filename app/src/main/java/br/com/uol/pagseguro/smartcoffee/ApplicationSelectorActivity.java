@@ -7,18 +7,16 @@ import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 
-import br.com.uol.pagseguro.smartcoffee.demo.DemoInternoActivity;
-import br.com.uol.pagseguro.smartcoffee.injection.ApplicationSelectorComponent;
+import br.com.uol.pagseguro.smartcoffee.databinding.ActivityApplicationSelectorBinding;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.DemoInternoActivity;
 import br.com.uol.pagseguro.smartcoffee.utils.FragmentFlowManager;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ApplicationSelectorActivity extends Activity {
 
-    ApplicationSelectorComponent mInjector;
-
     @Inject
     FragmentFlowManager mFragmentFlowManager;
+
+    private ActivityApplicationSelectorBinding binding;
 
     public static ApplicationSelectorActivity getInstance() {
         return new ApplicationSelectorActivity();
@@ -27,29 +25,22 @@ public class ApplicationSelectorActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_application_selector);
-        ButterKnife.bind(this);
+        binding = ActivityApplicationSelectorBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        clickButtons();
     }
 
-
-    @OnClick(R.id.btn_demo)
-    public void onDemoClicked() {
-        startActivity(DemoInternoActivity.class);
+    private void clickButtons() {
+        binding.btnDemo.setOnClickListener(click ->
+                startActivity(DemoInternoActivity.class)
+        );
+        binding.btnAllFeatures.setOnClickListener(click ->
+                startActivity(MainActivity.class)
+        );
     }
 
     private void startActivity(Class<?> activity) {
         Intent intent = new Intent(this, activity);
         startActivity(intent);
-        finish();
-    }
-
-    @OnClick(R.id.btn_all_features)
-    public void onAllFeaturesClicked() {
-        startActivity(MainActivity.class);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }

@@ -29,8 +29,8 @@ public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
                         throwable -> getView().showError(throwable.getMessage()));
     }
 
-    public void requestAuth() {
-        mSubscribe = mUseCase.initializeAndActivatePinpad()
+    public void requestAuth(String activationCode) {
+        mSubscribe = mUseCase.initializeAndActivatePinpad(activationCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getView().showLoading(true))
@@ -39,8 +39,8 @@ public class AuthPresenter extends MvpNullObjectBasePresenter<AuthContract> {
                         throwable -> getView().showError(throwable.getMessage()));
     }
 
-    public void deactivate() {
-        mSubscribe = mUseCase.deactivate()
+    public void deactivate(String activationCode) {
+        mSubscribe = mUseCase.deactivate(activationCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(disposable -> getView().showLoading(true))

@@ -11,10 +11,10 @@ import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import javax.inject.Inject;
 
 import br.com.uol.pagseguro.smartcoffee.HomeFragment;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import br.com.uol.pagseguro.smartcoffee.MainActivity;
 import br.com.uol.pagseguro.smartcoffee.R;
+import br.com.uol.pagseguro.smartcoffee.databinding.FragmentAuthBinding;
+import br.com.uol.pagseguro.smartcoffee.payments.demoInterno.ActivationDialog;
 import br.com.uol.pagseguro.smartcoffee.injection.AuthComponent;
 import br.com.uol.pagseguro.smartcoffee.injection.DaggerAuthComponent;
 import br.com.uol.pagseguro.smartcoffee.utils.UIFeedback;
@@ -27,6 +27,8 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
     public static AuthFragment getInstance() {
         return new AuthFragment();
     }
+    public static final String ACTIVATION_DIALOG = "dialog";
+    private FragmentAuthBinding binding;
 
     @Nullable
     @Override
@@ -35,25 +37,29 @@ public class AuthFragment extends MvpFragment<AuthContract, AuthPresenter> imple
                 .mainComponent(((MainActivity) getContext()).getMainComponent())
                 .build();
         mInjector.inject(this);
-        View rootView = inflater.inflate(R.layout.fragment_auth, container, false);
-        ButterKnife.bind(this, rootView);
+        binding = FragmentAuthBinding.inflate(getLayoutInflater());
 
-        return rootView;
+        return binding.getRoot();
     }
 
-    @OnClick(R.id.btn_authentication_check)
-    public void onCheckAuthClicked() {
-        getPresenter().checkIsAuthenticated();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        clickButtons();
     }
 
-    @OnClick(R.id.btn_authentication_request)
-    public void onRequestAuthClicked() {
-        getPresenter().requestAuth();
-    }
-
-    @OnClick(R.id.btn_authentication_invalidate)
-    public void deactivate() {
-        getPresenter().deactivate();
+    private void clickButtons() {
+        binding.btnAuthenticationCheck.setOnClickListener(click -> getPresenter().checkIsAuthenticated());
+        binding.btnAuthenticationRequest.setOnClickListener(click -> {
+            ActivationDialog dialog = new ActivationDialog();
+            dialog.setOnDismissListener(activationCode -> getPresenter().requestAuth(activationCode));
+            dialog.show(getFragmentManager(), ACTIVATION_DIALOG);
+        });
+        binding.btnAuthenticationInvalidate.setOnClickListener(click -> {
+            ActivationDialog dialog = new ActivationDialog();
+            dialog.setOnDismissListener(activationCode -> getPresenter().deactivate(activationCode));
+            dialog.show(getFragmentManager(), ACTIVATION_DIALOG);
+        });
     }
 
     @Override

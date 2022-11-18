@@ -1,31 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:background="@android:color/white"
-                                             android:clickable="true"
-                                             android:focusable="true"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true">
 
-    <Button
-        android:id="@+id/btn_nfc_read"
-        style="@style/custom_button_style"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nfc_read_card"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:paddingBottom="@dimen/padding_16">
 
-    <Button
-        android:id="@+id/btn_nfc_write"
-        style="@style/custom_button_style"
-        android:layout_height="wrap_content"
-        android:text="@string/nfc_write_card"
-        app:layout_constraintTop_toBottomOf="@+id/btn_nfc_read"/>
+        <TextView
+            android:id="@+id/txt_nfc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_24"
+            android:text="@string/txt_nfc"
+            android:textSize="@dimen/textsize_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_nfc_abort"
-        style="@style/custom_button_style"
-        android:layout_height="wrap_content"
-        android:text="@string/nfc_abort"
-        app:layout_constraintTop_toBottomOf="@+id/btn_nfc_write"/>
+        <Button
+            android:id="@+id/btn_nfc_read"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_read_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_nfc" />
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_nfc_write"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_write_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_nfc_read" />
+
+        <Button
+            android:id="@+id/btn_nfc_write_directly"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_write_directly"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_nfc_write" />
+
+        <Button
+            android:id="@+id/btn_detect_card_directly"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_detect_card_directly"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_nfc_write_directly" />
+
+        <Button
+            android:id="@+id/btn_detect_remove_card_directly"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_detect_remove_card_directly"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_detect_card_directly" />
+
+        <Button
+            android:id="@+id/btn_auth_directly"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_auth_card_directly"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_detect_remove_card_directly" />
+
+        <Button
+            android:id="@+id/btn_auth_nfc_bloco_b"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_auth_bloco_b"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_auth_directly" />
+
+        <Button
+            android:id="@+id/btn_nfc_abort"
+            style="@style/ButtonStyle"
+            android:text="@string/txt_abort_nfc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_auth_nfc_bloco_b" />
+
+        <TextView
+            android:id="@+id/beep_and_leds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_24"
+            android:text="@string/txt_beep_leds"
+            android:textSize="@dimen/textsize_24"
+            app:layout_constraintBottom_toTopOf="@id/btn_nfc_beep"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_nfc_abort" />
+
+        <Button
+            android:id="@+id/btn_nfc_beep"
+            style="@style/ButtonStyle"
+            android:text="@string/txt_play_beep"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/beep_and_leds" />
+
+        <Button
+            android:id="@+id/btn_blue_led_nfc"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_led_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_nfc_beep" />
+
+        <Button
+            android:id="@+id/btn_yellow_led_nfc"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_led_yellow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_blue_led_nfc" />
+
+        <Button
+            android:id="@+id/btn_green_led_nfc"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_led_green"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_yellow_led_nfc" />
+
+        <Button
+            android:id="@+id/btn_red_led_nfc"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_led_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_green_led_nfc" />
+
+        <Button
+            android:id="@+id/btn_off_led_nfc"
+            style="@style/ButtonStyle"
+            android:text="@string/nfc_led_off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_red_led_nfc" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

@@ -23,8 +23,30 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">3dp</item>
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
-        <item name="android:background">@drawable/button_background</item>
+        <item name="android:background">@drawable/button_state</item>
         <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@drawable/text_state</item>
     </style>
 
+    <style name="CustomTotalValue">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/padding_24</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitleStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/textsize_18</item>
+    </style>
+
+    <style name="TextSubtitleStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/textsize_18</item>
+    </style>
 </resources>

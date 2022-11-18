@@ -18,7 +18,6 @@ public class WrapperModule {
 
     @Provides
     PlugPag providesPlugPag() {
-        PlugPag plugPag = new PlugPag(mContext,new PlugPagAppIdentification("TESTE", "1"));
-        return plugPag;
+        return new PlugPag(mContext);
     }
 }

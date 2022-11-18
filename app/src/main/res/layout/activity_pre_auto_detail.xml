@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/padding_16">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/container_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_title_detail"
+            style="@style/TextTitleStyle"
+            android:layout_width="@dimen/space_empty"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_preauto_detail_title"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/container_detail_success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_16"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_title_detail">
+
+            <TextView
+                android:id="@+id/txt_auto"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_preauto_auto" />
+
+            <TextView
+                android:id="@+id/txt_transaction_auto"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                tools:text="@string/txt_transaction_auto_example" />
+
+            <TextView
+                android:id="@+id/txt_amount"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_auto"
+                android:text="@string/txt_preauto_amount"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_amount"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_auto"
+                tools:text="@string/txt_amount_example" />
+
+            <TextView
+                android:id="@+id/txt_card_brand"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_amount"
+                android:text="@string/txt_preauto_card_brand"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_card_brand"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_amount"
+                tools:text="@string/txt_card_brand_example" />
+
+            <TextView
+                android:id="@+id/txt_holder_name"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_card_brand"
+                android:text="@string/txt_preauto_holder_name"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_holder_name"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_card_brand"
+                tools:text="@string/txt_holder_name_example" />
+
+            <TextView
+                android:id="@+id/txt_holder"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_holder_name"
+                android:text="@string/txt_preauto_holder"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_holder"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_holder_name"
+                tools:text="@string/txt_holder_example" />
+
+            <TextView
+                android:id="@+id/txt_date"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_holder"
+                android:text="@string/txt_preauto_date"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_date"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_holder"
+                tools:text="@string/txt_date_example" />
+
+            <TextView
+                android:id="@+id/txt_nsu"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_date"
+                android:text="@string/txt_preauto_nsu"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_nsu"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_date"
+                tools:text="@string/txt_nsu_example" />
+
+            <TextView
+                android:id="@+id/txt_payment_type"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_nsu"
+                android:text="@string/txt_preauto_payment_type"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_payment_type"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_nsu"
+                tools:text="@string/txt_payment_type_example" />
+
+            <TextView
+                android:id="@+id/txt_type_transaction"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_payment_type"
+                android:text="@string/txt_preauto_transaction_type"/>
+
+            <TextView
+                android:id="@+id/txt_transaction_type"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_payment_type"
+                tools:text="@string/txt_type_transaction_example" />
+
+            <TextView
+                android:id="@+id/txt_installments"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_type_transaction"
+                android:text="@string/txt_installments"/>
+
+            <TextView
+                android:id="@+id/txt_installments_val"
+                style="@style/TextSubtitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/txt_transaction_type"
+                tools:text="@string/txt_installments_example" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/container_detail_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_16"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_detail_success"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_error_code"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                tools:text="@string/txt_error_code_example" />
+
+            <TextView
+                android:id="@+id/txt_error_message"
+                style="@style/TextTitleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="@string/txt_error_code_message_example" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_preauto_cancel"
+            style="@style/ButtonStyle"
+            android:background="@drawable/button_state"
+            android:layout_width="@dimen/space_empty"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_16"
+            android:text="@string/btn_pre_auto_cancelar"
+            android:textColor="@drawable/text_state"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/container_detail_error" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>

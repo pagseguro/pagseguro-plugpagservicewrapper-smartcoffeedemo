@@ -8,5 +8,6 @@
     <color name="plugpag_colorPrimary">#1EC390</color>
     <color name="plugpag_colorPrimaryDark">#1EC390</color>
     <color name="colorPrimaryDarkDisabled">#551EC390</color>
+    <color name="black">#433F3F</color>
 
 </resources>
