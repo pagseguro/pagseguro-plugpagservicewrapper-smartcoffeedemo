@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_payment">
+
+    <fragment
+        android:id="@+id/navigation_payment"
+        android:name="br.com.uol.pagbank.plugpagservice.demo.ui.payment.PaymentFragment"
+        android:label="@string/title_payment"
+        tools:layout="@layout/fragment_payment" />
+
+    <fragment
+        android:id="@+id/navigation_nfc"
+        android:name="br.com.uol.pagbank.plugpagservice.demo.ui.nfc.NFCFragment"
+        android:label="@string/title_nfc"
+        tools:layout="@layout/fragment_nfc" />
+
+    <fragment
+        android:id="@+id/navigation_print"
+        android:name="br.com.uol.pagbank.plugpagservice.demo.ui.print.PrintFragment"
+        android:label="@string/title_print"
+        tools:layout="@layout/fragment_print" />
+
+    <fragment
+        android:id="@+id/navigation_other"
+        android:name="br.com.uol.pagbank.plugpagservice.demo.ui.other.OtherFragment"
+        android:label="@string/title_other"
+        tools:layout="@layout/fragment_other" />
+
+</navigation>

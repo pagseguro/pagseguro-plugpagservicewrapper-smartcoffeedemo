@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.other.OtherFragment">
+
+    <TextView
+        android:id="@+id/tvOther"
+        android:layout_width="@dimen/payment_popup_width"
+        android:layout_height="@dimen/payment_popup_height"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/title_margin"
+        android:layout_marginVertical="@dimen/title_margin"
+        android:textSize="@dimen/option_size"
+        android:textColor="@color/black"
+        android:text="@string/waiting"
+        android:background="@drawable/btn_rounded"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/lnOther"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="@dimen/title_margin"
+        android:layout_marginBottom="@dimen/keyboard_button_margin"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOther" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnOther">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viwDois"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" >
+
+            <Button
+                android:id="@+id/btnOtherReboot"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_reboot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnOtherBeep"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_beep"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherReboot" />
+
+            <Button
+                android:id="@+id/btnOtherLed"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_led"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherBeep" />
+
+            <TextView
+                android:id="@+id/tvOtherLastTransaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/option_size"
+                android:textColor="@color/black"
+                android:text="@string/other_last_transaction"
+                android:layout_marginTop="@dimen/option_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherLed" />
+
+            <View
+                android:id="@+id/tvOtherLastTransactionR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_marginRight="@dimen/option_margin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tvOtherLastTransaction"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherLastTransaction"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherLastTransaction" />
+
+            <View
+                android:id="@+id/tvOtherLastTransactionL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_marginLeft="@dimen/option_margin"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/tvOtherLastTransaction"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherLastTransaction"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherLastTransaction" />
+
+            <Button
+                android:id="@+id/btnOtherLastTransaction"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_get_last_transaction"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOtherLastTransaction" />
+
+            <Button
+                android:id="@+id/btnOtherReprintEstablishmentReceipt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_reprint_establishment_receipt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherLastTransaction" />
+
+            <Button
+                android:id="@+id/btnOtherReprintCustomerReceipt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_reprint_customer_receipt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherReprintEstablishmentReceipt" />
+
+            <Button
+                android:id="@+id/btnOtherUndoLastTransaction"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:textSize="@dimen/option_size"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/other_undo_last_transaction"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherReprintCustomerReceipt" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

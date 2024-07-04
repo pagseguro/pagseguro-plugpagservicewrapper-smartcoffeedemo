@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_payment"
+        android:icon="@drawable/baseline_payment_32"
+        android:title="@string/title_payment" />
+
+    <item
+        android:id="@+id/navigation_nfc"
+        android:icon="@drawable/baseline_nfc_32"
+        android:title="@string/title_nfc" />
+
+    <item
+        android:id="@+id/navigation_print"
+        android:icon="@drawable/baseline_print_32"
+        android:title="@string/title_print" />
+
+
+    <item
+        android:id="@+id/navigation_other"
+        android:icon="@drawable/baseline_other_32"
+        android:title="@string/title_other" />
+
+</menu>

@@ -1,29 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="margin_8">8dp</dimen>
-    <dimen name="margin_16">16dp</dimen>
-    <dimen name="margin_24">24dp</dimen>
-    <dimen name="margin_32">32dp</dimen>
-
-    <dimen name="padding_4">4dp</dimen>
-    <dimen name="padding_8">8dp</dimen>
-    <dimen name="padding_12">12dp</dimen>
-    <dimen name="padding_16">16dp</dimen>
-    <dimen name="padding_24">24dp</dimen>
-    <dimen name="padding_32">32</dimen>
-    <dimen name="padding_100">100dp</dimen>
-
-    <dimen name="amount_height">200dp</dimen>
-
-    <dimen name="space_empty">0dp</dimen>
-
-    <dimen name="textsize_10">10sp</dimen>
-    <dimen name="textsize_12">12sp</dimen>
-    <dimen name="textsize_14">14sp</dimen>
-    <dimen name="textsize_16">16sp</dimen>
-    <dimen name="textsize_18">18sp</dimen>
-    <dimen name="textsize_20">20sp</dimen>
-    <dimen name="textsize_24">24sp</dimen>
-    <dimen name="textsize_30">30sp</dimen>
-    <dimen name="textsize_36">36sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="payment_popup_width">300dp</dimen>
+    <dimen name="payment_popup_height">200dp</dimen>
+    <dimen name="keyboard_line">80dp</dimen>
+    <dimen name="option_line">60dp</dimen>
+    <dimen name="option_margin">10dp</dimen>
+    <dimen name="title_size">30sp</dimen>
+    <dimen name="option_size">20sp</dimen>
+    <dimen name="keyboard_number_size">25sp</dimen>
+    <dimen name="keyboard_operation_size">30sp</dimen>
+    <dimen name="keyboard_button_margin">5dp</dimen>
+    <dimen name="title_margin">25dp</dimen>
 </resources>
