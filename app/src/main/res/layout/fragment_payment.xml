@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/tvInput"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/value_height"
         android:gravity="right|bottom"
         android:textSize="50dp"
         android:textColor="@color/black"
@@ -20,8 +20,7 @@
         android:text="Amount"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tblKeyboard" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <View
         android:layout_width="match_parent"
@@ -35,17 +34,19 @@
     <LinearLayout
         android:id="@+id/tblKeyboard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/keyboard_button_margin"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInput">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_weight="1"
             android:minHeight="@dimen/keyboard_line">
 
             <Button
@@ -91,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_weight="1"
             android:minHeight="@dimen/keyboard_line">
 
             <Button
@@ -135,6 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_weight="1"
             android:minHeight="@dimen/keyboard_line">
 
             <Button
@@ -179,8 +182,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_weight="1"
             android:minHeight="@dimen/keyboard_line">
-
 
             <Button
                 android:id="@+id/btnAllClear"
@@ -224,7 +227,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:minHeight="@dimen/keyboard_line">
+            android:minHeight="@dimen/keyboard_pay">
 
             <Button
                 android:id="@+id/btnPay"
@@ -453,7 +456,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clInstallmentAmount"
         android:layout_width="0dp"
@@ -570,7 +572,7 @@
         android:id="@+id/clResult"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

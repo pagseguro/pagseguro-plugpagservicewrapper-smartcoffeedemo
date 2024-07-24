@@ -37,6 +37,8 @@
     <string name="back">Voltar</string>
     <string name="processing">Processando</string>
     <string name="success">Sucesso!</string>
+    <string name="not_authenticated">Não ativado</string>
+    <string name="no_pps_found">Sem serviço de pagamento</string>
 
     <!-- NFC -->
     <string name="title_nfc">NFC</string>

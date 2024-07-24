@@ -1,5 +1,7 @@
 package br.com.uol.pagbank.plugpagservice.demo.ui.payment
 
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +23,7 @@ import org.koin.mp.KoinPlatformTools
 
 class PaymentViewModel : ViewModel() {
     private val plugpag: PlugPag by lazy { KoinPlatformTools.defaultContext().get().get<PlugPag>() }
+    private val packageManager: PackageManager by lazy { KoinPlatformTools.defaultContext().get().get<Context>().packageManager }
 
     private var checkRequirementsCalled = false
 
@@ -93,16 +96,35 @@ class PaymentViewModel : ViewModel() {
         }
     }
 
+    private fun hasRequirements(): Boolean {
+        try {
+            if (packageManager.getPackageInfo(PLUGPAG_SERVICE_PACKAGE_NAME, 0) == null) {
+                addError(PaymentError.INVALID_SETUP)
+                return false
+            }
+        } catch (ex: Exception) {
+            addError(PaymentError.INVALID_SETUP)
+            return false
+        }
+
+        // verifica se o serviço de pagamento está autenticado
+        if (!plugpag.isAuthenticated()) {
+            // inicia o onboarding para autenticar o serviço
+            plugpag.startOnBoarding()
+            addError(PaymentError.INVALID_STATE)
+            return false
+        }
+
+        return true
+    }
+
     fun checkRequirements() {
         if (checkRequirementsCalled) return
         checkRequirementsCalled = true
 
         viewModelScope.launch(Dispatchers.Default) {
-            // verifica se o serviço de pagamento está autenticado
-            if (!plugpag.isAuthenticated()) {
-                // inicia o onboarding para autenticar o serviço
-                plugpag.startOnBoarding()
-            }
+            if (!hasRequirements())
+                checkRequirementsCalled = false
         }
     }
 
@@ -216,11 +238,7 @@ class PaymentViewModel : ViewModel() {
         }
 
         viewModelScope.launch(Dispatchers.Default) {
-            // verifica se o serviço de pagamento está autenticado
-            if (!plugpag.isAuthenticated()) {
-                // inicia o onboarding para autenticar o serviço
-                plugpag.startOnBoarding()
-                addError(PaymentError.INVALID_STATE)
+            if (!hasRequirements()) {
                 return@launch
             }
 
@@ -283,7 +301,7 @@ class PaymentViewModel : ViewModel() {
             //      se o cartão aproximado for inválido, sugerindo usar o chip
             //  - "M831"
             //      se a venda por aproximação não for autorizada
-            //  - "S20"f
+            //  - "S20"
             //      se o pagamento for duplicado
             //  - "C12"
             //      se o tempo esperando o cartão acabar
@@ -328,5 +346,6 @@ class PaymentViewModel : ViewModel() {
         const val MIN_AMOUNT = 1_00
         const val MIN_PARC_AMOUNT = 10_00
         const val MAX_AMOUNT = 250_000_00
+        const val PLUGPAG_SERVICE_PACKAGE_NAME = "br.com.uol.pagseguro.plugpagservice"
     }
 }

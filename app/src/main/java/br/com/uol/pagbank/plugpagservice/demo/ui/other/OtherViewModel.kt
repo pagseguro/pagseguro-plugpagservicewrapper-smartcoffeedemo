@@ -114,11 +114,14 @@ class OtherViewModel : ViewModel() {
             // resgata os dados a ultima transação aprovada
             val lastTransaction = plugpag.getLastApprovedTransaction()
             viewModelScope.launch {
-                if (lastTransaction.result == null) {
+                if (lastTransaction.result == null ||
+                    lastTransaction.transactionCode?.isEmpty() != false ||
+                    lastTransaction.transactionId?.isEmpty() != false ||
+                    lastTransaction.amount?.isEmpty() != false) {
                     _eventTextResource.value = R.string.other_get_last_transaction_no
                 } else {
                     _eventText.value = "Result: '${lastTransaction.errorCode}'\n" +
-                            "Code: '${if (lastTransaction.transactionCode != null && lastTransaction.transactionCode!!.length > 10)
+                            "Code: '${if (lastTransaction.transactionCode!!.length > 10)
                                 lastTransaction.transactionCode!!.substring(0, 8) + "..." else lastTransaction.transactionCode}'\n" +
                             "Id: '${lastTransaction.transactionId}'\n" +
                             "Amount: ${"%.2f".format((lastTransaction.amount?.toInt() ?: 0) / 100f)}\n"

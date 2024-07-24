@@ -4,7 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="payment_popup_width">300dp</dimen>
     <dimen name="payment_popup_height">200dp</dimen>
-    <dimen name="keyboard_line">80dp</dimen>
+    <dimen name="value_height">100dp</dimen>
+    <dimen name="keyboard_line">50dp</dimen>
+    <dimen name="keyboard_pay">80dp</dimen>
     <dimen name="option_line">60dp</dimen>
     <dimen name="option_margin">10dp</dimen>
     <dimen name="title_size">30sp</dimen>
