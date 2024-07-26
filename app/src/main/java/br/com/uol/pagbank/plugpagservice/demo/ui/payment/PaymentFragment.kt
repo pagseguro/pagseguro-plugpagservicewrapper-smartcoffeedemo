@@ -20,6 +20,7 @@ import br.com.uol.pagbank.plugpagservice.demo.model.PaymentError
 import br.com.uol.pagbank.plugpagservice.demo.model.PaymentType
 import br.com.uol.pagbank.plugpagservice.demo.model.State
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInstallment
+import java.util.Locale
 
 class PaymentFragment : Fragment() {
     private var _binding: FragmentPaymentBinding? = null
@@ -28,6 +29,8 @@ class PaymentFragment : Fragment() {
     private lateinit var paymentViewModel: PaymentViewModel
 
     private var installmentsAdapter: PaymentInstallmentAdapter? = null
+
+    private val processing = context?.getText(R.string.processing) ?: ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,6 +111,11 @@ class PaymentFragment : Fragment() {
         paymentViewModel.eventText.observe(viewLifecycleOwner) {
             if (it == null) return@observe
             binding.tvPayment.text = it
+            if (processing == it.toLowerCase(Locale.ROOT) || it.isEmpty()) {
+                binding.btnCancelPayment.visibility = View.INVISIBLE
+            } else {
+                binding.btnCancelPayment.visibility = View.VISIBLE
+            }
         }
 
         paymentViewModel.result.observe(viewLifecycleOwner) {
@@ -204,7 +212,7 @@ class PaymentFragment : Fragment() {
                     ).show()
                 }
                 else -> {
-                    // do nothing
+                    // não executa nenhuma ação
                 }
             }
             paymentViewModel.resetState()
@@ -334,7 +342,8 @@ class PaymentFragment : Fragment() {
             binding.tvPayment.getIn()
             binding.btnCancelPayment.getIn()
 
-            binding.tvPayment.text = context?.getText(R.string.processing) ?: ""
+            binding.tvPayment.text = processing
+            binding.btnCancelPayment.visibility = View.INVISIBLE
         }
     }
 

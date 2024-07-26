@@ -32,13 +32,13 @@ class OtherViewModel : ViewModel() {
         private const val TWO_SECONDS_DELAY = 2000L
     }
 
-    // Event message resource
+    // messagem de evento (resource)
     private val _eventTextResource = MutableLiveData<Int>().apply {
         value = R.string.waiting
     }
     val eventTextResource: LiveData<Int> = _eventTextResource
 
-    // Event message
+    // messagem de evento (string)
     private val _eventText = MutableLiveData<String>().apply {
         value = ""
     }
@@ -135,7 +135,7 @@ class OtherViewModel : ViewModel() {
             viewModelScope.launch {
                 _eventTextResource.value = R.string.other_reprinting_establishment_receipt
             }
-            // reimprime a via do estabelecimento
+            // reimprime a via do estabelecimento, da ultima transação aprovada
             plugpag.reprintStablishmentReceipt()
             endMessage(R.string.success)
         }
@@ -146,7 +146,7 @@ class OtherViewModel : ViewModel() {
             viewModelScope.launch {
                 _eventTextResource.value = R.string.other_reprinting_customer_receipt
             }
-            // reimprime a via do cliente
+            // reimprime a via do cliente, da ultima transação aprovada
             plugpag.reprintCustomerReceipt()
             endMessage(R.string.success)
         }
@@ -158,7 +158,7 @@ class OtherViewModel : ViewModel() {
                 _eventTextResource.value = R.string.other_undoing_last_transaction
             }
 
-            // resgata os dados a ultima transação aprovada
+            // resgata os dados da ultima transação aprovada
             val lastTransaction = plugpag.getLastApprovedTransaction()
             if (lastTransaction.result == null) {
                 _eventTextResource.value = R.string.other_get_last_transaction_no
@@ -183,7 +183,7 @@ class OtherViewModel : ViewModel() {
                         "#000000",
                         "#808080",
                         "#FFFFFF",
-                        60, // time out in seconds
+                        60, // tempo de espera máximo do popup de impressão
                     )
                 )
 

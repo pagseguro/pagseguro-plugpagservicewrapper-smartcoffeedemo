@@ -27,8 +27,8 @@
     <string name="voucher">Voucher</string>
     <string name="pix">Pix</string>
     <string name="single">À vista</string>
-    <string name="vendedor">Vendedor</string>
-    <string name="comprador">Comprador</string>
+    <string name="vendedor">Parcelado vendedor</string>
+    <string name="comprador">Parcelado comprador</string>
     <string name="cancel">Cancelar</string>
     <string name="try_again">Tentar novamente</string>
     <string name="try_again_credit">Tentar novamente\nComo crédito</string>

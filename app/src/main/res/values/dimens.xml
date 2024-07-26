@@ -10,9 +10,10 @@
     <dimen name="option_line">60dp</dimen>
     <dimen name="option_margin">10dp</dimen>
     <dimen name="title_size">30sp</dimen>
-    <dimen name="option_size">20sp</dimen>
+    <dimen name="option_size">18sp</dimen>
     <dimen name="keyboard_number_size">25sp</dimen>
     <dimen name="keyboard_operation_size">30sp</dimen>
     <dimen name="keyboard_button_margin">5dp</dimen>
-    <dimen name="title_margin">25dp</dimen>
+    <dimen name="title_margin">5dp</dimen>
+    <dimen name="status_margin">5dp</dimen>
 </resources>

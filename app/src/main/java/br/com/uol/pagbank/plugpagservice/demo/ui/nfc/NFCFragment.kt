@@ -119,7 +119,6 @@ class NFCFragment : Fragment() {
     fun onClickReadLot(view: View?) {
         doOperation(
             { disableUI() },
-            // slot 2/3 está com a senha quebrada
             { nfcViewModel.readActionLot(sector) },
             {
                 enableUI()

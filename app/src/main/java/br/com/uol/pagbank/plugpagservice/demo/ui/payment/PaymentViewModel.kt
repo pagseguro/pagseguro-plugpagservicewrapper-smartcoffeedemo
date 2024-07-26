@@ -27,36 +27,36 @@ class PaymentViewModel : ViewModel() {
 
     private var checkRequirementsCalled = false
 
-    // Show error in flow
+    // responsável por mostrar erros no fluxo
     private val _error = MutableLiveData<PaymentError>().apply {
         value = null
     }
     val error: LiveData<PaymentError> = _error
 
-    // Control information flow
+    // controle de estado do fluxo
     private val _state = MutableLiveData<State>().apply {
         value = State.GETTING_AMOUNT
     }
     val state: LiveData<State> = _state
 
-    // Payment amount
+    // valor do pagamento
     private var _amount = 0
     private val _amountText = MutableLiveData<String>().apply {
         value = ""
     }
     val amountText: LiveData<String> = _amountText
 
-    // Payment type
+    // tipo de pagamento
     private var _paymentType = PaymentType.DEBIT
     val paymentType: PaymentType = _paymentType
 
-    // Installment type
+    // tipo de parcelamento
     private var _installmentType = InstallmentType.A_VISTA
 
-    // Installment amount
+    // quantidade de parcelas
     private var _installmentAmount = 1
 
-    // Show error in flow
+    // valores das parcelas
     private val _installments = MutableLiveData<List<PlugPagInstallment>>().apply {
         value = mutableListOf()
     }
@@ -68,11 +68,13 @@ class PaymentViewModel : ViewModel() {
     }
     val eventText: LiveData<String> = _eventText
 
-    // Payment result
+    // resultado da transação
     private var _result = MutableLiveData<PlugPagTransactionResult>().apply {
         value = null
     }
     val result: LiveData<PlugPagTransactionResult> = _result
+
+    private var executingPayment = false
 
     init {
         resetState()
@@ -204,8 +206,8 @@ class PaymentViewModel : ViewModel() {
         _installments.value = listOf()
         viewModelScope.launch(Dispatchers.Default) {
             // calcula as parcelas disponíveis para o valor informado
-            // retorna uma lista vazia se o valor for inválido (abaixo de 10 reais ou alto demais)
             var installments = plugpag.calculateInstallments("$_amount", _installmentType.value)
+            // retorna uma lista vazia se o valor for inválido (abaixo de 10 reais ou alto demais)
             if (installments.isEmpty()) {
                 addError(PaymentError.INVALID_INSTALLMENTS)
                 return@launch
@@ -233,12 +235,18 @@ class PaymentViewModel : ViewModel() {
 
     fun doPay() {
         if (_state.value != State.PAYING) {
-            addError(PaymentError.INVALID_AMOUNT)
+            addError(PaymentError.INVALID_STATE)
             return
         }
 
+        if (executingPayment) {
+            return
+        }
+        executingPayment = true
+
         viewModelScope.launch(Dispatchers.Default) {
             if (!hasRequirements()) {
+                executingPayment = false
                 return@launch
             }
 
@@ -262,7 +270,7 @@ class PaymentViewModel : ViewModel() {
                     "#000000",
                     "#808080",
                     "#FFFFFF",
-                    60, // time out in seconds
+                    60, // tempo de espera máximo do popup de impressão
                 )
             )
 
@@ -278,6 +286,13 @@ class PaymentViewModel : ViewModel() {
                     true
                 )
             )
+            executingPayment = false
+
+            // trata os erros mais comuns encontrados no result.errorCode
+            when (result.errorCode) {
+                "SV03", "PP1017" -> abort()
+                // todo: tratar os erros pertinentes à aplicação
+            }
 
             // passa o resultado da transação para a UI
             // os resultados mais comuns encontrados no result.errorCode são, mas não apenas:
@@ -309,7 +324,7 @@ class PaymentViewModel : ViewModel() {
             //      se o tempo esperando o qr code acabar
             //  - "S46"
             //      se o cartão tiver muitas tentativas
-            //  - "SV03"
+            //  - "SV03" ou "PP1047"
             //      se o serviço de pagamento estiver ocupado
             viewModelScope.launch {
                 _result.value = result
@@ -329,7 +344,7 @@ class PaymentViewModel : ViewModel() {
         }
 
         viewModelScope.launch(Dispatchers.Default) {
-            // interrompe a transação atual
+            // interrompe a transação em adamento
             plugpag.abort()
         }
     }

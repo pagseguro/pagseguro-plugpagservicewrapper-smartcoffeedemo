@@ -23,7 +23,7 @@ class NFCViewModel : ViewModel() {
     private val plugpag: PlugPag by lazy { KoinPlatformTools.defaultContext().get().get<PlugPag>() }
 
     companion object {
-        private const val TIMEOUT = 10 // seconds
+        private const val TIMEOUT = 10 // em segundos
         private const val DEMO_SLOT = 18 // index
 
         private const val TWO_SECONDS_DELAY = 2000L
@@ -42,7 +42,7 @@ class NFCViewModel : ViewModel() {
             0xFF.toByte()
         )
 
-        // len = 16
+        // tamanho = 16
         private val demoText = arrayOf(
             "demo_text    01 ".toByteArray(charsetUTF8),
             "demo_text  02   ".toByteArray(charsetUTF8),
@@ -50,7 +50,7 @@ class NFCViewModel : ViewModel() {
         )
     }
 
-    // Event message resource
+    // messagem de evento (resource)
     private val _eventTextResource = MutableLiveData<Int>().apply {
         value = R.string.waiting
     }
