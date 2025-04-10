@@ -10,10 +10,16 @@
     <dimen name="option_line">60dp</dimen>
     <dimen name="option_margin">10dp</dimen>
     <dimen name="title_size">30sp</dimen>
+    <dimen name="sub_title_size">24sp</dimen>
+    <dimen name="sub_title_margin_v">5dp</dimen>
+    <dimen name="sub_content_margin_t">10dp</dimen>
+    <dimen name="sub_text_size">18sp</dimen>
+    <dimen name="sub_text_size_small">14sp</dimen>
     <dimen name="option_size">18sp</dimen>
     <dimen name="keyboard_number_size">25sp</dimen>
     <dimen name="keyboard_operation_size">30sp</dimen>
     <dimen name="keyboard_button_margin">5dp</dimen>
     <dimen name="title_margin">5dp</dimen>
     <dimen name="status_margin">5dp</dimen>
+    <dimen name="option_arrow_size">30dp</dimen>
 </resources>

@@ -37,7 +37,12 @@ class OtherFragment : Fragment() {
         otherViewModel.eventTextResource.observe(viewLifecycleOwner) {
             textView.text = requireContext().getText(it)
         }
-
+        otherViewModel.eventModelText.observe(viewLifecycleOwner) {
+            binding.tvModel.text = it
+        }
+        otherViewModel.eventSerialNumber.observe(viewLifecycleOwner) {
+            binding.tvSerialNumber.text = it
+        }
         binding.btnOtherReboot.setOnClickListener { otherViewModel.reboot() }
         binding.btnOtherBeep.setOnClickListener { otherViewModel.beep() }
         binding.btnOtherLed.setOnClickListener { otherViewModel.led() }

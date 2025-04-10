@@ -44,8 +44,26 @@ class OtherViewModel : ViewModel() {
     }
     val eventText: LiveData<String> = _eventText
 
+    private val _eventModelText = MutableLiveData<String>().apply {
+        value = ""
+    }
+    val eventModelText: LiveData<String> = _eventModelText
+
+    private val _eventSerialNumber = MutableLiveData<String>().apply {
+        value = ""
+    }
+    val eventSerialNumber: LiveData<String> = _eventSerialNumber
+
     init {
         resetMessage()
+        fillTerminalInfo()
+    }
+
+    private fun fillTerminalInfo() {
+        viewModelScope.launch {
+            _eventModelText.value = "Model: ${plugpag.getModel()}"
+            _eventSerialNumber.value = "Serial Number:  ${plugpag.getSerialNumber()}"
+        }
     }
 
     private fun resetMessage() {
@@ -86,7 +104,7 @@ class OtherViewModel : ViewModel() {
                 }
                 // faz o terminal emitir um beep
                 plugpag.beep(
-                    PlugPagBeepData(frequency.toByte(), 1)
+                    PlugPagBeepData(frequency.toByte(), 100)
                 )
             }
             endMessage(R.string.success)

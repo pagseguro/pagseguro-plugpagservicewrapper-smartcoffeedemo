@@ -13,4 +13,5 @@
     <color name="over">#FDFFFFFF</color>
     <color name="line_value">#60000000</color>
     <color name="line">#40000000</color>
+    <color name="gray">#B0B0B0</color>
 </resources>
