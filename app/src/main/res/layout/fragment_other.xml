@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/tvOther"
         android:layout_width="@dimen/payment_popup_width"
         android:layout_height="@dimen/payment_popup_height"
+        android:layout_marginVertical="@dimen/title_margin"
+        android:background="@drawable/btn_rounded"
         android:gravity="center"
         android:paddingHorizontal="@dimen/title_margin"
-        android:layout_marginVertical="@dimen/title_margin"
-        android:textSize="@dimen/option_size"
-        android:textColor="@color/black"
         android:text="@string/waiting"
-        android:background="@drawable/btn_rounded"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textColor="@color/black"
+        android:textSize="@dimen/option_size"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/lnOther"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/black"
         android:layout_marginTop="@dimen/title_margin"
         android:layout_marginBottom="@dimen/keyboard_button_margin"
-        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOther" />
 
     <ScrollView
@@ -48,18 +47,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" >
+            app:layout_constraintTop_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btnOtherReboot"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_reboot"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -68,12 +67,12 @@
                 android:id="@+id/btnOtherBeep"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_beep"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherReboot" />
@@ -82,12 +81,12 @@
                 android:id="@+id/btnOtherLed"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_led"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherBeep" />
@@ -96,10 +95,10 @@
                 android:id="@+id/tvOtherLastTransaction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/option_size"
-                android:textColor="@color/black"
-                android:text="@string/other_last_transaction"
                 android:layout_marginTop="@dimen/option_margin"
+                android:text="@string/other_last_transaction"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherLed" />
@@ -108,34 +107,34 @@
                 android:id="@+id/tvOtherLastTransactionR"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/black"
                 android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherLastTransaction"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/tvOtherLastTransaction"
-                app:layout_constraintTop_toTopOf="@+id/tvOtherLastTransaction"
-                app:layout_constraintBottom_toBottomOf="@+id/tvOtherLastTransaction" />
+                app:layout_constraintTop_toTopOf="@+id/tvOtherLastTransaction" />
 
             <View
                 android:id="@+id/tvOtherLastTransactionL"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/black"
                 android:layout_marginLeft="@dimen/option_margin"
-                app:layout_constraintRight_toRightOf="parent"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherLastTransaction"
                 app:layout_constraintLeft_toRightOf="@+id/tvOtherLastTransaction"
-                app:layout_constraintTop_toTopOf="@+id/tvOtherLastTransaction"
-                app:layout_constraintBottom_toBottomOf="@+id/tvOtherLastTransaction" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherLastTransaction" />
 
             <Button
                 android:id="@+id/btnOtherLastTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_get_last_transaction"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvOtherLastTransaction" />
@@ -144,13 +143,14 @@
                 android:id="@+id/btnOtherReprintEstablishmentReceipt"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_reprint_establishment_receipt"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherLastTransaction" />
 
@@ -158,12 +158,12 @@
                 android:id="@+id/btnOtherReprintCustomerReceipt"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_reprint_customer_receipt"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherReprintEstablishmentReceipt" />
@@ -172,15 +172,70 @@
                 android:id="@+id/btnOtherUndoLastTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/option_size"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
                 android:minHeight="@dimen/option_line"
                 android:text="@string/other_undo_last_transaction"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherReprintCustomerReceipt" />
+
+            <TextView
+                android:id="@+id/tvOtherInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/option_margin"
+                android:text="@string/other_info"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherUndoLastTransaction" />
+
+            <View
+                android:id="@+id/tvOtherInformationR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherInformation"
+                app:layout_constraintEnd_toStartOf="@+id/tvOtherInformation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherInformation" />
+
+            <View
+                android:id="@+id/tvOtherInformationL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherInformation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvOtherInformation"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherInformation" />
+
+            <TextView
+                android:id="@+id/tvModel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOtherInformation"
+                tools:text="Model" />
+
+            <TextView
+                android:id="@+id/tvSerialNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvModel"
+                tools:text="Model" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

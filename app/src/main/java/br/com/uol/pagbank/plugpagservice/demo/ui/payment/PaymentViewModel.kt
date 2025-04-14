@@ -131,13 +131,15 @@ class PaymentViewModel : ViewModel() {
     }
 
     fun enterNumber(entry: Int) {
-        val initialAmount = _amount
-        _amount *= 10
-        _amount += entry
-        if (_amount > MAX_AMOUNT)
-            _amount = initialAmount
-        else
-            updateText()
+        viewModelScope.launch {
+            val initialAmount = _amount
+            _amount *= 10
+            _amount += entry
+            if (_amount > MAX_AMOUNT)
+                _amount = initialAmount
+            else
+                updateText()
+        }
     }
 
     fun back() {
@@ -194,7 +196,7 @@ class PaymentViewModel : ViewModel() {
                 _state.value = State.PAYING
             }
             InstallmentType.PARC_VENDEDOR,
-            InstallmentType.PARC_COMPRADOR-> {
+            InstallmentType.PARC_COMPRADOR -> {
                 refreshInstallments()
 
                 _state.value = State.GETTING_INSTALLMENTS
@@ -253,8 +255,14 @@ class PaymentViewModel : ViewModel() {
             // recebe os eventos de mensagens do serviço para instruir as ações do usuário
             plugpag.setEventListener(object : PlugPagEventListener {
                 override fun onEvent(data: PlugPagEventData) {
-                    data.customMessage?.let {
-                        _eventText.value = it
+                    if (data.eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
+                        _eventText.value += PASSWORD_CHAR
+                    } else if (data.eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
+                        _eventText.value = PASSWORD_HINT
+                    } else {
+                        data.customMessage?.let {
+                            _eventText.value = it
+                        }
                     }
                 }
             })
@@ -362,5 +370,7 @@ class PaymentViewModel : ViewModel() {
         const val MIN_PARC_AMOUNT = 10_00
         const val MAX_AMOUNT = 250_000_00
         const val PLUGPAG_SERVICE_PACKAGE_NAME = "br.com.uol.pagseguro.plugpagservice"
+        const val PASSWORD_HINT = "Digite a senha\n"
+        const val PASSWORD_CHAR = "*"
     }
 }

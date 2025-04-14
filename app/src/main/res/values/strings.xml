@@ -27,8 +27,8 @@
     <string name="voucher">Voucher</string>
     <string name="pix">Pix</string>
     <string name="single">À vista</string>
-    <string name="vendedor">Parcelado vendedor</string>
-    <string name="comprador">Parcelado comprador</string>
+    <string name="seller">Parcelado vendedor</string>
+    <string name="buyer">Parcelado comprador</string>
     <string name="cancel">Cancelar</string>
     <string name="try_again">Tentar novamente</string>
     <string name="try_again_credit">Tentar novamente\nComo crédito</string>
@@ -79,5 +79,5 @@
     <string name="other_reprinting_customer_receipt">Imprimindo via do cliente</string>
     <string name="other_undo_last_transaction">Estornar</string>
     <string name="other_undoing_last_transaction">Estornando</string>
-
+    <string name="other_info">Informações do terminal</string>
 </resources>
