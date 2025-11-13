@@ -19,14 +19,14 @@ import br.com.uol.pagbank.plugpagservice.demo.extensions.getOut
 import br.com.uol.pagbank.plugpagservice.demo.model.InstallmentType
 import br.com.uol.pagbank.plugpagservice.demo.model.PaymentError
 import br.com.uol.pagbank.plugpagservice.demo.model.PaymentType
-import br.com.uol.pagbank.plugpagservice.demo.model.State
+import br.com.uol.pagbank.plugpagservice.demo.model.PaymentState
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagInstallment
 import java.util.Locale
 
 class PaymentFragment : Fragment() {
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
-    private var state: State = State.GETTING_AMOUNT
+    private var paymentState: PaymentState = PaymentState.GETTING_AMOUNT
 
     private lateinit var paymentViewModel: PaymentViewModel
 
@@ -41,13 +41,30 @@ class PaymentFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        paymentViewModel = ViewModelProvider(this).get(PaymentViewModel::class.java)
+        paymentViewModel = ViewModelProvider(this)[PaymentViewModel::class.java]
         _binding = FragmentPaymentBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        configInitialAmount()
 
         configViews()
 
         return root
+    }
+
+    private fun configInitialAmount() {
+        /**
+         * O Launcher PagBank Emite esses campos ao utilizar um teclado fisico de um terminal
+         * com esses campos você pode abrir o App ja com os valores inseridos
+         * o valor vem em centavos
+         *
+         * E necessario o intent-filter especificado no AndroidManifest
+         */
+        val intent = requireActivity().intent
+        val keyedValue = intent.getIntExtra("value", 0)
+        val event = intent.getStringExtra("event")
+
+        paymentViewModel.setInitialAmount(keyedValue)
     }
 
     override fun onResume() {
@@ -62,52 +79,72 @@ class PaymentFragment : Fragment() {
             binding.tvInput.text = it
         }
 
-        paymentViewModel.state.observe(viewLifecycleOwner) {
+        paymentViewModel.paymentState.observe(viewLifecycleOwner) {
             if (it == null) return@observe
-            state = it
+            paymentState = it
             when (it) {
-                State.GETTING_AMOUNT -> {
+                PaymentState.GETTING_AMOUNT -> {
                     hideType()
                     hideInstallmentType()
                     hideInstallmentAmount()
                     hidePayment()
                     hideResult()
+                    hidePreautoKeyed()
                 }
-                State.GETTING_TYPE -> {
-                    showType()
-                    hideInstallmentType()
-                    hideInstallmentAmount()
-                    hidePayment()
-                    hideResult()
-                }
-                State.GETTING_INSTALLMENT_TYPE -> {
-                    hideType()
-                    showInstallmentType()
-                    hideInstallmentAmount()
-                    hidePayment()
-                    hideResult()
-                }
-                State.GETTING_INSTALLMENTS -> {
-                    hideType()
-                    hideInstallmentType()
-                    showInstallmentAmount()
-                    hidePayment()
-                    hideResult()
-                }
-                State.PAYING -> {
-                    hideType()
-                    hideInstallmentType()
-                    hideInstallmentAmount()
-                    showPayment()
-                    hideResult()
 
+                PaymentState.GETTING_TYPE -> {
+                    hideInstallmentType()
+                    hideInstallmentAmount()
+                    hidePayment()
+                    hideResult()
+                    hidePreautoKeyed()
+                    showType()
+                }
+
+                PaymentState.GETTING_INSTALLMENT_TYPE -> {
+                    hideType()
+                    hideInstallmentAmount()
+                    hidePayment()
+                    hideResult()
+                    hidePreautoKeyed()
+                    showInstallmentType()
+                }
+
+                PaymentState.GETTING_INSTALLMENTS -> {
+                    hideType()
+                    hideInstallmentType()
+                    hidePayment()
+                    hideResult()
+                    hidePreautoKeyed()
+                    showInstallmentAmount()
+                }
+
+                PaymentState.GETTING_CARD_DATA -> {
+                    hideType()
+                    hideInstallmentType()
+                    hideInstallmentAmount()
+                    hidePayment()
+                    hideResult()
+                    clearTexts()
+                    showPreautoKeyed()
+                }
+
+                PaymentState.PAYING -> {
+                    hideType()
+                    hideInstallmentType()
+                    hideInstallmentAmount()
+                    hideResult()
+                    hidePreautoKeyed()
+                    showPayment()
                     paymentViewModel.doPay()
                 }
-                State.RESULT -> {
+
+                PaymentState.RESULT -> {
                     hideType()
                     hideInstallmentType()
                     hideInstallmentAmount()
                     hidePayment()
+                    hidePreautoKeyed()
                     showResult()
                 }
             }
@@ -116,7 +153,7 @@ class PaymentFragment : Fragment() {
         paymentViewModel.eventText.observe(viewLifecycleOwner) {
             if (it == null) return@observe
             binding.tvPayment.text = it
-            if (processing == it.toLowerCase(Locale.ROOT) || it.isEmpty()) {
+            if (processing == it.lowercase(Locale.ROOT) || it.isEmpty()) {
                 binding.btnCancelPayment.visibility = View.INVISIBLE
             } else {
                 binding.btnCancelPayment.visibility = View.VISIBLE
@@ -146,16 +183,19 @@ class PaymentFragment : Fragment() {
                             binding.btnTryAgainCredit.getIn()
                             binding.btnTryAgainVoucher.getIn()
                         }
+
                         PaymentType.CREDIT -> {
                             binding.btnTryAgainDebit.getIn()
                             binding.btnTryAgainCredit.getOut()
                             binding.btnTryAgainVoucher.getIn()
                         }
+
                         PaymentType.VOUCHER -> {
                             binding.btnTryAgainDebit.getIn()
                             binding.btnTryAgainCredit.getIn()
                             binding.btnTryAgainVoucher.getOut()
                         }
+
                         else -> {
                             binding.btnTryAgainDebit.getOut()
                             binding.btnTryAgainCredit.getOut()
@@ -192,14 +232,48 @@ class PaymentFragment : Fragment() {
         }.apply {
             setData(
                 listOf(
-                    PaymentTypeAdapter.PlugPagType(1, requireContext().getString(R.string.debit), PaymentType.DEBIT),
-                    PaymentTypeAdapter.PlugPagType(2, requireContext().getString(R.string.credit), PaymentType.CREDIT),
-                    PaymentTypeAdapter.PlugPagType(3, requireContext().getString(R.string.voucher), PaymentType.VOUCHER),
-                    PaymentTypeAdapter.PlugPagType(4, requireContext().getString(R.string.pix), PaymentType.PIX)
+                    PaymentTypeAdapter.PlugPagType(
+                        1,
+                        requireContext().getString(R.string.debit),
+                        PaymentType.DEBIT
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        2,
+                        requireContext().getString(R.string.credit),
+                        PaymentType.CREDIT
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        3,
+                        requireContext().getString(R.string.voucher),
+                        PaymentType.VOUCHER
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        4,
+                        requireContext().getString(R.string.pix),
+                        PaymentType.PIX
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        5,
+                        requireContext().getString(R.string.pre_auto),
+                        PaymentType.PRE_AUTO_CARD
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        6,
+                        requireContext().getString(R.string.pre_auto_keyed),
+                        PaymentType.PRE_AUTO_KEYED
+                    )
                 )
             )
         }
         binding.rclType.setAdapter(typeAdapter)
+
+        binding.ilPreAutoKeyed.btnContinueToPayment.setOnClickListener {
+            paymentViewModel.setCardData(
+                binding.ilPreAutoKeyed.etCardNumber.text.toString(),
+                binding.ilPreAutoKeyed.etExpire.text.toString(),
+                binding.ilPreAutoKeyed.etCvv.text.toString(),
+            )
+        }
 
         binding.rclInstallmentType.setLayoutManager(LinearLayoutManager(context))
         installmentTypeAdapter = PaymentTypeAdapter(requireContext()).apply {
@@ -218,9 +292,21 @@ class PaymentFragment : Fragment() {
         }.apply {
             setData(
                 listOf(
-                    PaymentTypeAdapter.PlugPagType(1, requireContext().getString(R.string.single), InstallmentType.A_VISTA),
-                    PaymentTypeAdapter.PlugPagType(2, requireContext().getString(R.string.seller), InstallmentType.PARC_VENDEDOR),
-                    PaymentTypeAdapter.PlugPagType(3, requireContext().getString(R.string.buyer), InstallmentType.PARC_COMPRADOR)
+                    PaymentTypeAdapter.PlugPagType(
+                        1,
+                        requireContext().getString(R.string.single),
+                        InstallmentType.A_VISTA
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        2,
+                        requireContext().getString(R.string.seller),
+                        InstallmentType.PARC_VENDEDOR
+                    ),
+                    PaymentTypeAdapter.PlugPagType(
+                        3,
+                        requireContext().getString(R.string.buyer),
+                        InstallmentType.PARC_COMPRADOR
+                    )
                 )
             )
         }
@@ -251,8 +337,14 @@ class PaymentFragment : Fragment() {
             if (it == null) return@observe
             when (it) {
                 PaymentError.INVALID_AMOUNT -> {
-                    binding.tvInput.startAnimation(AnimationUtils.loadAnimation(context, R.anim.shake))
+                    binding.tvInput.startAnimation(
+                        AnimationUtils.loadAnimation(
+                            context,
+                            R.anim.shake
+                        )
+                    )
                 }
+
                 PaymentError.INVALID_STATE -> {
                     Toast.makeText(
                         requireContext(),
@@ -260,6 +352,7 @@ class PaymentFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
+
                 PaymentError.INVALID_SETUP -> {
                     Toast.makeText(
                         requireContext(),
@@ -267,6 +360,15 @@ class PaymentFragment : Fragment() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
+
+                PaymentError.EMPTY_VALUE -> {
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.empty_value,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
                 else -> {
                     // não executa nenhuma ação
                 }
@@ -290,7 +392,6 @@ class PaymentFragment : Fragment() {
 
         binding.btnCancelType.setOnClickListener { paymentViewModel.resetState() }
 
-        // binding.rclInstallmentAmount.setOnClickListener { paymentViewModel.setInstallmentsAmount(1) }
         binding.btnCancelInstallmentAmount.setOnClickListener { paymentViewModel.resetState() }
 
         binding.btnCancelPayment.setOnClickListener { paymentViewModel.abort() }
@@ -400,10 +501,6 @@ class PaymentFragment : Fragment() {
 
             binding.bgResult.fadeIn()
             binding.tvResult.getIn()
-//            binding.btnTryAgainDebit.getIn()
-//            binding.btnTryAgainCredit.getIn()
-//            binding.btnTryAgainVoucher.getIn()
-//            binding.btnTryAgain.getIn()
             binding.btnBack.getIn()
         }
     }
@@ -422,9 +519,27 @@ class PaymentFragment : Fragment() {
         }
     }
 
+    private fun showPreautoKeyed() {
+        if (binding.ilPreAutoKeyed.clPreAutoKeyed.visibility != View.VISIBLE) {
+            binding.ilPreAutoKeyed.clPreAutoKeyed.fadeIn()
+        }
+    }
+
+    private fun hidePreautoKeyed() {
+        if (binding.ilPreAutoKeyed.clPreAutoKeyed.visibility != View.GONE) {
+            binding.ilPreAutoKeyed.clPreAutoKeyed.fadeOut()
+        }
+    }
+
+    private fun clearTexts() {
+        binding.ilPreAutoKeyed.etCardNumber.text?.clear()
+        binding.ilPreAutoKeyed.etExpire.text?.clear()
+        binding.ilPreAutoKeyed.etCvv.text?.clear()
+    }
+
     fun onKeyPressed(keyCode: Int): Boolean {
-        when (state) {
-            State.GETTING_AMOUNT -> {
+        when (paymentState) {
+            PaymentState.GETTING_AMOUNT -> {
                 when (keyCode) {
                     KeyEvent.KEYCODE_0 -> paymentViewModel.enterNumber(0)
                     KeyEvent.KEYCODE_1 -> paymentViewModel.enterNumber(1)
@@ -451,12 +566,13 @@ class PaymentFragment : Fragment() {
                 }
             }
 
-            State.GETTING_TYPE -> {
+            PaymentState.GETTING_TYPE -> {
                 when (keyCode) {
                     KeyEvent.KEYCODE_1 -> paymentViewModel.setType(PaymentType.DEBIT)
                     KeyEvent.KEYCODE_2 -> paymentViewModel.setType(PaymentType.CREDIT)
                     KeyEvent.KEYCODE_3 -> paymentViewModel.setType(PaymentType.VOUCHER)
                     KeyEvent.KEYCODE_4 -> paymentViewModel.setType(PaymentType.PIX)
+                    KeyEvent.KEYCODE_5 -> paymentViewModel.setType(PaymentType.PRE_AUTO_CARD)
 
                     KeyEvent.KEYCODE_DEL,
                     KeyEvent.KEYCODE_BACKSLASH,
@@ -474,7 +590,7 @@ class PaymentFragment : Fragment() {
                 }
             }
 
-            State.GETTING_INSTALLMENT_TYPE -> {
+            PaymentState.GETTING_INSTALLMENT_TYPE -> {
                 when (keyCode) {
                     KeyEvent.KEYCODE_1 -> paymentViewModel.setInstallmentType(InstallmentType.A_VISTA)
                     KeyEvent.KEYCODE_2 -> paymentViewModel.setInstallmentType(InstallmentType.PARC_VENDEDOR)
@@ -482,7 +598,7 @@ class PaymentFragment : Fragment() {
 
                     KeyEvent.KEYCODE_DEL,
                     KeyEvent.KEYCODE_BACKSLASH,
-                    KeyEvent.KEYCODE_BACK ->  binding.btnCancelInstallmentType.performClick()
+                    KeyEvent.KEYCODE_BACK -> binding.btnCancelInstallmentType.performClick()
 
                     KeyEvent.KEYCODE_DPAD_DOWN -> {
                         // Do nothing.
@@ -496,7 +612,7 @@ class PaymentFragment : Fragment() {
                 }
             }
 
-            State.GETTING_INSTALLMENTS -> {
+            PaymentState.GETTING_INSTALLMENTS -> {
                 when (keyCode) {
                     KeyEvent.KEYCODE_0,
                     KeyEvent.KEYCODE_1,
@@ -511,7 +627,7 @@ class PaymentFragment : Fragment() {
 
                     KeyEvent.KEYCODE_DEL,
                     KeyEvent.KEYCODE_BACKSLASH,
-                    KeyEvent.KEYCODE_BACK ->  binding.btnCancelInstallmentAmount.performClick()
+                    KeyEvent.KEYCODE_BACK -> binding.btnCancelInstallmentAmount.performClick()
 
                     KeyEvent.KEYCODE_DPAD_DOWN -> {
                         // Do nothing.
@@ -525,7 +641,7 @@ class PaymentFragment : Fragment() {
                 }
             }
 
-            else -> { }
+            else -> {}
         }
 
         return true

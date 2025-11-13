@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clPreAutoKeyed"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/vwColor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCardData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/title_margin"
+        android:paddingHorizontal="@dimen/keyboard_button_margin"
+        android:text="@string/insert_card_data"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sub_title_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCardNumber"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/card_number"
+        android:inputType="number"
+        android:maxLength="19"
+        android:nextFocusDown="@id/etExpire"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCardData" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etExpire"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/expire_date"
+        android:inputType="number"
+        android:maxLength="4"
+        android:nextFocusDown="@id/etCvv"
+        app:layout_constraintEnd_toStartOf="@id/etCvv"
+        app:layout_constraintStart_toStartOf="@id/etCardNumber"
+        app:layout_constraintTop_toBottomOf="@id/etCardNumber" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCvv"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/cvv"
+        android:inputType="number"
+        android:maxLength="4"
+        android:nextFocusDown="@id/etTransactionDate"
+        app:layout_constraintEnd_toEndOf="@id/etCardNumber"
+        app:layout_constraintStart_toEndOf="@id/etExpire"
+        app:layout_constraintTop_toBottomOf="@id/etCardNumber" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etTransactionDate"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/transaction_date"
+        android:inputType="number"
+        android:maxLength="8"
+        android:nextFocusDown="@id/etCv"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/etCv"
+        app:layout_constraintStart_toStartOf="@id/etExpire"
+        app:layout_constraintTop_toBottomOf="@id/etExpire"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCv"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/cv"
+        android:inputType="number"
+        android:maxLength="6"
+        android:nextFocusDown="@id/etValue"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/etCvv"
+        app:layout_constraintStart_toEndOf="@id/etExpire"
+        app:layout_constraintTop_toBottomOf="@id/etCvv"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etValue"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/value_paid"
+        android:inputType="number"
+        android:nextFocusDown="@id/spInstallmentType"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/etCv"
+        app:layout_constraintStart_toStartOf="@id/etExpire"
+        app:layout_constraintTop_toBottomOf="@id/etCv"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/spInstallmentType"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:nextFocusDown="@id/etNumberOfInstallments"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/etValue"
+        app:layout_constraintTop_toBottomOf="@id/etValue"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etNumberOfInstallments"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="@string/number_of_installments"
+        android:inputType="number"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/etValue"
+        app:layout_constraintStart_toEndOf="@id/spInstallmentType"
+        app:layout_constraintTop_toBottomOf="@id/etValue"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnContinueToPayment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/keyboard_button_margin"
+        android:layout_weight="1"
+        android:background="@drawable/btn_rounded_footer"
+        android:focusable="false"
+        android:minHeight="@dimen/option_line"
+        android:text="@string/continue_payment"
+        android:textColor="@color/white"
+        android:textSize="@dimen/option_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

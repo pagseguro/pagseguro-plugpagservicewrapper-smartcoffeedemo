@@ -40,8 +40,6 @@ class PaymentTypeAdapter(
 
     override fun getItemCount() = data.size
 
-    fun getItem(id: Int) = data[id]
-
     fun setClickListener(itemClickListener: ItemClickListener?) {
         this.clickListener = itemClickListener
     }
@@ -57,9 +55,9 @@ class PaymentTypeAdapter(
         private var clickListener: ItemClickListener? = null
 
         private var tvTypeNumber: TextView =
-            itemView.findViewById<TextView>(R.id.tvTypeNumber)
+            itemView.findViewById(R.id.tvTypeNumber)
         private var tvTypeDescription: TextView =
-            itemView.findViewById<TextView>(R.id.tvTypeDescription)
+            itemView.findViewById(R.id.tvTypeDescription)
 
         init {
             itemView.setOnClickListener(this)

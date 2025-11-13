@@ -1,6 +1,7 @@
 package br.com.uol.pagbank.plugpagservice.demo.ui.other
 
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class OtherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        otherViewModel = ViewModelProvider(this).get(OtherViewModel::class.java)
+        otherViewModel = ViewModelProvider(this)[OtherViewModel::class.java]
         _binding = FragmentOtherBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -50,6 +51,23 @@ class OtherFragment : Fragment() {
         binding.btnOtherReprintEstablishmentReceipt.setOnClickListener { otherViewModel.reprintEstablishmentReceipt() }
         binding.btnOtherReprintCustomerReceipt.setOnClickListener { otherViewModel.reprintCustomerReceipt() }
         binding.btnOtherUndoLastTransaction.setOnClickListener { otherViewModel.undoLastTransaction() }
+        binding.btnSetStyle.setOnClickListener { otherViewModel.setStyleData() }
+        binding.btnPrint.setOnClickListener {
+            otherViewModel.print(
+                context?.getExternalFilesDir(
+                    Environment.DIRECTORY_DOWNLOADS
+                )?.absolutePath ?: ""
+            )
+        }
+        binding.btnSetDeeplink.setOnClickListener {
+            otherViewModel.setDeepLink()
+        }
+        binding.btnRemoveDeeplink.setOnClickListener {
+            otherViewModel.removeDeeplink()
+        }
+        binding.btnOpenAppStore.setOnClickListener {
+            startActivity(otherViewModel.createInstallIntent())
+        }
     }
 
     override fun onDestroyView() {

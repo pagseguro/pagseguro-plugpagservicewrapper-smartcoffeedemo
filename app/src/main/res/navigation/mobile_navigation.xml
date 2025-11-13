@@ -18,15 +18,15 @@
         tools:layout="@layout/fragment_nfc" />
 
     <fragment
-        android:id="@+id/navigation_print"
-        android:name="br.com.uol.pagbank.plugpagservice.demo.ui.print.PrintFragment"
-        android:label="@string/title_print"
-        tools:layout="@layout/fragment_print" />
-
-    <fragment
         android:id="@+id/navigation_other"
         android:name="br.com.uol.pagbank.plugpagservice.demo.ui.other.OtherFragment"
         android:label="@string/title_other"
         tools:layout="@layout/fragment_other" />
+
+    <fragment
+        android:id="@+id/navigation_pre_auto"
+        android:name="br.com.uol.pagbank.plugpagservice.demo.ui.preauto.PreAutoFragment"
+        android:label="@string/title_pre_auto"
+        tools:layout="@layout/fragment_pre_auto" />
 
 </navigation>
