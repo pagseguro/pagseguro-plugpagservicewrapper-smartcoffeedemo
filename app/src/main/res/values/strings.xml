@@ -64,6 +64,9 @@
     <string name="decrement">Decrement</string>
     <string name="restore_and_transfer">Restore And Transfer</string>
     <string name="read_transferred">Read Transferred</string>
+    <string name="nfc_functions">Funções NFC</string>
+    <string name="nfc_functions_direclty">Funções NFC Directly</string>
+    <string name="nfc_functions_manipulation">Funções NFC de manipulação de dados</string>
 
     <!-- Print -->
     <string name="title_print">Impressão</string>

@@ -138,11 +138,11 @@ class PreAutoViewModel : ViewModel() {
      *  @param ExpirationDate = Data de validade do cartão
      */
     fun getPreAutoDataKeyed(
-        amount: Int,
+        amount: Int?,
         transactionDate: String,
         transactionCode: String,
         installmentType: Int,
-        installments: Int,
+        installments: Int?,
         cardNumber: String,
         cvv: String,
         expirationDate: String
@@ -152,10 +152,10 @@ class PreAutoViewModel : ViewModel() {
             if (cardNumber.isEmpty() ||
                 expirationDate.isEmpty() ||
                 cvv.isEmpty() ||
-                expirationDate.isEmpty() ||
                 transactionCode.isEmpty() ||
                 transactionDate.isEmpty() ||
-                amount == 0
+                amount == null||
+                installments == null
             ) {
                 addError(PreAutoError.EMPTY_VALUE_ERROR)
                 return@launch

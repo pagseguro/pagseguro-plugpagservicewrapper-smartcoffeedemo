@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -444,14 +445,16 @@ class OtherViewModel : ViewModel() {
                 genericButtonBackground = Color.BLUE,
                 genericButtonTextColor = Color.WHITE
             )
-            if (plugpag.setStyleData(randomStyleData)) {
-                _eventText.postValue("Cores definidas com sucesso.")
-            } else {
+
+            runCatching {
+                if (plugpag.setStyleData(randomStyleData)) {
+                    _eventText.postValue("Cores definidas com sucesso.")
+                }
+            }.onFailure {
                 _eventText.postValue("Falha na definição de cores.")
             }
         }
     }
-
 
     /**
      *   Disponivel apenas apartir da versão 2.2.0 do Launcher PagBank

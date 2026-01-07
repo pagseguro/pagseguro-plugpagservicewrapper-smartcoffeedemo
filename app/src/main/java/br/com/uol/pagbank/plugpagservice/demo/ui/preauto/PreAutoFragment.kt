@@ -104,15 +104,19 @@ class PreAutoFragment : Fragment() {
         binding.ilCardData.btnContinueToPayment.setOnClickListener {
             val selectedItem = binding.ilCardData.spInstallmentType.selectedItem as ItemSpinner
             preAutoViewModel.getPreAutoDataKeyed(
-                binding.ilCardData.etValue.text.toString().toInt(),
+                binding.ilCardData.etValue.text.toString().toIntOrNull(),
                 binding.ilCardData.etTransactionDate.text.toString(),
                 binding.ilCardData.etCv.text.toString(),
                 selectedItem.type.value,
-                binding.ilCardData.etNumberOfInstallments.text.toString().toInt(),
+                binding.ilCardData.etNumberOfInstallments.text.toString().toIntOrNull(),
                 binding.ilCardData.etCardNumber.text.toString(),
                 binding.ilCardData.etCvv.text.toString(),
                 binding.ilCardData.etExpire.text.toString(),
             )
+        }
+
+        binding.ilCardData.btnBackToMenu.setOnClickListener {
+            preAutoViewModel.backToIdle()
         }
 
         binding.ilLoading.btnAbort.setOnClickListener {
@@ -134,6 +138,7 @@ class PreAutoFragment : Fragment() {
                     binding.ilCardData.etValue.getOut()
                     binding.ilCardData.spInstallmentType.getOut()
                     binding.ilCardData.etNumberOfInstallments.getOut()
+                    binding.ilCardData.btnBackToMenu.getOut()
                     binding.clButtons.getIn()
                 }
 
@@ -185,6 +190,7 @@ class PreAutoFragment : Fragment() {
                     binding.ilCardData.etCv.getIn()
                     binding.ilCardData.etTransactionDate.getIn()
                     binding.ilCardData.etValue.getIn()
+                    binding.ilCardData.btnBackToMenu.getIn()
                 }
             }
         }

@@ -49,6 +49,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent">
 
+            <TextView
+                android:id="@+id/tvNfcFunctions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/nfc_functions"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/viwDois" />
+
+            <View
+                android:id="@+id/tvNfcFunctionsR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNfcFunctions"
+                app:layout_constraintEnd_toStartOf="@+id/tvNfcFunctions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvNfcFunctions" />
+
+            <View
+                android:id="@+id/tvNfcFunctionsL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNfcFunctions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvNfcFunctions"
+                app:layout_constraintTop_toTopOf="@+id/tvNfcFunctions" />
+
             <Button
                 android:id="@+id/btnDetect"
                 android:layout_width="match_parent"
@@ -61,7 +95,7 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/tvNfcFunctions" />
 
             <Button
                 android:id="@+id/btnRemove"
@@ -91,20 +125,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnRemove" />
 
-            <Button
-                android:id="@+id/btnReadDirectly"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/keyboard_button_margin"
-                android:layout_weight="1"
-                android:background="@drawable/btn_rounded"
-                android:backgroundTint="#000000"
-                android:minHeight="@dimen/option_line"
-                android:text="@string/readDirectly"
-                android:textSize="@dimen/option_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnRead" />
 
             <Button
                 android:id="@+id/btnWrite"
@@ -118,21 +138,7 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnReadDirectly" />
-
-            <Button
-                android:id="@+id/btnWriteDirectly"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/keyboard_button_margin"
-                android:layout_weight="1"
-                android:background="@drawable/btn_rounded"
-                android:minHeight="@dimen/option_line"
-                android:text="@string/writeDirectly"
-                android:textSize="@dimen/option_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnWrite" />
+                app:layout_constraintTop_toBottomOf="@id/btnRead" />
 
             <Button
                 android:id="@+id/btnAuth"
@@ -146,7 +152,71 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnWriteDirectly" />
+                app:layout_constraintTop_toBottomOf="@id/btnWrite" />
+
+            <TextView
+                android:id="@+id/tvNfcFunctionsDirectly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/nfc_functions_direclty"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAuth" />
+
+            <View
+                android:id="@+id/tvNfcFunctionsDirectlyR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNfcFunctionsDirectly"
+                app:layout_constraintEnd_toStartOf="@+id/tvNfcFunctionsDirectly"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvNfcFunctionsDirectly" />
+
+            <View
+                android:id="@+id/tvNfcFunctionsDirectlyL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNfcFunctionsDirectly"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvNfcFunctionsDirectly"
+                app:layout_constraintTop_toTopOf="@+id/tvNfcFunctionsDirectly" />
+
+            <Button
+                android:id="@+id/btnReadDirectly"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:backgroundTint="#000000"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/readDirectly"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNfcFunctionsDirectly" />
+
+            <Button
+                android:id="@+id/btnWriteDirectly"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/writeDirectly"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnReadDirectly" />
 
             <Button
                 android:id="@+id/btnAuthDirectly"
@@ -160,7 +230,41 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnAuth" />
+                app:layout_constraintTop_toBottomOf="@id/btnWriteDirectly" />
+
+            <TextView
+                android:id="@+id/tvNfcNewFunctions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/nfc_functions"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnAuthDirectly" />
+
+            <View
+                android:id="@+id/tvNfcNewFunctionsR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/tvNfcFunctions"
+                app:layout_constraintEnd_toStartOf="@id/tvNfcFunctions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvNfcFunctions" />
+
+            <View
+                android:id="@+id/tvNfcNewFunctionsL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@id/tvNfcFunctions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvNfcFunctions"
+                app:layout_constraintTop_toTopOf="@id/tvNfcFunctions" />
 
             <Button
                 android:id="@+id/btnIncrement"
@@ -174,7 +278,7 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnAuthDirectly" />
+                app:layout_constraintTop_toBottomOf="@id/tvNfcNewFunctions" />
 
             <Button
                 android:id="@+id/btnDecrement"

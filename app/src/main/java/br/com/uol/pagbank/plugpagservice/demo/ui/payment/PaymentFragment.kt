@@ -404,6 +404,10 @@ class PaymentFragment : Fragment() {
             paymentViewModel.clear()
             paymentViewModel.resetState()
         }
+        binding.ilPreAutoKeyed.btnBackToMenu.setOnClickListener {
+            paymentViewModel.clear()
+            paymentViewModel.resetState()
+        }
     }
 
     private fun showType() {
@@ -522,12 +526,17 @@ class PaymentFragment : Fragment() {
     private fun showPreautoKeyed() {
         if (binding.ilPreAutoKeyed.clPreAutoKeyed.visibility != View.VISIBLE) {
             binding.ilPreAutoKeyed.clPreAutoKeyed.fadeIn()
+            binding.ilPreAutoKeyed.btnBackToMenu.fadeIn()
+            binding.tblKeyboard.fadeOut()
         }
     }
 
     private fun hidePreautoKeyed() {
         if (binding.ilPreAutoKeyed.clPreAutoKeyed.visibility != View.GONE) {
             binding.ilPreAutoKeyed.clPreAutoKeyed.fadeOut()
+            binding.ilPreAutoKeyed.btnBackToMenu.fadeOut()
+            binding.tblKeyboard.fadeIn()
+
         }
     }
 
