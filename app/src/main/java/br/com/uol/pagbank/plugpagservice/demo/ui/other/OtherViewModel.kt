@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
