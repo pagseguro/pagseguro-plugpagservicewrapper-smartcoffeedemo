@@ -353,7 +353,13 @@ class OtherViewModel : ViewModel() {
              * Resgata os dados da ultima transação aprovada
              */
             val lastTransaction = plugpag.getLastApprovedTransaction()
-            if (lastTransaction.result == null) {
+
+            val hasValidLastTransaction =
+                lastTransaction.result != null &&
+                        lastTransaction.transactionId != null &&
+                        lastTransaction.transactionCode != null
+
+            if (!hasValidLastTransaction) {
                 _eventTextResource.value = R.string.other_get_last_transaction_no
             } else {
                 /**
@@ -361,7 +367,7 @@ class OtherViewModel : ViewModel() {
                  */
                 plugpag.setEventListener(object : PlugPagEventListener {
                     override fun onEvent(data: PlugPagEventData) {
-                        data.customMessage?.let {
+                        data.customMessage.let {
                             _eventText.value = it
                         }
                     }
@@ -400,7 +406,8 @@ class OtherViewModel : ViewModel() {
                                 PlugPag.VOID_QRCODE
                             } else {
                                 PlugPag.VOID_PAYMENT
-                            }
+                            },
+                        printReceipt = true
                     )
                 )
 

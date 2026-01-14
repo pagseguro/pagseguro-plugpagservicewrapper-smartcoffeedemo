@@ -90,6 +90,7 @@ class PaymentFragment : Fragment() {
                     hidePayment()
                     hideResult()
                     hidePreautoKeyed()
+                    showKeyboard()
                 }
 
                 PaymentState.GETTING_TYPE -> {
@@ -98,6 +99,7 @@ class PaymentFragment : Fragment() {
                     hidePayment()
                     hideResult()
                     hidePreautoKeyed()
+                    hideKeyboard()
                     showType()
                 }
 
@@ -107,6 +109,7 @@ class PaymentFragment : Fragment() {
                     hidePayment()
                     hideResult()
                     hidePreautoKeyed()
+                    hideKeyboard()
                     showInstallmentType()
                 }
 
@@ -116,6 +119,7 @@ class PaymentFragment : Fragment() {
                     hidePayment()
                     hideResult()
                     hidePreautoKeyed()
+                    hideKeyboard()
                     showInstallmentAmount()
                 }
 
@@ -125,6 +129,7 @@ class PaymentFragment : Fragment() {
                     hideInstallmentAmount()
                     hidePayment()
                     hideResult()
+                    hideKeyboard()
                     clearTexts()
                     showPreautoKeyed()
                 }
@@ -135,6 +140,7 @@ class PaymentFragment : Fragment() {
                     hideInstallmentAmount()
                     hideResult()
                     hidePreautoKeyed()
+                    hideKeyboard()
                     showPayment()
                     paymentViewModel.doPay()
                 }
@@ -145,6 +151,7 @@ class PaymentFragment : Fragment() {
                     hideInstallmentAmount()
                     hidePayment()
                     hidePreautoKeyed()
+                    hideKeyboard()
                     showResult()
                 }
             }
@@ -527,7 +534,6 @@ class PaymentFragment : Fragment() {
         if (binding.ilPreAutoKeyed.clPreAutoKeyed.visibility != View.VISIBLE) {
             binding.ilPreAutoKeyed.clPreAutoKeyed.fadeIn()
             binding.ilPreAutoKeyed.btnBackToMenu.fadeIn()
-            binding.tblKeyboard.fadeOut()
         }
     }
 
@@ -535,9 +541,15 @@ class PaymentFragment : Fragment() {
         if (binding.ilPreAutoKeyed.clPreAutoKeyed.visibility != View.GONE) {
             binding.ilPreAutoKeyed.clPreAutoKeyed.fadeOut()
             binding.ilPreAutoKeyed.btnBackToMenu.fadeOut()
-            binding.tblKeyboard.fadeIn()
-
         }
+    }
+
+    private fun hideKeyboard() {
+        binding.tblKeyboard.fadeOut()
+    }
+
+    private fun showKeyboard() {
+        binding.tblKeyboard.fadeIn()
     }
 
     private fun clearTexts() {

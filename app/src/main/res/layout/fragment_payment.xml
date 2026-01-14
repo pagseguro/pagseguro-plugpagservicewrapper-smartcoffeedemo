@@ -27,9 +27,9 @@
         android:layout_height="1dp"
         android:layout_marginBottom="@dimen/keyboard_button_margin"
         android:background="@color/line_value"
-        app:layout_constraintTop_toBottomOf="@+id/tvInput"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInput" />
 
 
     <LinearLayout
