@@ -2,6 +2,9 @@ package br.com.uol.pagbank.plugpagservice.demo.model
 
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
 
+/**
+ * Tipo de parcelamento
+ */
 enum class InstallmentType(
     val value: Int
 ) {

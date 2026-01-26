@@ -1,38 +1,37 @@
 package br.com.uol.pagbank.plugpagservice.demo.ui.nfc
 
-import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.uol.pagbank.plugpagservice.demo.R
+import br.com.uol.pagbank.plugpagservice.demo.extensions.toStringFormatted
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPag
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNFCDetectRemoveCard
 import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNearFieldCardData
+import br.com.uol.pagseguro.plugpagservice.wrapper.PlugPagNearFieldRemoveCardType
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.EM1KeyType
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagNFCAuth
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagNFCAuthDirectly
 import br.com.uol.pagseguro.plugpagservice.wrapper.data.request.PlugPagSimpleNFCData
-import br.com.uol.pagseguro.plugpagservice.wrapper.exception.PlugPagException
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.mp.KoinPlatformTools
-import java.lang.Exception
-import java.nio.charset.Charset
 
+/**
+ * Atualmente apenas NFC Mifare Classic são suportados
+ * Antes de fazer qualquer operação do Mifare é importante ligar a antena
+ * e após finalizar as operações desligar (startDirectly() e stopDirectly())
+ */
 class NFCViewModel : ViewModel() {
     private val plugpag: PlugPag by lazy { KoinPlatformTools.defaultContext().get().get<PlugPag>() }
 
     companion object {
         private const val TIMEOUT = 10 // em segundos
         private const val DEMO_SLOT = 18 // index
-
-        private const val TWO_SECONDS_DELAY = 2000L
-
-        private const val MODEL_SK800 = "SK800"
+        private const val DEMO_SLOT_DEST = 17 // index
         private const val KEY_DATA = "data"
         private const val KEY_PASS = "pwd"
 
-        private val charsetUTF8 = Charset.forName("UTF-8")
         private val DEFAULT_KEY_NFC = byteArrayOf(
             0xFF.toByte(),
             0xFF.toByte(),
@@ -42,220 +41,237 @@ class NFCViewModel : ViewModel() {
             0xFF.toByte()
         )
 
-        // tamanho = 16
-        private val demoText = arrayOf(
-            "demo_text    01 ".toByteArray(charsetUTF8),
-            "demo_text  02   ".toByteArray(charsetUTF8),
-            "demo_text     03".toByteArray(charsetUTF8)
+        private val VALUE_100_LE = byteArrayOf(0x64, 0x00, 0x00, 0x00)
+        private val VALUE_50_LE = byteArrayOf(0x32, 0x00, 0x00, 0x00)
+
+        /**
+         * Tamanho = 16
+         */
+        private val VALUE_100_SLOT = byteArrayOf(
+            0x64, 0x00, 0x00, 0x00, // value (litter-endian)
+            0x9B.toByte(), 0xFF.toByte(), 0xFF.toByte(), 0xFF.toByte(), // ~value
+            0x64, 0x00, 0x00, 0x00, // value (litter-endian)
+            0x05, 0xFA.toByte(), 0x05, 0xFA.toByte(), // ADDR/~ADDR
         )
     }
 
-    // messagem de evento (resource)
-    private val _eventTextResource = MutableLiveData<Int>().apply {
-        value = R.string.waiting
+    /**
+     * Menssagem de evento (resource)
+     */
+    private val _eventTextMessage = MutableLiveData<String>().apply {
+        value = "Aguardando"
     }
-    val eventTextResource: LiveData<Int> = _eventTextResource
+    val eventTextResource: LiveData<String> = _eventTextMessage
 
-    private fun resetMessage() {
-        viewModelScope.launch {
-            _eventTextResource.value = R.string.waiting
+    private val _state = MutableLiveData<NFCState>().apply {
+        value = NFCState.IDLE
+    }
+
+    val state: LiveData<NFCState> = _state
+
+    /**
+     * Liga a antena NFC e ativa o cartão
+     */
+    @Throws(Exception::class)
+    private fun startDirectly() {
+        val result = plugpag.startNFCCardDirectly()
+        if (result != PlugPag.NFC_RET_OK) {
+            throw Exception("Erro ao ligar a antena")
         }
     }
 
-    private fun endMessage(message: Int) {
-        viewModelScope.launch {
-            _eventTextResource.value = message
-            delay(TWO_SECONDS_DELAY)
-            resetMessage()
+    /**
+     *  Desliga a antena NFC e desativa o cartão
+     */
+    @Throws(Exception::class)
+    private fun stopDirectly() {
+        val result = plugpag.stopNFCCardDirectly()
+        if (result != PlugPag.NFC_RET_OK) {
+            throw Exception("Erro ao desligar a antena")
         }
     }
 
-    // liga a antena NFC e ativa o cartão
-    private fun startDirectly(): Boolean {
-        return try {
-            val start = plugpag.startNFCCardDirectly()
-
-            if (start != PlugPag.NFC_RET_OK) {
-                stopDirectly()
-                false
-            } else
-                true
-        } catch (e: PlugPagException) {
-            stopDirectly()
-            false
+    /**
+     *  Aborta o processo de detecção
+     */
+    fun abort() {
+        viewModelScope.launch(Dispatchers.Default) {
+            runCatching {
+                plugpag.abortNFC()
+            }
         }
     }
 
-    // desliga a antena NFC e desativa o cartão
-    private fun stopDirectly(): Boolean {
-        return try {
-            val stop = plugpag.stopNFCCardDirectly()
-            return (stop == PlugPag.NFC_RET_OK)
-        } catch (e: PlugPagException) {
-            false
-        }
-    }
-
-    // aborta o processo de detecção
-    private fun abort(): Boolean {
-        return try {
-            val abort = plugpag.abortNFC()
-
-            if (abort.result != PlugPag.NFC_RET_OK) {
-                stopDirectly()
-                false
-            } else
-                true
-        } catch (e: PlugPagException) {
-            false
-        }
-    }
-
-    // detecta se há um cartão próximo à antena, se houver retorna seu serial
-    private fun detectDirectly(): ByteArray? {
-        return try {
+    /**
+     *  Detecta se há um cartão próximo à antena, se houver retorna seu serial
+     */
+    fun detectDirectly() {
+        performAction {
             val detect = plugpag.detectNfcCardDirectly(
                 PlugPagNearFieldCardData.ONLY_M,
                 TIMEOUT
             )
 
-            if (detect.result == PlugPag.NFC_RET_OK && detect.serialNumber != null) {
-                detect.serialNumber!!
-            } else {
-                stopDirectly()
-                null
+            if (detect.result != PlugPag.NFC_RET_OK) {
+                throw Exception("Cartão não identificado")
             }
-        } catch (e: Exception) {
-            stopDirectly()
-            null
+
+            detect.toStringFormatted()
         }
     }
 
-    // detecta se há um cartão próximo à antena, se houver retorna seu serial
-    private fun detectDirectlyString() = detectDirectly()?.toString(charsetUTF8)
+    /**
+     * Detecta se há um cartão próximo à antena, se houver retorna seu serial
+     */
+    fun removeDirectly() {
 
-    // detecta se há um cartão próximo à antena, se houver retorna seu serial
-    private fun removeDirectly(): Boolean? {
-        return try {
-            val detect = plugpag.detectNfcCardDirectly(PlugPagNearFieldCardData.ONLY_M, 0)
+        performAction {
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                0
+            )
 
-            if (detect.result == PlugPag.NFC_RET_OK && detect.serialNumber != null)
-                false
-            else {
-                stopDirectly()
-                true
+            if (detect.result != PlugPag.NFC_RET_OK || detect.cid == null) {
+                throw Exception("Cartão não identificado")
             }
-        } catch (e: Exception) {
-            stopDirectly()
-            if (e.message != null && e.message!!.contains("No Near Field Card found"))
-                true
-            else
-                null
+
+            val detectRemove = PlugPagNFCDetectRemoveCard(
+                PlugPagNearFieldRemoveCardType.REMOVE,
+                detect.cid!!
+            )
+
+            if (plugpag.detectNfcRemoveDirectly(detectRemove) != PlugPag.NFC_RET_OK) {
+                throw Exception("Cartão não removido")
+            }
+
+            "Cartão removido"
         }
     }
 
-    // autentica o cartão, é necessário que a antena já esteja ligada e o cartão ativado
-    private fun authDirectly(cardSerial: ByteArray): Boolean {
-        return try {
+    /**
+     * Autentica o cartão, é necessário que a antena já esteja ligada e o cartão ativado
+     */
+    fun authDirectly() {
+        performAction {
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
+            )
+
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
+
             val cardData = PlugPagNFCAuthDirectly(
                 DEMO_SLOT.toByte(),
                 DEFAULT_KEY_NFC,
-                EM1KeyType.TYPE_B,
-                cardSerial
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
             )
 
             val auth = plugpag.justAuthNfcDirectly(cardData)
 
-            return if (auth != PlugPag.NFC_RET_OK) {
-                stopDirectly()
-                false
+            if (auth == PlugPag.NFC_RET_OK) {
+                "Cartão autenticado"
             } else {
-                true
+                "Cartão não autenticado"
             }
-        } catch (e: PlugPagException) {
-            stopDirectly()
-            false
         }
     }
 
-    // lê o cartão, é necessário que a antena já esteja ligada e o cartão ativado
-    private fun readDirectly(): ByteArray? {
-        return try {
+    /**
+     *  Lê o cartão, é necessário que a antena já esteja ligada e o cartão ativado
+     */
+    fun readDirectly() {
+
+        performAction {
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
+            )
+
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
+
+            val authData = PlugPagNFCAuthDirectly(
+                DEMO_SLOT.toByte(),
+                DEFAULT_KEY_NFC,
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
+            )
+
+            val auth = plugpag.justAuthNfcDirectly(authData)
+
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+
             val cardData = PlugPagSimpleNFCData(
                 EM1KeyType.TYPE_A.ordinal,
                 DEMO_SLOT,
                 ByteArray(16)
             )
 
-            val read = plugpag.readNFCCardDirectly(cardData)
+            val readData = plugpag.readNFCCardDirectly(cardData)
 
-            return if (read.result == PlugPag.NFC_RET_OK && read.slots[read.startSlot][KEY_DATA] != null)
-                read.slots[read.startSlot][KEY_DATA]
-            else {
-                stopDirectly()
-                null
+            if (readData.result != PlugPag.NFC_RET_OK || readData.slots[readData.startSlot][KEY_DATA] == null) {
+                throw Exception("Falha ao ler o cartão")
             }
-        } catch (e: PlugPagException) {
-            stopDirectly()
-            null
+
+            readData.toStringFormatted()
         }
     }
 
-    // lê o cartão, é necessário que a antena já esteja ligada e o cartão ativado
-    private fun readDirectlyString() = readDirectly()?.toString(charsetUTF8)
+    /** Escreve no cartão
+     *  é necessário que a antena já esteja ligada e o cartão ativado
+     */
+    fun writeDirectly() {
 
-    // escreve no cartão, é necessário que a antena já esteja ligada e o cartão ativado
-    private fun writeDirectly(): Boolean {
-        return try {
-            val cardData = PlugPagSimpleNFCData(
-                EM1KeyType.TYPE_B.ordinal,
-                DEMO_SLOT,
-                demoText[0]
+        performAction {
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
             )
 
-            val write = plugpag.writeToNFCCardDirectly(cardData)
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
 
-            if (write != PlugPag.NFC_RET_OK) {
-                stopDirectly()
-                false
-            } else
-                true
-        } catch (e: PlugPagException) {
-            stopDirectly()
-            false
+            val authData = PlugPagNFCAuthDirectly(
+                DEMO_SLOT.toByte(),
+                DEFAULT_KEY_NFC,
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
+            )
+
+            val auth = plugpag.justAuthNfcDirectly(authData)
+
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+
+            val cardData = PlugPagSimpleNFCData(
+                EM1KeyType.TYPE_A.ordinal,
+                DEMO_SLOT,
+                VALUE_100_SLOT
+            )
+
+            val result = plugpag.writeToNFCCardDirectly(cardData)
+
+            if (result != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao escrever no cartão")
+            }
+
+            "Escrita realizada com sucesso"
         }
     }
 
-    // ação de abort
-    fun abortAction() = abort()
-
-    // ação de detecção
-    fun detectAction(): String? {
-        return try {
-            if (Build.MODEL != MODEL_SK800)
-                if (!startDirectly())
-                    return null
-
-            val cardSerial = detectDirectlyString()
-            if (cardSerial == null)
-                return null
-
-            if (Build.MODEL != MODEL_SK800)
-                stopDirectly()
-
-            cardSerial
-        } catch (e: PlugPagException) {
-            plugpag.stopNFCCardDirectly()
-            e.message
-        }
-    }
-
-    // ação de remoção
-    fun removeAction() = removeDirectly()
-
-    // ação de leitura, controlada pela pps
-    fun readAction(): String? {
-        return try {
+    /**
+     * Ação de leitura, controlada pela aplicação PagBank
+     */
+    fun readPagBank() {
+        performAction {
             val cardData = PlugPagNearFieldCardData().apply {
                 startSlot = DEMO_SLOT
                 endSlot = DEMO_SLOT
@@ -263,236 +279,227 @@ class NFCViewModel : ViewModel() {
                 timeOutRead = TIMEOUT
             }
 
-            val read = plugpag.readFromNFCCard(cardData)
+            val readData = plugpag.readFromNFCCard(cardData)
 
-            return if (read.result == PlugPag.NFC_RET_OK) {
-                var readed = ""
-
-                for (slot in read.startSlot .. read.endSlot) {
-                    read.slots[slot][KEY_DATA]?.let {
-                        val content = it.toString(charsetUTF8)
-                        readed += (if (readed.isNotEmpty()) "\n" else "") + slot + ":" + content
-                    }
-                }
-
-                return readed
-            } else
-                null
-        } catch (e: PlugPagException) {
-            e.message
-        }
-    }
-
-    // ação de leitura, controlada pela pps
-    fun readActionLot(sector: Int): String? {
-        return try {
-            val cardData = PlugPagNearFieldCardData().apply {
-                // lê um setor inteiro
-                startSlot = sector * 4
-                endSlot = sector * 4 + 3
-                // identifica a senha para o setor
-                for (slot in startSlot..endSlot) {
-                    slots[slot][KEY_PASS] = DEFAULT_KEY_NFC
-                }
-                // tempo limite de leitura
-                timeOutRead = TIMEOUT
+            if (readData.result != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao ler o cartão")
             }
 
-            // solicita a leitura do setor
-            //  - detect
-            //  - auth
-            //  - read / write
-            //  - close
-            val read = plugpag.readFromNFCCard(cardData)
-
-            // tratamentos de acordo com o resultado
-            return if (read.result == PlugPag.NFC_RET_OK) {
-                var readed = ""
-
-                for (slot in read.startSlot .. read.endSlot) {
-                    read.slots[slot][KEY_DATA]?.let {
-                        val content = it.toString(charsetUTF8)
-                        readed += (if (readed.isNotEmpty()) "\n" else "") + slot + ":" + content
-                    }
-                }
-
-                return readed
-            } else
-                null
-        } catch (e: PlugPagException) {
-            e.message
+            readData.toStringFormatted()
         }
     }
 
-    // ação de leitura, controlada pelo app
-    fun readDirectlyAction(): String? {
-        return try {
-            if (Build.MODEL != MODEL_SK800)
-                if (!startDirectly())
-                    return null
-
-            val cardSerial = detectDirectly()
-            if (cardSerial == null)
-                return null
-
-            if (Build.MODEL == MODEL_SK800)
-                if (!startDirectly())
-                    return null
-
-            if (!authDirectly(cardSerial))
-                return null
-
-            val read = readDirectlyString()
-            if (read == null)
-                return null
-
-            stopDirectly()
-
-            return read
-        } catch (e: PlugPagException) {
-            plugpag.stopNFCCardDirectly()
-            e.message
-        }
-    }
-
-    // ação de escrita, controlada pela pps
-    fun writeAction(): String? {
-        return try {
+    /**
+     * Ação de escrita, controlada pela pps
+     */
+    fun writePagBank() {
+        performAction {
             val cardData = PlugPagNearFieldCardData().apply {
                 startSlot = DEMO_SLOT
                 endSlot = DEMO_SLOT
                 slots[DEMO_SLOT][KEY_PASS] = DEFAULT_KEY_NFC
-                slots[DEMO_SLOT][KEY_DATA] = demoText[0]
+                slots[DEMO_SLOT][KEY_DATA] = VALUE_100_SLOT
                 timeOutRead = TIMEOUT
             }
 
             val write = plugpag.writeToNFCCard(cardData)
 
-            return if (write.result == PlugPag.NFC_RET_OK) {
-                "Success"
-            } else
-                null
-        } catch (e: PlugPagException) {
-            e.message
-        }
-    }
-
-    // ação de escrita, controlada pela pps
-    fun writeActionLot(sector: Int): String? {
-        return try {
-            val cardData = PlugPagNearFieldCardData().apply {
-                // escreve num setor inteiro
-                startSlot = sector * 4
-                endSlot = sector * 4 + 3
-                // conteudo e senha para o setor
-                for (slot in startSlot..endSlot) {
-                    slots[slot][KEY_PASS] = DEFAULT_KEY_NFC
-                    slots[slot][KEY_DATA] = demoText[slot % demoText.size]
-                }
-                // tempo limite de escrita
-                timeOutRead = TIMEOUT
+            if (write.result != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao escrever no cartão")
             }
 
-            // solicita a leitura do setor
-            //  - detect
-            //  - auth
-            //  - read / write
-            //  - close
-            val write = plugpag.writeToNFCCard(cardData)
-
-            // tratamentos de acordo com o resultado
-            return if (write.result == PlugPag.NFC_RET_OK) {
-                "Success"
-            } else
-                null
-        } catch (e: PlugPagException) {
-            e.message
+            "Escrita realizada com sucesso"
         }
     }
 
-    // ação de escrita, controlada pelo app
-    fun writeDirectlyAction(): String? {
-        return try {
-            if (Build.MODEL != MODEL_SK800)
-                if (!startDirectly())
-                    return null
 
-            val cardSerial = detectDirectly()
-            if (cardSerial == null)
-                return null
-
-            if (Build.MODEL == MODEL_SK800)
-                if (!startDirectly())
-                    return null
-
-            if (!authDirectly(cardSerial))
-                return null
-
-            val write = writeDirectly()
-            if (!write)
-                return null
-
-            stopDirectly()
-
-            "Success"
-        } catch (e: PlugPagException) {
-            plugpag.stopNFCCardDirectly()
-            e.message
-        }
-    }
-
-    // ação de autenticação, controlada pela pps
-    fun authAction(): String? {
-        return try {
+    /**
+     * ação de autenticação, controlada pela pps
+     */
+    fun authPagBank() {
+        performAction {
             val cardData = PlugPagNFCAuth(
                 PlugPagNearFieldCardData.ONLY_M,
                 DEMO_SLOT.toByte(),
                 DEFAULT_KEY_NFC,
-                EM1KeyType.TYPE_B
+                EM1KeyType.TYPE_A
             )
-
-            if (Build.MODEL != MODEL_SK800)
-                if (!startDirectly())
-                    return null
 
             val auth = plugpag.authNFCCardDirectly(cardData, TIMEOUT)
 
-            if (Build.MODEL != MODEL_SK800)
-                stopDirectly()
-
-            return if (auth == PlugPag.NFC_RET_OK)
-                "Success"
-            else
-                null
-        } catch (e: PlugPagException) {
-            e.message
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+            "Autenticado com sucesso"
         }
     }
 
-    // ação de autenticação, controlada pelo app
-    fun authDirectlyAction(): String? {
-        return try {
-            if (Build.MODEL != MODEL_SK800)
-                if (!startDirectly())
-                    return null
+    /**
+     * Função de Incremento do valor escrito no cartão
+     */
+    fun incrementPagBank() {
 
-            val cardSerial = detectDirectly()
-            if (cardSerial == null)
-                return null
+        performAction {
 
-            if (Build.MODEL == MODEL_SK800)
-                if (!startDirectly())
-                    return null
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
+            )
 
-            if (!authDirectly(cardSerial))
-                return null
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
 
-            stopDirectly()
+            val authData = PlugPagNFCAuthDirectly(
+                DEMO_SLOT.toByte(),
+                DEFAULT_KEY_NFC,
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
+            )
 
-            "Success"
-        } catch (e: PlugPagException) {
-            plugpag.stopNFCCardDirectly()
-            e.message
+            val auth = plugpag.justAuthNfcDirectly(authData)
+
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+
+            plugpag.incrementNfcValue(DEMO_SLOT.toByte(), VALUE_100_LE)
+
+            "Incrementado"
+        }
+
+    }
+
+    /**
+     * Função de Decremento do valor escrito no cartão
+     */
+    fun decrementPagBank() {
+
+        performAction {
+
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
+            )
+
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
+
+            val authData = PlugPagNFCAuthDirectly(
+                DEMO_SLOT.toByte(),
+                DEFAULT_KEY_NFC,
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
+            )
+
+            val auth = plugpag.justAuthNfcDirectly(authData)
+
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+
+            plugpag.decrementNfcValue(DEMO_SLOT.toByte(), VALUE_50_LE)
+
+            "Decrementado"
+        }
+    }
+
+    /**
+     * Função para mover os dados entre blocos
+     */
+    fun restoreAndTransferPagBank() {
+
+        performAction {
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
+            )
+
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
+
+            val authData = PlugPagNFCAuthDirectly(
+                DEMO_SLOT.toByte(),
+                DEFAULT_KEY_NFC,
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
+            )
+
+            val auth = plugpag.justAuthNfcDirectly(authData)
+
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+
+            plugpag.restoreAndTransferNfcValue(DEMO_SLOT.toByte(), DEMO_SLOT_DEST.toByte())
+
+            "Transferido"
+        }
+    }
+
+
+    /**
+     * Ler o valor do bloco
+     * para confirmar se o valor foi transferido
+     */
+    fun readTransferedBlock() {
+        performAction {
+            val detect = plugpag.detectNfcCardDirectly(
+                PlugPagNearFieldCardData.ONLY_M,
+                TIMEOUT
+            )
+
+            if (detect.result != PlugPag.NFC_RET_OK || detect.serialNumber == null) {
+                throw Exception("Cartão não identificado")
+            }
+
+            val authData = PlugPagNFCAuthDirectly(
+                DEMO_SLOT_DEST.toByte(),
+                DEFAULT_KEY_NFC,
+                EM1KeyType.TYPE_A,
+                detect.serialNumber!!
+            )
+
+            val auth = plugpag.justAuthNfcDirectly(authData)
+
+            if (auth != PlugPag.NFC_RET_OK) {
+                throw Exception("Falha ao autenticar")
+            }
+
+            val cardData = PlugPagSimpleNFCData(
+                EM1KeyType.TYPE_A.ordinal,
+                DEMO_SLOT_DEST,
+                ByteArray(16)
+            )
+
+            val readData = plugpag.readNFCCardDirectly(cardData)
+
+            if (readData.result != PlugPag.NFC_RET_OK || readData.slots[readData.startSlot][KEY_DATA] == null) {
+                throw Exception("Falha ao ler o cartão")
+            }
+
+            readData.toStringFormatted()
+        }
+    }
+
+    @Synchronized
+    fun performAction(
+        action: suspend () -> String
+    ) {
+        viewModelScope.launch(Dispatchers.Default) {
+            try {
+                _state.postValue(NFCState.PROCESSING)
+                startDirectly()
+                val result = action.invoke()
+                _eventTextMessage.postValue(result)
+            } catch (e: Exception) {
+                _eventTextMessage.postValue(e.message)
+            } finally {
+                stopDirectly()
+                _state.postValue(NFCState.IDLE)
+            }
         }
     }
 }

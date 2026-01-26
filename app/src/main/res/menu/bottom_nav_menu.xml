@@ -12,14 +12,12 @@
         android:title="@string/title_nfc" />
 
     <item
-        android:id="@+id/navigation_print"
-        android:icon="@drawable/baseline_print_32"
-        android:title="@string/title_print" />
-
-
-    <item
         android:id="@+id/navigation_other"
         android:icon="@drawable/baseline_other_32"
         android:title="@string/title_other" />
 
+    <item
+        android:id="@+id/navigation_pre_auto"
+        android:icon="@drawable/baseline_auto_32"
+        android:title="@string/title_pre_auto" />
 </menu>

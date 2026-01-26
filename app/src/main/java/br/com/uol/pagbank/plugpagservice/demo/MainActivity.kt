@@ -2,7 +2,6 @@ package br.com.uol.pagbank.plugpagservice.demo
 
 import android.os.Bundle
 import android.view.KeyEvent
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -11,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import br.com.uol.pagbank.plugpagservice.demo.databinding.ActivityMainBinding
 import br.com.uol.pagbank.plugpagservice.demo.ui.payment.PaymentFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_payment,
                 R.id.navigation_nfc,
-                R.id.navigation_print,
                 R.id.navigation_other,
+                R.id.navigation_pre_auto,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

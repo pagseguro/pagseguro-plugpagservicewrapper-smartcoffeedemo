@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS" />
 
     <application
         android:name=".PayApplication"
@@ -26,8 +27,19 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="demopps" android:scheme="app" android:path="/home"/>
+            </intent-filter>
+            <!-- Adicionar o intent-filter abaixo em sua activity para que o app abra ao inserir um
+            cartão ou ao pressionar uma tecla do teclado fisico do terminal na tela do Launcher PagBank -->
+            <intent-filter>
+                <action android:name="br.com.uol.pagseguro.PAYMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

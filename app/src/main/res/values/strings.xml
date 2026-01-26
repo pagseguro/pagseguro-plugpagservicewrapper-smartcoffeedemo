@@ -2,6 +2,11 @@
     <string name="app_name">Demo PPS</string>
 
     <string name="waiting">Aguardando</string>
+    <string name="value_placeholder">Digite o valor</string>
+    <string name="aproach_card">Aproxime o cartão do leitor...</string>
+    <string name="fail_to_detect">Falha ao detectar o cartão</string>
+    <string name="autenticate_card">autenticando cartão..</string>
+    <string name="executing_operation">Executando operação</string>
 
     <!-- Payment -->
     <string name="title_payment">Pagamento</string>
@@ -20,16 +25,20 @@
     <string name="nine">9</string>
     <string name="pay">Pagar</string>
     <string name="select_type">Tipo de venda:</string>
+    <string name="insert_card_data">Insira os dados do cartão:</string>
     <string name="select_intallment_type">Tipo de parcelamento:</string>
     <string name="select_intallment_amount">Quantidade de parcelas:</string>
     <string name="debit">Débito</string>
     <string name="credit">Crédito</string>
     <string name="voucher">Voucher</string>
     <string name="pix">Pix</string>
+    <string name="pre_auto">Pré-autorização</string>
+    <string name="pre_auto_keyed">Pré-autorização digitada</string>
     <string name="single">À vista</string>
     <string name="seller">Parcelado vendedor</string>
     <string name="buyer">Parcelado comprador</string>
     <string name="cancel">Cancelar</string>
+    <string name="continue_payment">Continuar</string>
     <string name="try_again">Tentar novamente</string>
     <string name="try_again_credit">Tentar novamente\nComo crédito</string>
     <string name="try_again_debit">Tentar novamente\nComo débito</string>
@@ -39,23 +48,28 @@
     <string name="success">Sucesso!</string>
     <string name="not_authenticated">Não ativado</string>
     <string name="no_pps_found">Sem serviço de pagamento</string>
+    <string name="empty_value">Preencha todos os campos</string>
 
     <!-- NFC -->
     <string name="title_nfc">NFC</string>
     <string name="detect">Detect</string>
     <string name="remove">Remove</string>
     <string name="read">Read</string>
-    <string name="readlot">Read Lot</string>
     <string name="readDirectly">Read Directly</string>
     <string name="write">Write</string>
-    <string name="writelot">Write Lot</string>
     <string name="writeDirectly">Write Directly</string>
     <string name="auth">Auth</string>
     <string name="authDirectly">Auth Directly</string>
+    <string name="increment">Increment</string>
+    <string name="decrement">Decrement</string>
+    <string name="restore_and_transfer">Restore And Transfer</string>
+    <string name="read_transferred">Read Transferred</string>
+    <string name="nfc_functions">Funções NFC</string>
+    <string name="nfc_functions_direclty">Funções NFC Directly</string>
+    <string name="nfc_functions_manipulation">Funções NFC de manipulação de dados</string>
 
     <!-- Print -->
     <string name="title_print">Impressão</string>
-    <string name="print">Imprimir</string>
     <string name="print_file_cheking">Verificando existência de arquivo</string>
     <string name="print_file_deleting">Apagando arquivo pré-existente</string>
     <string name="print_file_copying">Copiando para diratório compartilhado</string>
@@ -78,6 +92,37 @@
     <string name="other_reprint_customer_receipt">Imprimir via do cliente</string>
     <string name="other_reprinting_customer_receipt">Imprimindo via do cliente</string>
     <string name="other_undo_last_transaction">Estornar</string>
+    <string name="set_style">Set Style</string>
+    <string name="set_deeplink">Configura Deeplink</string>
+    <string name="remove_deeplink">Remove Deeplink</string>
+    <string name="show_on_app_store">Exibir App na Loja</string>
+    <string name="print">Impressão livre</string>
     <string name="other_undoing_last_transaction">Estornando</string>
     <string name="other_info">Informações do terminal</string>
+    <string name="terminal_functions">Funções do terminal</string>
+
+    <!-- PreAuto -->
+    <string name="title_pre_auto">PreAuto</string>
+    <string name="create_a_vista">Criar à vista</string>
+    <string name="create_installment">Criar à prazo</string>
+    <string name="effective">Efetivar</string>
+    <string name="pre_cancel">Cancelar</string>
+    <string name="consulting">Consultar</string>
+    <string name="consulting_keyed">Consultar Pré-Auto Digitada</string>
+    <!-- PreAutoItem -->
+    <string name="data_hora">Data/Hora: %s %s</string>
+    <string name="valor">Valor: %.2f</string>
+    <string name="transaction_code">Codigo: %s</string>
+    <string name="transaction_id">ID: %s</string>
+    <!-- PreAutoKeyed -->
+    <string name="expire_date">MMAA</string>
+    <string name="transaction_date">DDMMAAAA</string>
+    <string name="card_number">Numero do cartão</string>
+    <string name="cvv">CVV</string>
+    <string name="cv">CV</string>
+    <string name="value_paid">Valor</string>
+    <string name="number_of_installments">Numero de Parcelas</string>
+    <string name="intent_with_shop">Loja de apps</string>
+    <string name="deeplink_function">Deeplink no launcher</string>
+    <string name="function_set_style">Alterações de layout</string>
 </resources>

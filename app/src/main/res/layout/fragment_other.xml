@@ -49,6 +49,98 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent">
 
+
+            <TextView
+                android:id="@+id/tvOtherInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/other_info"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/tvOtherInformationR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherInformation"
+                app:layout_constraintEnd_toStartOf="@+id/tvOtherInformation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherInformation" />
+
+            <View
+                android:id="@+id/tvOtherInformationL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOtherInformation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvOtherInformation"
+                app:layout_constraintTop_toTopOf="@+id/tvOtherInformation" />
+
+            <TextView
+                android:id="@+id/tvModel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOtherInformation"
+                tools:text="Model" />
+
+            <TextView
+                android:id="@+id/tvSerialNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvModel"
+                tools:text="Serial" />
+
+
+            <TextView
+                android:id="@+id/tvTerminalFunctions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/terminal_functions"
+                android:textColor="@color/black"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSerialNumber" />
+
+            <View
+                android:id="@+id/tvTerminalFunctionsR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTerminalFunctions"
+                app:layout_constraintEnd_toStartOf="@+id/tvTerminalFunctions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTerminalFunctions" />
+
+            <View
+                android:id="@+id/tvTerminalFunctionsL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTerminalFunctions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvTerminalFunctions"
+                app:layout_constraintTop_toTopOf="@+id/tvTerminalFunctions" />
+
             <Button
                 android:id="@+id/btnOtherReboot"
                 android:layout_width="match_parent"
@@ -61,7 +153,7 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/tvTerminalFunctions" />
 
             <Button
                 android:id="@+id/btnOtherBeep"
@@ -74,6 +166,7 @@
                 android:text="@string/other_beep"
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.555"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherReboot" />
 
@@ -91,6 +184,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnOtherBeep" />
 
+            <Button
+                android:id="@+id/btnPrint"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/print"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnOtherLed" />
+
             <TextView
                 android:id="@+id/tvOtherLastTransaction"
                 android:layout_width="wrap_content"
@@ -101,7 +208,7 @@
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnOtherLed" />
+                app:layout_constraintTop_toBottomOf="@id/btnPrint" />
 
             <View
                 android:id="@+id/tvOtherLastTransactionR"
@@ -183,11 +290,11 @@
                 app:layout_constraintTop_toBottomOf="@id/btnOtherReprintCustomerReceipt" />
 
             <TextView
-                android:id="@+id/tvOtherInformation"
+                android:id="@+id/tvSetFunctionStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/option_margin"
-                android:text="@string/other_info"
+                android:text="@string/function_set_style"
                 android:textColor="@color/black"
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -195,47 +302,151 @@
                 app:layout_constraintTop_toBottomOf="@id/btnOtherUndoLastTransaction" />
 
             <View
-                android:id="@+id/tvOtherInformationR"
+                android:id="@+id/tvSetFunctionStyleR"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
                 android:background="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/tvOtherInformation"
-                app:layout_constraintEnd_toStartOf="@+id/tvOtherInformation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvOtherInformation" />
+                app:layout_constraintBottom_toBottomOf="@+id/tvSetFunctionStyle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tvSetFunctionStyle"
+                app:layout_constraintTop_toTopOf="@+id/tvSetFunctionStyle" />
 
             <View
-                android:id="@+id/tvOtherInformationL"
+                android:id="@+id/tvSetFunctionStyleL"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/option_margin"
+                android:layout_marginLeft="@dimen/option_margin"
                 android:background="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/tvOtherInformation"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSetFunctionStyle"
+                app:layout_constraintLeft_toRightOf="@+id/tvSetFunctionStyle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSetFunctionStyle" />
+
+            <Button
+                android:id="@+id/btnSetStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/set_style"
+                android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvOtherInformation"
-                app:layout_constraintTop_toTopOf="@+id/tvOtherInformation" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSetFunctionStyle" />
 
             <TextView
-                android:id="@+id/tvModel"
-                android:layout_width="match_parent"
+                android:id="@+id/tvDeepLinkConfig"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/option_margin"
+                android:text="@string/deeplink_function"
                 android:textColor="@color/black"
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvOtherInformation"
-                tools:text="Model" />
+                app:layout_constraintTop_toBottomOf="@id/btnSetStyle" />
+
+            <View
+                android:id="@+id/tvDeepLinkConfigR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDeepLinkConfig"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tvDeepLinkConfig"
+                app:layout_constraintTop_toTopOf="@+id/tvDeepLinkConfig" />
+
+            <View
+                android:id="@+id/tvDeepLinkConfigL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDeepLinkConfig"
+                app:layout_constraintLeft_toRightOf="@+id/tvDeepLinkConfig"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvDeepLinkConfig" />
+
+            <Button
+                android:id="@+id/btnSetDeeplink"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/set_deeplink"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDeepLinkConfig" />
+
+            <Button
+                android:id="@+id/btnRemoveDeeplink"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/remove_deeplink"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnSetDeeplink" />
 
             <TextView
-                android:id="@+id/tvSerialNumber"
-                android:layout_width="match_parent"
+                android:id="@+id/tvShowAppStore"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/option_margin"
+                android:text="@string/intent_with_shop"
                 android:textColor="@color/black"
                 android:textSize="@dimen/option_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvModel"
-                tools:text="Model" />
+                app:layout_constraintTop_toBottomOf="@id/btnRemoveDeeplink" />
+
+            <View
+                android:id="@+id/tvShowAppStoreR"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvShowAppStore"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tvShowAppStore"
+                app:layout_constraintTop_toTopOf="@+id/tvShowAppStore" />
+
+            <View
+                android:id="@+id/tvShowAppStoreL"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/option_margin"
+                android:background="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvShowAppStore"
+                app:layout_constraintLeft_toRightOf="@+id/tvShowAppStore"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvShowAppStore" />
+
+
+            <Button
+                android:id="@+id/btnOpenAppStore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
+                android:background="@drawable/btn_rounded"
+                android:minHeight="@dimen/option_line"
+                android:text="@string/show_on_app_store"
+                android:textSize="@dimen/option_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvShowAppStore" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

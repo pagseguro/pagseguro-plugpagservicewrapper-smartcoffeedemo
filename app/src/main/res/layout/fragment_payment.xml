@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,234 +12,235 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/value_height"
         android:gravity="right|bottom"
-        android:textSize="50dp"
-        android:textColor="@color/black"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:text="Amount"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+        android:textSize="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/lnValue"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/line_value"
         android:layout_marginBottom="@dimen/keyboard_button_margin"
-        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/line_value"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tblKeyboard" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInput" />
+
 
     <LinearLayout
         android:id="@+id/tblKeyboard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/keyboard_button_margin"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInput">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lnValue">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            android:minHeight="@dimen/keyboard_line">
+            android:minHeight="@dimen/keyboard_line"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnOne"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/one" />
+                android:text="@string/one"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnTwo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/two" />
+                android:text="@string/two"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnThree"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/three" />
+                android:text="@string/three"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            android:minHeight="@dimen/keyboard_line">
+            android:minHeight="@dimen/keyboard_line"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnFour"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/four" />
+                android:text="@string/four"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnFive"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/five" />
+                android:text="@string/five"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnSix"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/six" />
+                android:text="@string/six"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            android:minHeight="@dimen/keyboard_line">
+            android:minHeight="@dimen/keyboard_line"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnSeven"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/seven" />
+                android:text="@string/seven"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnEight"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/eight" />
+                android:text="@string/eight"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnNine"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/nine" />
+                android:text="@string/nine"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            android:minHeight="@dimen/keyboard_line">
+            android:minHeight="@dimen/keyboard_line"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnAllClear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/all_clear" />
+                android:text="@string/all_clear"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnZero"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/zero" />
+                android:text="@string/zero"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/btnBackspace"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded"
-                app:backgroundTint="@null"
-                android:text="@string/backspace" />
+                android:text="@string/backspace"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:minHeight="@dimen/keyboard_pay">
+            android:minHeight="@dimen/keyboard_pay"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnPay"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginTop="@dimen/keyboard_button_margin"
                 android:layout_marginHorizontal="@dimen/keyboard_button_margin"
-                android:textSize="@dimen/keyboard_number_size"
-                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/keyboard_button_margin"
+                android:layout_weight="1"
                 android:background="@drawable/btn_rounded_footer"
-                app:backgroundTint="@null"
-                android:text="@string/pay" />
+                android:text="@string/pay"
+                android:textColor="@color/black"
+                android:textSize="@dimen/keyboard_number_size"
+                app:backgroundTint="@null" />
 
         </LinearLayout>
 
@@ -250,12 +250,12 @@
         android:id="@+id/clType"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
         android:clickable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/bgType"
@@ -268,14 +268,14 @@
             android:id="@+id/tvType"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/title_margin"
             android:gravity="left"
             android:paddingHorizontal="@dimen/keyboard_button_margin"
-            android:layout_marginVertical="@dimen/title_margin"
-            android:textSize="@dimen/sub_title_size"
-            android:textColor="@color/black"
             android:text="@string/select_type"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sub_title_size"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/bgType" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -283,11 +283,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/sub_content_margin_t"
-            tools:listitem="@layout/fragment_payment_type_item"
+            app:layout_constraintBottom_toTopOf="@id/btnCancelType"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvType"
-            app:layout_constraintBottom_toTopOf="@id/btnCancelType" />
+            tools:listitem="@layout/fragment_payment_type_item" />
 
         <Button
             android:id="@+id/btnCancelType"
@@ -295,8 +295,8 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/keyboard_button_margin"
             android:layout_weight="1"
-            android:focusable="false"
             android:background="@drawable/btn_rounded_footer"
+            android:focusable="false"
             android:minHeight="@dimen/option_line"
             android:text="@string/cancel"
             android:textColor="@color/white"
@@ -331,9 +331,9 @@
             android:layout_height="0dp"
             android:layout_marginVertical="@dimen/sub_title_margin_v"
             android:text="@string/select_intallment_type"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="@dimen/sub_title_size"
-            android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/bgInstallmentType" />
@@ -343,11 +343,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/sub_content_margin_t"
-            tools:listitem="@layout/fragment_payment_type_item"
+            app:layout_constraintBottom_toTopOf="@id/btnCancelInstallmentType"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvInstallmentType"
-            app:layout_constraintBottom_toTopOf="@id/btnCancelInstallmentType" />
+            tools:listitem="@layout/fragment_payment_type_item" />
 
         <Button
             android:id="@+id/btnCancelInstallmentType"
@@ -355,8 +355,8 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/keyboard_button_margin"
             android:layout_weight="1"
-            android:focusable="false"
             android:background="@drawable/btn_rounded_footer"
+            android:focusable="false"
             android:minHeight="@dimen/option_line"
             android:text="@string/cancel"
             android:textColor="@color/white"
@@ -370,12 +370,12 @@
         android:id="@+id/clInstallmentAmount"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
         android:clickable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/bgInstallmentAmount"
@@ -388,51 +388,51 @@
             android:id="@+id/tvInstallmentAmount"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/title_margin"
             android:gravity="left"
             android:paddingHorizontal="@dimen/keyboard_button_margin"
-            android:layout_marginVertical="@dimen/title_margin"
-            android:textSize="@dimen/title_size"
-            android:textColor="@color/black"
             android:text="@string/select_intallment_amount"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_size"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/bgInstallmentAmount" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rclInstallmentAmount"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            tools:listitem="@layout/fragment_payment_installment"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lnInstallmentAmount"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvInstallmentAmount"
-            app:layout_constraintBottom_toTopOf="@id/lnInstallmentAmount" />
+            tools:listitem="@layout/fragment_payment_installment" />
 
         <View
             android:id="@+id/lnInstallmentAmount"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line"
             android:layout_marginVertical="@dimen/keyboard_button_margin"
-            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/line"
+            app:layout_constraintBottom_toTopOf="@+id/btnCancelInstallmentAmount"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnCancelInstallmentAmount" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/btnCancelInstallmentAmount"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/black"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
-            app:backgroundTint="@color/gray_light"
             android:minHeight="@dimen/option_line"
             android:text="@string/cancel"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/option_size"
+            app:backgroundTint="@color/gray_light"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -440,12 +440,12 @@
         android:id="@+id/clPayment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
         android:clickable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/bgPayment"
@@ -457,33 +457,33 @@
             android:id="@+id/tvPayment"
             android:layout_width="@dimen/payment_popup_width"
             android:layout_height="@dimen/payment_popup_height"
+            android:layout_marginVertical="@dimen/title_margin"
+            android:background="@drawable/btn_rounded"
             android:gravity="center"
             android:paddingHorizontal="@dimen/title_margin"
-            android:layout_marginVertical="@dimen/title_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/black"
             android:text="...Pagando..."
-            android:background="@drawable/btn_rounded"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/option_size"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnCancelPayment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/black"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
-            app:backgroundTint="@color/gray_light"
             android:minHeight="@dimen/option_line"
             android:text="@string/cancel"
+            android:textColor="@color/black"
+            android:textSize="@dimen/option_size"
             android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"
+            app:backgroundTint="@color/gray_light"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -491,12 +491,12 @@
         android:id="@+id/clResult"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
         android:clickable="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" >
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/bgResult"
@@ -508,106 +508,117 @@
             android:id="@+id/tvResult"
             android:layout_width="@dimen/payment_popup_width"
             android:layout_height="@dimen/payment_popup_height"
+            android:layout_marginVertical="@dimen/title_margin"
+            android:background="@drawable/btn_rounded"
             android:gravity="center"
             android:paddingHorizontal="@dimen/title_margin"
-            android:layout_marginVertical="@dimen/title_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/black"
             android:text="...Resultado..."
-            android:background="@drawable/btn_rounded"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/option_size"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnTryAgainDebit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/white"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
             android:minHeight="@dimen/option_line"
             android:text="@string/try_again_debit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/option_size"
             android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnTryAgainCredit"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnTryAgainCredit" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/btnTryAgainCredit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/white"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
             android:minHeight="@dimen/option_line"
             android:text="@string/try_again_credit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/option_size"
             android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnTryAgainVoucher"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnTryAgainVoucher" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/btnTryAgainVoucher"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/white"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
             android:minHeight="@dimen/option_line"
             android:text="@string/try_again_voucher"
+            android:textColor="@color/white"
+            android:textSize="@dimen/option_size"
             android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnTryAgain"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnTryAgain" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/btnTryAgain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/white"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
             android:minHeight="@dimen/option_line"
             android:text="@string/try_again"
+            android:textColor="@color/white"
+            android:textSize="@dimen/option_size"
             android:visibility="gone"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lnResult"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/lnResult" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <View
             android:id="@+id/lnResult"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line"
             android:layout_marginVertical="@dimen/keyboard_button_margin"
-            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/line"
+            app:layout_constraintBottom_toTopOf="@+id/btnBack"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnBack" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <Button
             android:id="@+id/btnBack"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/keyboard_button_margin"
-            android:textSize="@dimen/option_size"
-            android:textColor="@color/white"
+            android:layout_weight="1"
             android:background="@drawable/btn_rounded"
             android:minHeight="@dimen/option_line"
             android:text="@string/back"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/white"
+            android:textSize="@dimen/option_size"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/ilPreAutoKeyed"
+        layout="@layout/content_preauto_keyed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lnValue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

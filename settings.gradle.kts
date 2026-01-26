@@ -22,4 +22,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "DemoPPS"
 include(":app")
- 
